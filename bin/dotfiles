@@ -1,0 +1,12 @@
+#!/bin/sh
+
+for file in ~/.dotfiles/*; do
+  filename=`basename $file`
+  ln -s $file ~/.$filename
+done
+
+# set up vundle
+git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+
+# set up zsh-syntax-highlighting
+git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/vendor/zsh-syntax-highlighting

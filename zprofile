@@ -1,2 +1,1 @@
-# freshshell.com
-source ~/.fresh/build/shell.sh
+export PATH="/usr/local/bin:$PATH"

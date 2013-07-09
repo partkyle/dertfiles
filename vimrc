@@ -1,3 +1,14 @@
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+let mapleader=","
+
+if filereadable(expand("~/.vim/neobundle.vim"))
+  source ~/.vim/neobundle.vim
+endif
+
+filetype plugin indent on
+
 " ================ General Config ====================
 
 set backspace=indent,eol,start  "Allow backspace in insert mode
@@ -67,9 +78,6 @@ set softtabstop=2
 set tabstop=2
 set expandtab
 set ff=unix
-
-filetype plugin on
-filetype indent on
 
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·

@@ -1,6 +1,0 @@
-cdpath=(
-  ~
-  ~/code
-  ~/sendgrid
-  $cdpath
-)

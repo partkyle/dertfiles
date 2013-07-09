@@ -2,7 +2,7 @@
 	path = ~/.gitconfig.local
 
 [init]
-	templatedir = ~/.dotfiles/git/template
+	templatedir = ~/.git_template
 
 [core]
 	excludesfile = ~/.gitignore
