@@ -1,0 +1,27 @@
+if has('gui_macvim')
+  " Cmd+W to close current buffer and close the window if no buffers are left
+  macmenu &File.Close key=<nop>
+  nmap <D-w> :CommandW<CR>
+  imap <D-w> <Esc>:CommandW<CR>
+
+  " Disable MacVim keybindings
+  macmenu &Edit.Find.Find\.\.\. key=<nop>
+  nmap <D-f> <Esc>
+  nmap <D-F> <Esc>
+  macmenu &File.New\ Tab key=<nop>
+  nmap <D-t> <Esc>
+  macmenu Window.Toggle\ Full\ Screen\ Mode key=<nop>
+
+  " Disable Cmd+S to encourage `:w`
+  macmenu &File.Save key=<nop>
+  map <D-s> <Esc>
+  imap <D-s> <Esc><Esc>i
+
+  menu File.Close\ Instance :qa<CR>
+  inoremenu File.Close\ Instance :qa<CR>
+
+  set cc=80                                  " Put at line @ column 80
+  set guifont=Inconsolata-g:h14              " Monaco!
+  set guioptions-=T                          " Hide the tool bar
+  set guioptions=c                           " Use simple dialogs rather than pop-ups
+endif
