@@ -18,7 +18,6 @@ set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set noerrorbells                "Disable sounds and visualbell
 set autoread                    "Reload files changed outside vim
-set mouse=vn
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
