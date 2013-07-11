@@ -1,12 +1,27 @@
 #!/bin/sh
 
-for file in ~/.dotfiles/*; do
+DOTFILES_DIR=~/.dotfiles
+
+for file in $DOTFILES_DIR/*; do
   filename=`basename $file`
-  ln -s $file ~/.$filename
+  dest=~/.$filename
+  if [ -e $file ]; then
+    echo "removing existing $dest"
+    rm $dest
+  fi
+
+  ln -s $file $dest
+  echo "linking $file -> $dest"
 done
 
 # set up vundle
-git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+vundledir=~/.vim/bundle/neobundle.vim
+if [ ! -e $vundledir ]; then
+  git clone git://github.com/Shougo/neobundle.vim $vundledir
+fi
 
 # set up zsh-syntax-highlighting
-git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/vendor/zsh-syntax-highlighting
+zshhighlight=~/.zsh/vendor/zsh-syntax-highlighting
+if [ ! -e $zshhighlight ]; then
+  git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshhighlight
+fi
