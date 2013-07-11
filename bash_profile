@@ -1,9 +1,7 @@
 export EDITOR="vim"
 
-if [ brew -v 2>/dev/null ]; then
-  echo 'brew is installed'
+if type brew > /dev/null; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    echo 'inserting dotfiles'
     . $(brew --prefix)/etc/bash_completion
   fi
 fi
