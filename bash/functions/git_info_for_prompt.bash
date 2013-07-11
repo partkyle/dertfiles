@@ -44,7 +44,7 @@ function git_info_for_prompt() {
     if [ -n "$1" ]; then
       printf "$1" "${b##refs/heads/}$r"
     else
-      printf " [%s]" "${b##refs/heads/}$r"
+      printf "[%s]" "${b##refs/heads/}$r"
     fi
   fi
 }
