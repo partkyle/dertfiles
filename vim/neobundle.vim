@@ -32,8 +32,6 @@ NeoBundle 'partkyle/vim-colors'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc.vim'
 
-NeoBundle 'vim-scripts/vim-multiple-cursors'
-
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-vividchalk'
