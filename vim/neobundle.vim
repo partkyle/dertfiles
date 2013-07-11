@@ -11,7 +11,7 @@ NeoBundle 'altercation/vim-colors-solarized'
 
 NeoBundle 'benmills/vimux'
 
-NeoBundle 'bling/vim-airline', '0c394308e40869ecddb9e7f706daf789c1cc3201'
+NeoBundle 'bling/vim-airline'
 
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 
@@ -31,6 +31,8 @@ NeoBundle 'partkyle/vim-colors'
 
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc.vim'
+
+NeoBundle 'vim-scripts/vim-multiple-cursors'
 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
