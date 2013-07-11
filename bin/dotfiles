@@ -5,7 +5,7 @@ DOTFILES_DIR=~/.dotfiles
 for file in $DOTFILES_DIR/*; do
   filename=`basename $file`
   dest=~/.$filename
-  if [ -e $file ]; then
+  if [ -e $dest ]; then
     echo "removing existing $dest"
     rm $dest
   fi
