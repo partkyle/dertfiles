@@ -8,5 +8,7 @@ if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
 
+export PS1='\h:\W \u\$ '
+
 # . ~/.bash_themes/base.theme.bash
 # . ~/.bash_themes/simple/simple.theme.bash
