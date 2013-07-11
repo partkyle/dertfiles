@@ -1,5 +1,9 @@
+export EDITOR="vim"
+
 if [ brew -v 2>/dev/null ]; then
+  echo 'brew is installed'
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    echo 'inserting dotfiles'
     . $(brew --prefix)/etc/bash_completion
   fi
 fi
@@ -11,6 +15,13 @@ fi
 # include functions
 if [ -d ~/.bash/functions ]; then
   for file in ~/.bash/functions/*; do
+    . $file
+  done
+fi
+
+# add aliases
+if [ -d ~/.bash/aliases ]; then
+  for file in ~/.bash/aliases/*; do
     . $file
   done
 fi
