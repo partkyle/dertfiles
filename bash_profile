@@ -16,6 +16,7 @@ if [ -d ~/.bash/functions ]; then
   for file in ~/.bash/functions/*; do
     . $file
   done
+  unset file
 fi
 
 # add aliases
@@ -23,6 +24,7 @@ if [ -d ~/.bash/aliases ]; then
   for file in ~/.bash/aliases/*; do
     . $file
   done
+  unset file
 fi
 
 export PS1='\h:\W $(git_info_for_prompt)\$ '
