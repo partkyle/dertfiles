@@ -36,6 +36,6 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-vividchalk'
 
-if version >= 730
+if v:version > 703 || (v:version == 703 && has( 'patch584' ))
   NeoBundle 'Valloric/YouCompleteMe'
 endif
