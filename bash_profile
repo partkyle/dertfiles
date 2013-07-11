@@ -31,3 +31,10 @@ export PS1='\h:\W $(git_info_for_prompt)\$ '
 
 # . ~/.bash_themes/base.theme.bash
 # . ~/.bash_themes/simple/simple.theme.bash
+
+if [ -d ~/.localrc.d ]; then
+  for file in ~/.localrc.d/*; do
+    source $file
+  done
+  unset file
+fi
