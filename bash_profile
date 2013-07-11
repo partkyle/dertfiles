@@ -27,7 +27,7 @@ if [ -d ~/.bash/aliases ]; then
   unset file
 fi
 
-export PS1='\h:\W $(git_info_for_prompt)\$ '
+export PS1='\n\h:\W $(git_info_for_prompt)\$ '
 
 # . ~/.bash_themes/base.theme.bash
 # . ~/.bash_themes/simple/simple.theme.bash
