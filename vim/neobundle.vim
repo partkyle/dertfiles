@@ -38,4 +38,6 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-vividchalk'
 
-NeoBundle 'Valloric/YouCompleteMe'
+if version >= 730
+  NeoBundle 'Valloric/YouCompleteMe'
+endif
