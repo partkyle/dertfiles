@@ -11,6 +11,9 @@ if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
 
+# history settings
+shopt -s histappend
+
 # include functions
 if [ -d ~/.bash/functions ]; then
   for file in ~/.bash/functions/*; do
