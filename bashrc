@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PATH=".bin:/usr/local/bin:$PATH"
+export PATH="~/.bin:/usr/local/bin:$PATH"
 export EDITOR="vim"
 
 if type brew > /dev/null 2>&1; then
