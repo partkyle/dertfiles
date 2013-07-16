@@ -3,6 +3,8 @@
 export PATH="~/.bin:/usr/local/bin:$PATH"
 export EDITOR="vim"
 
+export GREP_OPTION='--color=auto'
+
 if type brew > /dev/null 2>&1; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
@@ -40,7 +42,7 @@ if [ -d ~/.bash/aliases ]; then
   unset file
 fi
 
-export PS1='\n\d \t \u@\h \!:\#\n\w $(git_info_for_prompt)\$ '
+source ~/.bash/prompt.bash
 
 # . ~/.bash_themes/base.theme.bash
 # . ~/.bash_themes/simple/simple.theme.bash
