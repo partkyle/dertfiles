@@ -8,3 +8,6 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_filetype_blacklist = {
     \ 'unite' : 1,
     \}
+
+" php is too slow
+autocmd FileType php set omnifunc=
