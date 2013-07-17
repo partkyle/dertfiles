@@ -38,6 +38,6 @@ function prompt_precmd_partkyle() {
   fi
 }
 
-export PS1="$reset\n\d \t $green\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset $light_green"'${BRANCH}'"$reset$blue\$$reset "
+export PS1="$reset\n\d \t $green\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset $light_green"'${BRANCH}'"$reset$blue"'\$'"$reset "
 
 PROMPT_COMMAND=prompt_precmd_partkyle
