@@ -33,5 +33,10 @@ function! s:unite_settings()
   " Enable navigation with control-j and control-k in insert mode
   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+
   imap <buffer> <C-c>   <Plug>(unite_exit)
+  nmap <buffer> <C-c>   <Plug>(unite_exit)
+
+  imap <F5> <Plug>(unite_redraw)
+  nmap <F5> <Plug>(unite_redraw)
 endfunction
