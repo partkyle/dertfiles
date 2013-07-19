@@ -4,6 +4,9 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
+# ignore case
+set completion-ignore-case on
+
 # By default up/down are bound to previous-history
 # and next-history respectively. The following does the
 # same but gives the extra functionality where if you
