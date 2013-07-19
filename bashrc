@@ -5,6 +5,9 @@ export EDITOR="vim"
 
 export GREP_OPTION='--color=auto'
 
+# Whoever wants to be a <C-S>
+stty stop ""
+
 if type brew > /dev/null 2>&1; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
