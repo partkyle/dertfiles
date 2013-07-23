@@ -9,6 +9,7 @@ nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file
 nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
 nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    -start-insert history/yank<cr>
 nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  -start-insert buffer<cr>
+nnoremap <leader>d :<C-u>Unite -no-split -buffer-name=tags    -start-insert tag<cr>
 
 nnoremap <leader>/ :<C-u>Unite -no-split -buffer-name=search                grep:.<cr>
 
