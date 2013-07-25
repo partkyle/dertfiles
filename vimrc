@@ -19,6 +19,12 @@ set gcr=a:blinkon0              "Disable cursor blink
 set noerrorbells                "Disable sounds and visualbell
 set autoread                    "Reload files changed outside vim
 
+" I think i want the mouse, for now
+set mouse=a
+if has('mouse_sgr')
+  set ttymouse=sgr
+endif
+
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
 " http://items.sjbach.com/319/configuring-vim-right
