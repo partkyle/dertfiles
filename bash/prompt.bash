@@ -31,6 +31,9 @@ function set_git_prompt() {
 }
 
 function prompt_precmd_partkyle() {
+  bash_history_sync
+
+  # git
   if is_git_repository; then
     set_git_prompt
   else
