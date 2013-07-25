@@ -50,7 +50,7 @@ function prompt() {
     unset BRANCH
   fi
 
-  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset$BRANCH $blue\$$reset "
+  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset$BRANCH $blue\\\$$reset "
 }
 
 PROMPT_COMMAND=prompt
