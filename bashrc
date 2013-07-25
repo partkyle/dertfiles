@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PATH="~/.bin:/usr/local/bin:$PATH"
+export PATH="~/.bin:/usr/local/bin:~/.tmuxifier/bin:$PATH"
 export EDITOR="vim"
 
 export GREP_OPTION='--color=auto'
