@@ -25,13 +25,23 @@ function is_git_repository() {
 function set_git_prompt() {
   branch=$(git_info_for_prompt)
   if [ -n "$branch" ]; then
-    BRANCH="[$branch] "
+    BRANCH=" $light_green[$branch]$reset"
   fi
   unset branch
 }
 
-function prompt_precmd_partkyle() {
+function set_host_section() {
+  if [[ -n $SSH_CONNECTION ]]; then
+    host_color=$red
+  else
+    host_color=$green
+  fi
+}
+
+function prompt() {
   bash_history_sync
+
+  set_host_section
 
   # git
   if is_git_repository; then
@@ -39,8 +49,8 @@ function prompt_precmd_partkyle() {
   else
     unset BRANCH
   fi
+
+  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset$BRANCH $blue\$$reset "
 }
 
-export PS1="$reset\n\d \t $green\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset $light_green"'${BRANCH}'"$reset$blue"'\$'"$reset "
-
-PROMPT_COMMAND=prompt_precmd_partkyle
+PROMPT_COMMAND=prompt
