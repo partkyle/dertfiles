@@ -18,6 +18,9 @@
 ;; the bell is evil
 (setq ring-bell-function 'ignore)
 
+;; newline-and-indent
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
 ;; change to split after creation
 (defadvice split-window (after move-point-to-new-window activate)
   "Moves the point to the newly created window after splitting."
