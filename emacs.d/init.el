@@ -12,6 +12,11 @@
  [f9]
  'jmc-eval-to-here)
 
+(if (equal "xterm" (tty-type))
+    (define-key input-decode-map "\e[1;2A" [S-up]))
+(defadvice terminal-init-xterm (after select-shift-up activate)
+  (define-key input-decode-map "\e[1;2A" [S-up]))
+
 ;; color theme
 (load-theme 'wombat)
 
