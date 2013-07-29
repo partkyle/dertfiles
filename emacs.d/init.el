@@ -12,14 +12,16 @@
  [f9]
  'jmc-eval-to-here)
 
-;; fix shift up on xterms
-(if (equal "xterm" (tty-type))
-    (define-key input-decode-map "\e[1;2A" [S-up]))
-(defadvice terminal-init-xterm (after select-shift-up activate)
-  (define-key input-decode-map "\e[1;2A" [S-up]))
+;; color theme
+(load-theme 'wombat)
 
 ;; the bell is evil
 (setq ring-bell-function 'ignore)
+
+;; change to split after creation
+(defadvice split-window (after move-point-to-new-window activate)
+  "Moves the point to the newly created window after splitting."
+  (other-window 1))
 
 ;; make sure all packages are loaded
 (require 'cl)
@@ -27,35 +29,9 @@
 (package-initialize)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
 (add-to-list 'package-archives
              '("ELPA" . "http://tromey.com/elpa/") t)
-
-;; preinstall some packages
-(defvar prelude-packages
-  '(ack-and-a-half auctex clojure-mode coffee-mode deft expand-region
-                   gist groovy-mode haml-mode haskell-mode inf-ruby
-                   magit magithub markdown-mode paredit php-mode
-                   projectile python sass-mode rainbow-mode
-                   ruby-electric scss-mode solarized-theme tango-2-theme
-                   volatile-highlights yaml-mode yari zenburn-theme)
-  "A list of packages to ensure are installed at launch.")
-
-(defun prelude-packages-installed-p ()
-  (loop for p in prelude-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
-
-(unless (prelude-packages-installed-p)
-  ;; check for new packages (package versions)
-  (message "%s" "Emacs Prelude is now refreshing its package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; install the missing packages
-  (dolist (p prelude-packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
-
-(provide 'prelude-packages)
 
 ;; look and feel
 (if window-system
@@ -71,15 +47,11 @@
 (column-number-mode t)
 
 ;; line numbers don't have to be ugly
-(global-linum-mode 1)
 (defadvice linum-update-window (around linum-dynamic activate)
   (let* ((w (length (number-to-string
                      (count-lines (point-min) (point-max)))))
          (linum-format (concat "%" (number-to-string w) "d ")))
     ad-do-it))
-
-;; no visual bell
-(setq ring-bell-function 'ignore)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -93,7 +65,6 @@
 ;; key bindings
 (global-set-key (kbd "C-x g") 'grep)
 (global-set-key (kbd "C-x C-g") 'grep)
-(global-set-key (kbd "C-<f5>") 'linum-mode)
 (global-set-key (kbd "C-x C-o") 'other-window)
 (global-set-key (kbd "C-S-k") 'kill-whole-line)
 
