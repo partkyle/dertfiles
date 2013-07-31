@@ -3,7 +3,7 @@
 export PATH="~/.bin:/usr/local/bin:~/.tmuxifier/bin:$PATH"
 export EDITOR="vim"
 
-export GREP_OPTION='--color=auto'
+export GREP_OPTIONS='--color=auto'
 
 # Whoever wants to be a <C-S>
 stty stop ""
