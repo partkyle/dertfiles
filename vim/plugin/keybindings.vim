@@ -83,7 +83,11 @@ cnoremap <C-F> <C-O>l
 inoremap <C-B> <C-O>h
 cnoremap <C-B> <C-O>h
 
+" yank
+inoremap <C-y> <C-o>p
+
 nnoremap <C-x><C-c> ZZ
+inoremap <C-x><C-c> <ESC>ZZ
 nnoremap <C-x><C-s> :w<CR>
 inoremap <C-x><C-s> <ESC>:w<CR>gi
 
