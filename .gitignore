@@ -2,3 +2,5 @@ vim/bundle/
 zsh/vendor/
 vim/.netrwhist
 emacs.d/elpa
+emacs.d/auto-save-list
+emacs.d/url

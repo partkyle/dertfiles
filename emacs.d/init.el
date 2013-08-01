@@ -17,6 +17,11 @@
 (defadvice terminal-init-xterm (after select-shift-up activate)
   (define-key input-decode-map "\e[1;2A" [S-up]))
 
+;; redo last command
+(defun describe-last-function ()
+  (interactive)
+  (describe-function last-command))
+
 ;; color theme
 (load-theme 'wombat)
 
