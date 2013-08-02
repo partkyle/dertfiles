@@ -17,6 +17,15 @@ light_gray="\[\033[0;37m\]"
 white="\[\033[1;37m\]"
 reset="\[\033[00m\]"
 
+prompt_error() {
+  if [ $? == 0 ]; then
+    PROMPT_COLOR=$blue
+  else
+    PROMPT_COLOR=$red
+  fi
+}
+
+
 # Detect whether the current directory is a git repository.
 is_git_repository() {
   git branch > /dev/null 2>&1
@@ -43,8 +52,8 @@ set_host_section() {
 }
 
 prompt() {
+  prompt_error
   bash_history_sync
-
   set_git_prompt
   set_host_section
 
@@ -54,7 +63,7 @@ prompt() {
     VENV_PROMPT=
   fi
 
-  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT\n$purple\w$reset$BRANCH $blue\\\$$reset "
+  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT\n$purple\w$reset$BRANCH $PROMPT_COLOR\\\$$reset "
 }
 
 PROMPT_COMMAND=prompt
