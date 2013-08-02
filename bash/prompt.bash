@@ -18,39 +18,43 @@ white="\[\033[1;37m\]"
 reset="\[\033[00m\]"
 
 # Detect whether the current directory is a git repository.
-function is_git_repository() {
+is_git_repository() {
   git branch > /dev/null 2>&1
 }
 
-function set_git_prompt() {
-  branch=$(git_info_for_prompt)
-  if [ -n "$branch" ]; then
-    BRANCH=" $light_green[$branch]$reset"
+set_git_prompt() {
+  if is_git_repository; then
+    branch=$(git_info_for_prompt)
+    if [ -n "$branch" ]; then
+      BRANCH=" $light_green[$branch]$reset"
+    fi
+    unset branch
+  else
+    unset BRANCH
   fi
-  unset branch
 }
 
-function set_host_section() {
-  if [[ -n $SSH_CONNECTION ]]; then
+set_host_section() {
+  if [ -n "$SSH_CONNECTION" ]; then
     host_color=$red
   else
     host_color=$green
   fi
 }
 
-function prompt() {
+prompt() {
   bash_history_sync
 
+  set_git_prompt
   set_host_section
 
-  # git
-  if is_git_repository; then
-    set_git_prompt
+  if [ -n "$VIRTUAL_ENV" ]; then
+    VENV_PROMPT=" $green{`basename $VIRTUAL_ENV`}$reset"
   else
-    unset BRANCH
+    VENV_PROMPT=
   fi
 
-  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset\n$purple\w$reset$BRANCH $blue\\\$$reset "
+  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT\n$purple\w$reset$BRANCH $blue\\\$$reset "
 }
 
 PROMPT_COMMAND=prompt
