@@ -2,8 +2,7 @@
 alias browser 'Google Chrome'
 alias editor  'Sublime Text 2'
 alias finder  'Finder'
-alias mail    'Sparrow'
-alias chat    'Messages'
+alias chat    'Adium'
 
 # Abstract Positions
 alias full          move screenOriginX;screenOriginY screenSizeX;screenSizeY
@@ -18,67 +17,54 @@ alias screen75X     screenSizeX*.75
 alias screen75Y     screenSizeY*.75
 alias centerResize  move screenOriginX+(screenSizeX-${screen75X})/2;screenOriginY+(screenSizeY-${screen75Y})/2 ${screen75X};${screen75Y}
 
-# bind g:cmd grid padding:5 0:6,2 1:8,3
-# bind e:cmd hint ASDFGHJKLQWERTYUIOPCVBN # use whatever keys you want
-
-# numpad based commands (I might not like these)
-bind pad1:ctrl ${bottomleft}
-bind pad2:ctrl push bottom bar-resize:screenSizeY/2
-bind pad3:ctrl ${bottomright}
-bind pad4:ctrl ${lefthalf}
-bind pad5:ctrl ${full}
-bind pad6:ctrl ${righthalf}
-bind pad7:ctrl ${topleft}
-bind pad8:ctrl push top bar-resize:screenSizeY/2
-bind pad9:ctrl ${topright}
-
 #
-# mega binding
+# hyper binding
 #
-alias mega cmd;ctrl;alt
+alias hyper ctrl;alt
 
-bind 1:${mega} ${topleft}
-bind 2:${mega} ${topright}
-bind 3:${mega} ${bottomleft}
-bind 4:${mega} ${bottomright}
+bind f1:${hyper} relaunch
 
-bind up:${mega}    push top bar-resize:screenSizeY/2
-bind down:${mega}  push bottom bar-resize:screenSizeY/2
-bind left:${mega}  ${lefthalf}
-bind right:${mega} ${righthalf}
+bind 1:${hyper} ${topleft}
+bind 2:${hyper} ${topright}
+bind 3:${hyper} ${bottomleft}
+bind 4:${hyper} ${bottomright}
 
-bind f:${mega} ${full}
-bind c:${mega} ${center}
-bind v:${mega} ${centerResize}
-bind /:${mega} undo
-bind x:${mega} throw next
+bind up:${hyper}    push top bar-resize:screenSizeY/2
+bind down:${hyper}  push bottom bar-resize:screenSizeY/2
+bind left:${hyper}  ${lefthalf}
+bind right:${hyper} ${righthalf}
 
-#
-# Hyper Bindings
-#
-
-alias hyper ctrl;cmd
+bind f:${hyper} ${full}
+bind c:${hyper} ${center}
+bind v:${hyper} ${centerResize}
+bind /:${hyper} undo
+bind x:${hyper} throw next
 
 # Focus Bindings
-bind right:${hyper}    focus right
-bind left:${hyper}     focus left
-bind up:${hyper}       focus up
-bind down:${hyper}     focus down
+bind l:${hyper}    focus right
+bind h:${hyper}    focus left
+bind k:${hyper}    focus up
+bind j:${hyper}    focus down
 
-# vi focus bindings
-# bind l:${hyper}        focus right
-# bind h:${hyper}        focus left
-# bind k:${hyper}        focus up
-# bind j:${hyper}        focus down
+# nudge bindings
+# these need work
+bind right:shift;${hyper} resize +10% +0
+bind left:shift;${hyper}  resize -10% +0    bottom-right
+bind up:shift;${hyper}    resize +0   -10%
+bind down:shift;${hyper}  resize +0   +10%
 
-# App bindings
-bind w:${hyper} focus ${browser}
-bind e:${hyper} focus ${editor}
-bind c:${hyper} focus ${chat}
-bind x:${hyper} focus 'Xcode'
-bind g:${hyper} focus 'GitHub'
-bind m:${hyper} focus ${mail}
-bind t:${hyper} focus 'iTerm'
-bind o:${hyper} focus ${finder}
+# numpad based commands (I might not like these)
+bind pad1:${hyper} ${bottomleft}
+bind pad2:${hyper} push bottom bar-resize:screenSizeY/2
+bind pad3:${hyper} ${bottomright}
+bind pad4:${hyper} ${lefthalf}
+bind pad5:${hyper} ${full}
+bind pad6:${hyper} ${righthalf}
+bind pad7:${hyper} ${topleft}
+bind pad8:${hyper} push top bar-resize:screenSizeY/2
+bind pad9:${hyper} ${topright}
 
-bind /:${hyper} hint ASDFGHJKL
+
+# hints, grids
+bind s:${hyper} hint ASDFGHJKL
+bind g:${hyper} grid
