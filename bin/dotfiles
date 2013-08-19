@@ -15,9 +15,9 @@ for file in $DOTFILES_DIR/*; do
 done
 
 # set up vundle
-vundledir=~/.vim/bundle/neobundle.vim
+vundledir=~/.vim/bundle/vundle
 if [ ! -e $vundledir ]; then
-  git clone git://github.com/Shougo/neobundle.vim $vundledir
+  git clone git://github.com/gmarik/vundle.git $vundledir
 fi
 
 # set up zsh-syntax-highlighting
