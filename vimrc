@@ -55,6 +55,18 @@ syntax on               " turn syntax highlighting on by default
 
 color jellybeans
 
+" wildmenu
+
+set wildmode=longest:full,full
+set wildmenu
+set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*DS_Store*
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+
+" netrw
+let g:netrw_list_hide='.*\.pyc$'
+let g:netrw_liststyle=3
+
 " ruby filetypes
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                     set ft=markdown
@@ -146,3 +158,6 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Wq wq
 cnoreabbrev WQ wq
+
+" I hate that I have to to this. Damn you EasyAlign!
+cnoreabbrev E Ex
