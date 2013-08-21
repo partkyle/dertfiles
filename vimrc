@@ -161,3 +161,11 @@ cnoreabbrev WQ wq
 
 " I hate that I have to to this. Damn you EasyAlign!
 cnoreabbrev E Ex
+
+" Make trailing whitespace annoyingly highlighted.
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
