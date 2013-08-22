@@ -20,7 +20,6 @@
 [merge]
 	tool = vimdiff
 	defaultToUpstream = true
-	ff = false
 
 [push]
 	default = current
