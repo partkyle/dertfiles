@@ -31,6 +31,9 @@ shopt -s histappend
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000
 
+# update cdpath
+export CDPATH=.:$HOME:/usr/local
+
 # include functions
 if [ -d ~/.bash/functions ]; then
   for file in ~/.bash/functions/*; do
