@@ -73,6 +73,9 @@ let g:netrw_liststyle=3
 set mouse=a
 set ttymouse=xterm2
 
+" backups
+set nobackup
+
 " ruby filetypes
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                     set ft=markdown
