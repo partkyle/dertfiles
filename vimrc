@@ -24,6 +24,8 @@ Bundle 'fugitive.vim'
 Bundle 'repeat.vim'
 Bundle 'surround.vim'
 Bundle 'file-line'
+Bundle 'YankRing.vim'
+Bundle 'Valloric/YouCompleteMe'
 
 filetype plugin indent on
 
