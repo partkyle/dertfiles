@@ -67,6 +67,10 @@ set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
 let g:netrw_list_hide='.*\.pyc$'
 let g:netrw_liststyle=3
 
+" mouse
+set mouse=a
+set ttymouse=xterm2
+
 " ruby filetypes
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                     set ft=markdown
@@ -101,8 +105,6 @@ vnoremap <silent> # :<C-U>
 " Reselect visual block after indent
 vnoremap < <gv
 vnoremap > >gv
-
-nnoremap <C-i> i
 
 " better moving in insert mode
 imap <C-j> <C-o>j
