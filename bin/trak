@@ -1,0 +1,99 @@
+#!/usr/bin/env python
+import argparse
+import csv
+import json
+import logging
+import time
+import sys
+import os
+
+
+logging.basicConfig(level=logging.INFO, format='[%(asctime)-15s] %(message)s')
+
+
+# file location config
+TIMETRACK_FILE = os.path.join(os.getenv('HOME'), 'Dropbox', 'trakfile.csv')
+TIMETRACK_FILE = os.environ.get('TIMETRACK_FILE', TIMETRACK_FILE)
+
+HEADERS = ['task', 'category', 'labels', 'start_time', 'end_time']
+
+# parser setup
+parser = argparse.ArgumentParser(description='Time tracking in a simple csv')
+parser.add_argument('task', type=str, help='the task to be started (coding|research|browsing).'
+                                           'Use "stop" to update the latest end time without starting a new task.')
+parser.add_argument('--category', '-c', type=str, help='the category this tast is related to (work|personal)')
+parser.add_argument('--label', '-l', type=str, action='append', help='labels (tags) to assign to a task')
+parser.add_argument('--start_time', '-s', type=str, help='the start time of the task')
+parser.add_argument('--end_time', '-e', type=str, help='the end time of the task')
+
+
+def write_row(row):
+    with open(TIMETRACK_FILE, 'a') as track_file:
+        writer = csv.writer(track_file)
+
+        writer.writerow(row)
+
+
+def update_last_event():
+    with open(TIMETRACK_FILE, 'rb') as track_file:
+        reader = csv.reader(track_file)
+        headers = reader.next()
+
+        lines = []
+        for line in reader:
+            lines.append(line)
+
+    if lines:
+        # update the timestamp if it's missing
+        line = lines[-1]
+        if not line[-1]:
+            line[-1] = time.time()
+
+            logging.info('updating last event %s', line)
+
+            with open(TIMETRACK_FILE, 'w+') as track_file:
+                writer = csv.writer(track_file)
+                writer.writerow(headers)
+                writer.writerows(lines)
+        else:
+            logging.info('no line was updated')
+
+
+def log_event(task, category=None, labels=None, start_time=None, end_time=None):
+    if start_time is None:
+        start_time = time.time()
+
+    if labels:
+        labels = json.dumps(labels)
+    else:
+        labels = None
+
+    row = [task, category, labels, start_time, end_time]
+
+    logging.info('Task: %s, category: %s, labels: %s, start_time: %s, end_time: %s', *row)
+    write_row(row)
+
+
+def handle_event():
+    args = parser.parse_args()
+
+    create_file_if_missing()
+
+    update_last_event()
+
+    if args.task == 'stop':
+        logging.info('told just to stop')
+    else:
+        log_event(args.task, args.category, args.label, args.start_time)
+
+
+def create_file_if_missing():
+    if not os.path.exists(TIMETRACK_FILE):
+        logging.info('creating %s', TIMETRACK_FILE)
+        f = open(TIMETRACK_FILE, 'w+')
+        f.close()
+        write_row(HEADERS)
+
+
+if __name__ == '__main__':
+    handle_event()
