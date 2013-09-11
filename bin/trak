@@ -27,6 +27,7 @@ parser.add_argument('--label', '-l', type=str, action='append', help='labels (ta
 parser.add_argument('--start_time', '-s', type=str, help='the start time of the task')
 parser.add_argument('--end_time', '-e', type=str, help='the end time of the task')
 parser.add_argument('--stop', action='store_true', help='flag to stop the current task without starting a new one')
+parser.add_argument('--status', action='store_true', help='flag to show the current task')
 
 
 def write_row(row):
@@ -36,7 +37,7 @@ def write_row(row):
         writer.writerow(row)
 
 
-def update_last_event():
+def update_last_event(update=True):
     with open(TIMETRACK_FILE, 'rb') as track_file:
         reader = csv.reader(track_file)
         headers = reader.next()
@@ -48,17 +49,21 @@ def update_last_event():
     if lines:
         # update the timestamp if it's missing
         line = lines[-1]
-        if not line[-1]:
-            line[-1] = time.time()
 
-            logging.info('updating last event %s', line)
+        if update:
+            if not line[-1]:
+                line[-1] = time.time()
 
-            with open(TIMETRACK_FILE, 'w+') as track_file:
-                writer = csv.writer(track_file)
-                writer.writerow(headers)
-                writer.writerows(lines)
+                logging.info('updating last event %s', line)
+
+                with open(TIMETRACK_FILE, 'w+') as track_file:
+                    writer = csv.writer(track_file)
+                    writer.writerow(headers)
+                    writer.writerows(lines)
+            else:
+                logging.info('no line was updated')
         else:
-            logging.info('no line was updated')
+            return line
 
 
 def log_event(task, category=None, labels=None, start_time=None, end_time=None):
@@ -81,15 +86,19 @@ def handle_event():
 
     create_file_if_missing()
 
-    update_last_event()
-
-    if args.stop:
-        logging.info('told just to stop')
+    if args.status:
+        line = update_last_event(update=False)
+        logging.info('current status %s', line)
     else:
-        if not args.task:
-            raise ValueError('task is required')
+        update_last_event()
 
-        log_event(args.task, args.category, args.label, args.start_time)
+        if args.stop:
+            logging.info('told just to stop')
+        else:
+            if not args.task:
+                raise ValueError('task is required')
+
+            log_event(args.task, args.category, args.label, args.start_time)
 
 
 def create_file_if_missing():
