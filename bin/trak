@@ -19,7 +19,7 @@ HEADERS = ['task', 'category', 'labels', 'start_time', 'end_time']
 
 # parser setup
 parser = argparse.ArgumentParser(description='Time tracking in a simple csv')
-parser.add_argument('task', type=str, help='the task to be started (coding|research|browsing).'
+parser.add_argument('task', type=str, help='The task to be started (coding|research|browsing). '
                                            'Use "stop" to update the latest end time without starting a new task.')
 parser.add_argument('--category', '-c', type=str, help='the category this tast is related to (work|personal)')
 parser.add_argument('--label', '-l', type=str, action='append', help='labels (tags) to assign to a task')
