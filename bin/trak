@@ -19,12 +19,14 @@ HEADERS = ['task', 'category', 'labels', 'start_time', 'end_time']
 
 # parser setup
 parser = argparse.ArgumentParser(description='Time tracking in a simple csv')
-parser.add_argument('task', type=str, help='The task to be started (coding|research|browsing). '
-                                           'Use "stop" to update the latest end time without starting a new task.')
+parser.add_argument('task', type=str, nargs='?',
+                    help='The task to be started (coding|research|browsing). '
+                         'Use "stop" to update the latest end time without starting a new task.')
 parser.add_argument('--category', '-c', type=str, help='the category this tast is related to (work|personal)')
 parser.add_argument('--label', '-l', type=str, action='append', help='labels (tags) to assign to a task')
 parser.add_argument('--start_time', '-s', type=str, help='the start time of the task')
 parser.add_argument('--end_time', '-e', type=str, help='the end time of the task')
+parser.add_argument('--stop', action='store_true', help='flag to stop the current task without starting a new one')
 
 
 def write_row(row):
@@ -81,9 +83,12 @@ def handle_event():
 
     update_last_event()
 
-    if args.task == 'stop':
+    if args.stop:
         logging.info('told just to stop')
     else:
+        if not args.task:
+            raise ValueError('task is required')
+
         log_event(args.task, args.category, args.label, args.start_time)
 
 
