@@ -74,7 +74,9 @@ set mouse=a
 set ttymouse=xterm2
 
 " backups
+set noswapfile
 set nobackup
+set nowritebackup
 
 " ruby filetypes
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby
