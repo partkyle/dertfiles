@@ -53,6 +53,8 @@ set backspace=indent,eol,start  " make that backspace key work the way it should
 set splitright " switch to newly created split
 set splitbelow
 
+set hidden " allow buffers to be changed with modifications
+
 syntax on               " turn syntax highlighting on by default
 
 color jellybeans
