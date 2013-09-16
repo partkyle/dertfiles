@@ -26,6 +26,7 @@ Bundle 'surround.vim'
 Bundle 'file-line'
 Bundle 'YankRing.vim'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'Solarized'
 
 filetype plugin indent on
 
