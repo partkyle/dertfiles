@@ -5,8 +5,8 @@ processes=`ps aux | grep $1 | grep -v grep | grep -v kthxbai`
 if [ -z "$processes" ]; then
   echo no processes matching \"$1\"
 else
-  echo $processes
-  echo $processes | awk '{print $2}' | xargs kill -9
-  num=`echo $processes | wc -l`
+  echo "$processes"
+  echo "$processes" | awk '{print $2}' | xargs kill -9
+  num=`echo "$processes" | wc -l`
   echo "successfully killed $num process(es) matching \"$1\""
 fi
