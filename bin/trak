@@ -37,7 +37,10 @@ def write_row(row):
         writer.writerow(row)
 
 
-def update_last_event(update=True):
+def update_last_event(start_time=None, update=True):
+    if not start_time:
+        start_time = time.time()
+
     with open(TIMETRACK_FILE, 'rb') as track_file:
         reader = csv.reader(track_file)
         headers = reader.next()
@@ -52,7 +55,7 @@ def update_last_event(update=True):
 
         if update:
             if not line[-1]:
-                line[-1] = time.time()
+                line[-1] = start_time
 
                 logging.info('updating last event %s', line)
 
@@ -90,7 +93,11 @@ def handle_event():
         line = update_last_event(update=False)
         logging.info('current status %s', line)
     else:
-        update_last_event()
+        start_time = args.start_time
+        if not start_time:
+            start_time = time.time()
+
+        update_last_event(start_time)
 
         if args.stop:
             logging.info('told just to stop')
@@ -98,7 +105,7 @@ def handle_event():
             if not args.task:
                 raise ValueError('task is required')
 
-            log_event(args.task, args.category, args.label, args.start_time)
+            log_event(args.task, args.category, args.label, start_time, args.end_time)
 
 
 def create_file_if_missing():
