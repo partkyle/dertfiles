@@ -26,7 +26,7 @@ Bundle 'surround.vim'
 Bundle 'file-line'
 Bundle 'YankRing.vim'
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'Solarized'
+Bundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
 
@@ -58,7 +58,9 @@ set hidden " allow buffers to be changed with modifications
 
 syntax on               " turn syntax highlighting on by default
 
-color jellybeans
+set bg=light
+let g:solarized_diffmode="high"
+color solarized
 
 " wildmenu
 
