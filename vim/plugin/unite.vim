@@ -38,4 +38,7 @@ function! s:unite_settings()
 
   imap <F5> <Plug>(unite_redraw)
   nmap <F5> <Plug>(unite_redraw)
+
+  " ignore trailing whitespace annoyingly highlighted.
+  highlight ExtraWhitespace ctermbg=None guibg=None
 endfunction
