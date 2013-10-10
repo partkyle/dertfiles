@@ -137,10 +137,6 @@ cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
-" space mappings
-nnoremap <Space> <C-w>w
-nnoremap <S-Space> <C-w>W
-
 nnoremap vv :vsplit<CR>
 
 nnoremap ss :split<CR>
