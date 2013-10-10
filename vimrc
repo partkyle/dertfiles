@@ -78,10 +78,20 @@ let g:netrw_liststyle=3
 set mouse=a
 set ttymouse=xterm2
 
-" backups
-set noswapfile
-set nobackup
-set nowritebackup
+" Directories for swp files
+silent !mkdir ~/.vim-backups > /dev/null 2>&1
+set backupdir=~/.vim-backup
+set directory=~/.vim-backup
+
+" Directory for undo tracking
+try
+  silent !mkdir ~/.vim-undo > /dev/null 2>&1
+  set undodir=~/.vim-undo
+  set undofile
+  set undolevels=1000  "maximum number of changes that can be undone
+  set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+catch
+endtry
 
 " ruby filetypes
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby
