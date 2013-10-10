@@ -90,7 +90,7 @@ au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                     set ft=markdow
 " git filetypes
 if has('autocmd')
   if has('spell')
-    au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
   endif
 endif
 
