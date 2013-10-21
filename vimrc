@@ -75,8 +75,8 @@ let g:netrw_list_hide='.*\.pyc$'
 let g:netrw_liststyle=3
 
 " mouse
-set mouse=a
-set ttymouse=xterm2
+" set mouse=a
+" set ttymouse=xterm2
 
 " backups
 set noswapfile
