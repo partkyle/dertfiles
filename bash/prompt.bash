@@ -64,8 +64,6 @@ prompt() {
   fi
 
   PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT\n$purple\w$reset$BRANCH $PROMPT_COLOR\\\$$reset "
-
-  pwd > ~/.pwd
 }
 
 PROMPT_COMMAND=prompt
