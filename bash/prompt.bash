@@ -51,6 +51,10 @@ set_host_section() {
   fi
 }
 
+track_dir() {
+  pwd > ~/.pwd
+}
+
 prompt() {
   prompt_error
   bash_history_sync
@@ -65,7 +69,7 @@ prompt() {
 
   PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT\n$purple\w$reset$BRANCH $PROMPT_COLOR\\\$$reset "
 
-  pwd > ~/.pwd
+  track_dir
 }
 
 PROMPT_COMMAND=prompt
