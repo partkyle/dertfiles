@@ -58,9 +58,9 @@ set hidden " allow buffers to be changed with modifications
 
 syntax on               " turn syntax highlighting on by default
 
-set bg=light
-let g:solarized_diffmode="high"
-color solarized
+" set bg=light
+" let g:solarized_diffmode="high"
+" color solarized
 
 " wildmenu
 
