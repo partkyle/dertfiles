@@ -10,6 +10,8 @@ nnoremap <f9> :source ~/.vimrc<cr>
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+let g:vundle_default_git_proto = 'git'
+
 " let Vundle manage Vundle
 " required!
 Bundle 'gmarik/vundle'
@@ -20,13 +22,15 @@ Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/vimproc.vim'
 Bundle 'partkyle/vim-easy-align'
 Bundle 'tpope/vim-dispatch'
-Bundle 'fugitive.vim'
+Bundle 'tpope/vim-fugitive.git'
 Bundle 'repeat.vim'
 Bundle 'surround.vim'
 Bundle 'file-line'
 Bundle 'YankRing.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'molokai'
+Bundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on
 
@@ -61,6 +65,8 @@ syntax on               " turn syntax highlighting on by default
 " set bg=light
 " let g:solarized_diffmode="high"
 " color solarized
+colorscheme molokai
+
 
 " wildmenu
 
