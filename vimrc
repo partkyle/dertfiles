@@ -93,13 +93,6 @@ set nowritebackup
 au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru} set ft=ruby
 au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                     set ft=markdown
 
-" git filetypes
-if has('autocmd')
-  if has('spell')
-    autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
-  endif
-endif
-
 " keybindings
 
 " Clear search
