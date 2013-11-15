@@ -1,3 +1,5 @@
+export PROMPT_DIRTRIM=3
+
 # colors
 black="\[\033[0;30m\]"
 dark_gray="\[\033[1;30m\]"
