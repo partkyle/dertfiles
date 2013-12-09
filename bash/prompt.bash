@@ -70,7 +70,7 @@ prompt() {
   fi
 
   if [[ -n "$GOPATH" ]]; then
-    GOPROMPT=" $green{`basename $GOPATH`}$green"
+    GOPROMPT=" $green{`basename $GOPATH`}$reset"
   else
     GOPROMPT=
   fi
