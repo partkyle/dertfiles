@@ -63,13 +63,20 @@ prompt() {
   set_git_prompt
   set_host_section
 
-  if [ -n "$VIRTUAL_ENV" ]; then
+  if [[ -n "$VIRTUAL_ENV" ]]; then
     VENV_PROMPT=" $green{`basename $VIRTUAL_ENV`}$reset"
   else
     VENV_PROMPT=
   fi
 
-  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT\n$purple\w$reset$BRANCH $PROMPT_COLOR\\\$$reset "
+  if [[ -n "$GOPATH" ]]; then
+    GOPROMPT=" $green{`basename $GOPATH`}$green"
+  else
+    GOPROMPT=
+  fi
+
+
+  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT$GOPROMPT\n$purple\w$reset$BRANCH $PROMPT_COLOR\\\$$reset "
 
   track_dir
 }
