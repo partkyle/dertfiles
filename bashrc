@@ -64,8 +64,3 @@ if [ -d ~/.localrc.d ]; then
   done
   unset file
 fi
-
-if [ -f ~/.pwd ]; then
-  cd `cat ~/.pwd`
-  rm ~/.pwd
-fi
