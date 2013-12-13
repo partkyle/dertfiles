@@ -49,3 +49,4 @@
 
 	# git gui
 	k = "!gitx || gitk"
+	nff = merge --no-ff
