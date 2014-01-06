@@ -1,7 +1,11 @@
 # Abstract Positions
 alias full          move screenOriginX;screenOriginY screenSizeX;screenSizeY
 alias lefthalf      move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
+alias leftthird     move screenOriginX;screenOriginY screenSizeX/3;screenSizeY
+alias left2thirds   move screenOriginX;screenOriginY 2*screenSizeX/3;screenSizeY
 alias righthalf     move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
+alias rightthird    move screenOriginX+2*screenSizeX/3;screenOriginY screenSizeX/3;screenSizeY
+alias right2thirds  move screenOriginX+screenSizeX/3;screenOriginY 2*screenSizeX/3;screenSizeY
 alias topleft       corner top-left resize:screenSizeX/2;screenSizeY/2
 alias topright      corner top-right resize:screenSizeX/2;screenSizeY/2
 alias bottomleft    corner bottom-left resize:screenSizeX/2;screenSizeY/2
@@ -15,6 +19,7 @@ alias centerResize  move screenOriginX+(screenSizeX-${screen75X})/2;screenOrigin
 # hyper binding
 #
 alias hyper ctrl;alt
+alias mega  ctrl;alt;shift
 
 bind f1:${hyper} relaunch
 
@@ -22,6 +27,14 @@ bind 1:${hyper} ${topleft}
 bind 2:${hyper} ${topright}
 bind 3:${hyper} ${bottomleft}
 bind 4:${hyper} ${bottomright}
+
+#
+# 1/3 mappings
+#
+bind 1:${mega} ${leftthird}
+bind 2:${mega} ${left2thirds}
+bind 3:${mega} ${right2thirds}
+bind 4:${mega} ${rightthird}
 
 bind up:${hyper}    push top bar-resize:screenSizeY/2
 bind down:${hyper}  push bottom bar-resize:screenSizeY/2
