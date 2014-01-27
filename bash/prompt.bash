@@ -1,4 +1,4 @@
-export PROMPT_DIRTRIM=3
+export PROMPT_DIRTRIM=2
 
 # colors
 black="\[\033[0;30m\]"
@@ -72,7 +72,7 @@ prompt() {
   fi
 
 
-  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT$GOPROMPT\n$purple\w$reset$BRANCH $PROMPT_COLOR\\\$$reset "
+  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT$GOPROMPT$BRANCH\n$purple\w$reset $PROMPT_COLOR\\\$$reset "
 }
 
 PROMPT_COMMAND=prompt
