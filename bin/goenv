@@ -1,22 +1,28 @@
 #!/bin/sh
 
+export GOPATH= GOBIN=
+
 if [[ -z $1 ]]; then
-  gopath=$PWD
+  gopath="$PWD"
 else
-  pushd $1 > /dev/null
-  gopath=$PWD
-  popd > /dev/null
+  gopath=($@)
 fi
 
-export GOPATH=$gopath
+# reverse
+for((i=${#gopath[@]}-1; i>=0; i--)); do
+  gp="${gopath[$i]}"
+  pushd "$gp" > /dev/null
+  export GOPATH=$PWD:$GOPATH
+  export GOBIN=$PWD/bin:$GOBIN
+  export PATH=$GOBIN:$PATH
+  popd > /dev/null
+done
+
+# cleanup
+unset gp gopath
+
 echo "export GOPATH=$GOPATH"
-
-export GOBIN=$gopath/bin
 echo "export GOBIN=$GOBIN"
-
-export PATH=$GOBIN:$PATH
 echo "export PATH=$GOBIN:\$PATH"
-
-unset gopath
 
 exec "$SHELL"
