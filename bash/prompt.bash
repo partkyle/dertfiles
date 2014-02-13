@@ -53,6 +53,10 @@ set_host_section() {
   fi
 }
 
+# joins together strings using a given delimeter
+# usage: $ join "," a b c # a,b,c
+join() { local IFS="$1"; shift; echo "$*"; }
+
 prompt() {
   prompt_error
   bash_history_sync
@@ -66,13 +70,14 @@ prompt() {
   fi
 
   if [[ -n "$GOPATH" ]]; then
-    GOPROMPT=" $green{`basename $GOPATH`}$reset"
+    paths=$(join "|" `for p in $(echo $GOPATH | tr ":" " "); do basename $p; done`)
+    GOPROMPT=" $green{$paths}$reset"
   else
     GOPROMPT=
   fi
 
 
-  PS1="$reset\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT$GOPROMPT$BRANCH\n$purple\w$reset $PROMPT_COLOR\\\$$reset "
+  PS1="$reset\n\n\d \t $host_color\u@\h$reset $yellow\!$reset:$brown\#$reset$VENV_PROMPT$GOPROMPT$BRANCH\n\n$purple\w$reset $PROMPT_COLOR\\\$$reset "
 }
 
 PROMPT_COMMAND=prompt
