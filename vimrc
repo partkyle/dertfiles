@@ -3,37 +3,6 @@ filetype off                   " required!
 
 let mapleader=","
 
-nnoremap <f7> :sp ~/.vimrc<cr>
-nnoremap <f8> :BundleUpdate<cr>
-nnoremap <f9> :source ~/.vimrc<cr>
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-let g:vundle_default_git_proto = 'git'
-
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/vundle'
-Bundle 'bling/vim-airline'
-Bundle 'epmatsw/ag.vim'
-Bundle 'nanotech/jellybeans.vim'
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/vimproc.vim'
-Bundle 'partkyle/vim-easy-align'
-Bundle 'tpope/vim-dispatch'
-Bundle 'tpope/vim-fugitive.git'
-Bundle 'repeat.vim'
-Bundle 'surround.vim'
-Bundle 'file-line'
-Bundle 'YankRing.vim'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'molokai'
-Bundle 'airblade/vim-gitgutter'
-
-filetype plugin indent on
-
 set laststatus=2
 
 set tabstop=2     " Set the default tabstop
@@ -61,12 +30,6 @@ set splitbelow
 set hidden " allow buffers to be changed with modifications
 
 syntax on               " turn syntax highlighting on by default
-
-" set bg=light
-" let g:solarized_diffmode="high"
-" color solarized
-colorscheme molokai
-
 
 " wildmenu
 
@@ -123,12 +86,6 @@ vnoremap <silent> # :<C-U>
 " Reselect visual block after indent
 vnoremap < <gv
 vnoremap > >gv
-
-" better moving in insert mode
-imap <C-j> <C-o>j
-imap <C-k> <C-o>k
-imap <C-h> <C-o>h
-imap <C-l> <C-o>l
 
 " mappings for command line
 cnoremap <C-j> <t_kd>

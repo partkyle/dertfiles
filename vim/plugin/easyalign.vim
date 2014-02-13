@@ -1,1 +1,0 @@
-vnoremap <Enter> :EasyAlign<CR>
