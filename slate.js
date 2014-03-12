@@ -106,14 +106,12 @@ var centered = slate.operation("move", {
   "height": "screenSizeY*.9"
 });
 
-function cycle(a, cb) {
+function cycle(a) {
   var i = 0;
   var f = function(win) {
     win.doOperation( a[i] );
     i++;
     i %= a.length;
-
-    if (cb) { cb() }
   }
 
   f.reset = function() { i = 0 }
@@ -121,30 +119,38 @@ function cycle(a, cb) {
   return f
 }
 
+function callsReset(operation, elements) {
+  return function(win) {
+    if (typeof(operation) == 'function') {
+      operation(win);
+    } else {
+      win.doOperation(operation);
+    }
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].reset()
+    }
+  }
+}
+
+// left right (with cycling thirds)
+var leftCycle = cycle([pushLeft, pushLeftThird, pushLeftTwoThirds]);
+var rightCycle = cycle([pushRight, pushRightThird, pushRightTwoThirds]);
+
 var hyper = "ctrl;alt";
 
 // corners
-slate.bind("1:" + hyper, topLeft);
-slate.bind("2:" + hyper, topRight);
-slate.bind("3:" + hyper, bottomLeft);
-slate.bind("4:" + hyper, bottomRight);
+slate.bind("1:" + hyper, callsReset(topLeft, [leftCycle, rightCycle]));
+slate.bind("2:" + hyper, callsReset(topRight, [leftCycle, rightCycle]));
+slate.bind("3:" + hyper, callsReset(bottomLeft, [leftCycle, rightCycle]));
+slate.bind("4:" + hyper, callsReset(bottomRight, [leftCycle, rightCycle]));
 
-// left right (with cycling thirds)
-var leftCycle, rightCycle;
-leftCycle = cycle([pushLeft, pushLeftThird, pushLeftTwoThirds],
-  function() { rightCycle.reset() }
-);
-rightCycle = cycle([pushRight, pushRightThird, pushRightTwoThirds],
-  function() { leftCycle.reset() }
-);
-
-slate.bind("left:" + hyper, leftCycle);
-slate.bind("right:" + hyper, rightCycle);
+slate.bind("left:" + hyper, callsReset(leftCycle, [rightCycle]));
+slate.bind("right:" + hyper, callsReset(rightCycle, [leftCycle]));
 
 // top and bottom
-slate.bind("down:" + hyper, pushBottom);
-slate.bind("up:" + hyper, pushTop);
+slate.bind("down:" + hyper, callsReset(pushBottom, [leftCycle, rightCycle]));
+slate.bind("up:" + hyper, callsReset(pushTop, [leftCycle, rightCycle]));
 
 // total screen actions
-slate.bind("c:" + hyper, centered);
-slate.bind("f:" + hyper, fullscreen);
+slate.bind("c:" + hyper, callsReset(centered, [leftCycle, rightCycle]));
+slate.bind("f:" + hyper, callsReset(fullscreen, [leftCycle, rightCycle]));
