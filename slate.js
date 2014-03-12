@@ -1,41 +1,43 @@
 var margin = 15;
- 
+
+// General Config
 slate.cfga({
   "defaultToCurrentScreen" : true,
   "secondsBetweenRepeat" : 0.1,
   "checkDefaultsOnLoad" : true,
   "focusCheckWidthMax" : 3000
 });
- 
-// Create Operations
+
+// Corner Operations
 var topLeft = slate.operation("move", {
   "x" : "screenOriginX+" + margin,
   "y" : "screenOriginY+" + margin,
   "width" : "screenSizeX/2-" + margin * 1.5,
   "height" : "screenSizeY/2-" + margin * 1.5
 });
- 
+
 var topRight = slate.operation("move", {
   "x" : "screenOriginX+screenSizeX/2+" + margin / 2,
   "y" : "screenOriginY+" + margin,
   "width" : "screenSizeX/2-" + margin * 1.5,
   "height" : "screenSizeY/2-" + margin * 1.5
 });
- 
+
 var bottomRight = slate.operation("move", {
   "x" : "screenOriginX+screenSizeX/2+" + margin / 2,
   "y" : "screenOriginY+screenSizeY/2+" + margin / 2,
   "width" : "screenSizeX/2-" + margin * 1.5,
   "height" : "screenSizeY/2-" + margin * 1.5
 });
- 
+
 var bottomLeft = slate.operation("move", {
   "x" : "screenOriginX+" + margin,
   "y" : "screenOriginY+screenSizeY/2+" + margin / 2,
   "width" : "screenSizeX/2-" + margin * 1.5,
   "height" : "screenSizeY/2-" + margin * 1.5
 });
- 
+
+// Left Right Operations
 var pushRight = slate.operation("move", {
   "x" : "screenOriginX+screenSizeX/2+" + margin / 2,
   "y" : "screenOriginY+" + margin,
@@ -56,7 +58,7 @@ var pushRightTwoThirds = slate.operation("move", {
   "width" : "screenSizeX*2/3-" + margin * 1.5,
   "height" : "screenSizeY-" + margin * 2
 });
- 
+
 var pushLeft = slate.operation("move", {
   "x" : "screenOriginX+" + margin,
   "y" : "screenOriginY+" + margin,
@@ -84,27 +86,39 @@ var pushTop = slate.operation("move", {
   "width" : "screenSizeX-" + margin * 2,
   "height" : "screenSizeY/2-" + margin * 1.5
 });
- 
+
 var pushBottom = slate.operation("move", {
   "x" : "screenOriginX+" + margin,
   "y" : "screenOriginY+screenSizeY/2+" + margin / 2,
   "width" : "screenSizeX-" + margin * 2,
   "height" : "screenSizeY/2-" + margin * 1.5
 });
- 
+
 var fullscreen = slate.operation("move", {
   "x" : "screenOriginX+" + margin,
   "y" : "screenOriginY+" + margin,
   "width" : "screenSizeX-" + margin * 2,
   "height" : "screenSizeY-" + margin * 2
 });
- 
+
 var centered = slate.operation("move", {
   "x": "screenOriginX+screenSizeX*.1",
   "y": "screenOriginY+screenSizeY*.05",
   "width": "screenSizeX*.8",
   "height": "screenSizeY*.9"
 });
+
+// Focus Operations
+var focusLeft = slate.operationFromString("focus left");
+var focusRight = slate.operationFromString("focus right");
+var focusUp = slate.operationFromString("focus up");
+var focusDown = slate.operationFromString("focus down");
+
+// misc
+var hint = slate.operationFromString("hint ASDFGHJKL");
+var grid = slate.operationFromString("grid");
+var undo = slate.operationFromString("undo");
+var throwNext = slate.operationFromString("throw next");
 
 function cycle(a) {
   var i = 0;
@@ -154,3 +168,15 @@ slate.bind("up:" + hyper, callsReset(pushTop, [leftCycle, rightCycle]));
 // total screen actions
 slate.bind("c:" + hyper, callsReset(centered, [leftCycle, rightCycle]));
 slate.bind("f:" + hyper, callsReset(fullscreen, [leftCycle, rightCycle]));
+
+// focus
+slate.bind("h:" + hyper, focusLeft);
+slate.bind("j:" + hyper, focusUp);
+slate.bind("k:" + hyper, focusDown);
+slate.bind("l:" + hyper, focusRight);
+
+// misc
+slate.bind("s:" + hyper, hint);
+slate.bind("g:" + hyper, grid);
+slate.bind("x:" + hyper, throwNext);
+slate.bind("/:" + hyper, undo);
