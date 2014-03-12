@@ -106,13 +106,19 @@ var centered = slate.operation("move", {
   "height": "screenSizeY*.9"
 });
 
-function cycle(a) {
+function cycle(a, cb) {
   var i = 0;
-  return function(win) {
+  var f = function(win) {
     win.doOperation( a[i] );
     i++;
     i %= a.length;
+
+    if (cb) { cb() }
   }
+
+  f.reset = function() { i = 0 }
+
+  return f
 }
 
 var hyper = "ctrl;alt";
@@ -124,8 +130,16 @@ slate.bind("3:" + hyper, bottomLeft);
 slate.bind("4:" + hyper, bottomRight);
 
 // left right (with cycling thirds)
-slate.bind("left:" + hyper, cycle([pushLeft, pushLeftThird, pushLeftTwoThirds]));
-slate.bind("right:" + hyper, cycle([pushRight, pushRightThird, pushRightTwoThirds]));
+var leftCycle, rightCycle;
+leftCycle = cycle([pushLeft, pushLeftThird, pushLeftTwoThirds],
+  function() { rightCycle.reset() }
+);
+rightCycle = cycle([pushRight, pushRightThird, pushRightTwoThirds],
+  function() { leftCycle.reset() }
+);
+
+slate.bind("left:" + hyper, leftCycle);
+slate.bind("right:" + hyper, rightCycle);
 
 // top and bottom
 slate.bind("down:" + hyper, pushBottom);
