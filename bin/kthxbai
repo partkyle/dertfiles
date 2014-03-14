@@ -1,6 +1,6 @@
 #!/bin/sh
 
-processes=`ps aux | grep $1 | grep -v grep | grep -v kthxbai`
+processes=`ps aux | grep "$1" | grep -v grep | grep -v kthxbai`
 
 if [ -z "$processes" ]; then
   echo no processes matching \"$1\"
