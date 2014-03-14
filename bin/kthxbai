@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [[ -z "$1" ]]; then
+  echo "a parameter is required - stop trying to kthxbai all the things"
+fi
+
 processes=`ps aux | grep "$1" | grep -v grep | grep -v kthxbai`
 
 if [ -z "$processes" ]; then
