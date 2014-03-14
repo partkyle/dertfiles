@@ -50,3 +50,4 @@
 	# git gui
 	k = "!gitx || gitk"
 	nff = merge --no-ff
+	big-objects = !~/.bin/git-big-objects
