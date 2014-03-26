@@ -6,8 +6,6 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-fpath=(~/.fresh/build/completion $fpath)
-
 # Return if requirements are not found.
 if [[ "$TERM" == 'dumb' ]]; then
   return 1
