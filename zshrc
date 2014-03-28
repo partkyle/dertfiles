@@ -4,16 +4,16 @@ source ~/.zsh/keybindings.zsh
 source ~/.zsh/title.zsh
 source ~/.zsh/prompt.zsh
 
-for file in ~/.localrc.d/*; do
+for file in ~/.localrc.d/*(N); do
   source $file
 done
 
-for file in ~/.localrc.zsh.d/*; do
+for file in ~/.localrc.zsh.d/*(N); do
   source $file
 done
 
 # aliases
-for file in ~/.zsh/aliases/*.zsh; do
+for file in ~/.zsh/aliases/*.zsh(N); do
   source $file
 done
 
