@@ -1,12 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
 DOTFILES_DIR=~/.dotfiles
+
+echo 'creating localrc.d directories'
+mkdir -p $HOME/.localrc.d $HOME/.localrc.zsh.d
 
 for file in $DOTFILES_DIR/*; do
   filename=`basename $file`
   dest=~/.$filename
-  if [ -e $dest ]; then
+  if [[ -e $dest ]]; then
     echo "removing existing $dest"
+    rm $dest
+  fi
+
+  if [[ -d "$dest" ]]; then
+    echo "removing directory $dest"
     rm $dest
   fi
 
@@ -14,19 +22,21 @@ for file in $DOTFILES_DIR/*; do
   echo "linking $file -> $dest"
 done
 
-# set up vundle
-vundledir=~/.vim/bundle/vundle
-if [ ! -e $vundledir ]; then
-  git clone git://github.com/gmarik/vundle.git $vundledir
-fi
+shell=`basename $SHELL`
+if [[ $shell == 'zsh' ]]; then
+  # set up zsh-syntax-highlighting
+  zshhighlight=~/.zsh/vendor/zsh-syntax-highlighting
+  if [[ ! -e $zshhighlight ]]; then
+    git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshhighlight
+  fi
 
-# set up zsh-syntax-highlighting
-zshhighlight=~/.zsh/vendor/zsh-syntax-highlighting
-if [ ! -e $zshhighlight ]; then
-  git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshhighlight
+  zshhistory=~/.zsh/vendor/zsh-history-substring-search
+  if [[ ! -e $zshhistory ]]; then
+    git clone git://github.com/zsh-users/zsh-history-substring-search.git $zshhistory
+  fi
 fi
 
 tmuxifier=~/.tmuxifier
-if [ ! -e $tmuxifier ]; then
+if [[ ! -e $tmuxifier ]]; then
   git clone https://github.com/jimeh/tmuxifier.git $tmuxifier
 fi
