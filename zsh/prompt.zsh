@@ -19,18 +19,18 @@ precmd () {
 
 _virtualenv_prompt () {
   if test -s "$VIRTUAL_ENV"; then
-    PARTKYLE_VIRTUAL_ENV_PROMPT="[`basename $VIRTUAL_ENV`] "
+    PARTKYLE_VIRTUAL_ENV_PROMPT="[VIRTUAL_ENV=`basename $VIRTUAL_ENV`] "
   fi
 }
 
-# joins together strings using a given delimeter
-# usage: $ join "," a b c # a,b,c
-join() { local IFS="$1"; shift; echo "$*"; }
-
 _gopath_prompt () {
+  # joins together strings using a given delimeter
+  # usage: $ join "," a b c # a,b,c
+  join() { local IFS="$1"; shift; echo "$*"; }
+
   if [[ -n "$GOPATH" ]]; then
-    paths=$(join "|" `for p in $(echo $GOPATH | tr ":" " "); do basename $p; done`)
-    PARTKYLE_GOPATH_PROMPT="[$paths] "
+    paths=$(join ":" `for p in $(echo $GOPATH | tr ":" " "); do basename $p; done`)
+    PARTKYLE_GOPATH_PROMPT="[GOPATH=$paths] "
   fi
 }
 
