@@ -17,6 +17,10 @@
 [color]
 	ui = auto
 
+[color "status"]
+	branch = blue
+	nobranch = magenta
+
 [merge]
 	tool = vimdiff
 	defaultToUpstream = true
