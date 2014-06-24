@@ -56,8 +56,5 @@ fi
 source ~/.bash/prompt.bash
 
 if [ -d ~/.localrc.d ]; then
-  for file in ~/.localrc.d/*; do
-    source $file
-  done
-  unset file
+  find ~/.localrc.d -type f -exec source {} \;
 fi
