@@ -12,10 +12,7 @@ set_git_prompt() {
 }
 
 prompt() {
-  bash_history_sync
-  set_git_prompt
-
-  PS1="\n\h:\w \$ "
+  PS1="\n[\h:\w]\$ "
 }
 
 PROMPT_COMMAND=prompt
