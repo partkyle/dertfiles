@@ -12,7 +12,15 @@ set_git_prompt() {
 }
 
 prompt() {
-  PS1="\n[\h:\w]\$ "
+  set_git_prompt
+
+  if [[ -n "$GIT_BRANCH" ]]; then
+    GIT_PROMPT=" {$GIT_BRANCH}"
+  else
+    unset GIT_PROMPT
+  fi
+
+  PS1="\n[\h:\w]$GIT_PROMPT\$ "
 }
 
 PROMPT_COMMAND=prompt
