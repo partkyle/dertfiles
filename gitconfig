@@ -55,3 +55,12 @@
 	k = "!gitx || gitk"
 	nff = merge --no-ff
 	big-objects = !~/.bin/git-big-objects
+
+	who = !~/.bin/git-who
+
+	# .pairs fixes
+	me   = !git config --global user.name \"Kyle Partridge\" && git config --global user.email partkyle@gmail.com && git who
+	local-me = !git config user.name \"Kyle Partridge\" && git config user.email partkyle@gmail.com && git who
+
+	grid = !git config --global user.name \"Kyle Partridge\" && git config --global user.email kyle.partridge@sendgrid.com && git who
+	local-grid = !git config user.name \"Kyle Partridge\" && git config user.email kyle.partridge@sendgrid.com && git who

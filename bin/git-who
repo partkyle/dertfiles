@@ -1,0 +1,16 @@
+#!/bin/bash
+
+git-who() {
+  global_email=$(git config --global user.email)
+  global_name=$(git config --global user.name)
+  local_email=$(git config user.email)
+  local_user=$(git config user.name)
+
+  echo "Who am I?"
+  echo "global:"
+  echo "  $global_name <$global_email>"
+  echo "local:"
+  echo "  $local_user <$local_email>"
+}
+
+git-who
