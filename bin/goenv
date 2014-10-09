@@ -13,10 +13,14 @@ for((i=${#gopath[@]}-1; i>=0; i--)); do
   gp="${gopath[$i]}"
   pushd "$gp" > /dev/null
   export GOPATH=$PWD:$GOPATH
-  export GOBIN=$PWD/bin:$GOBIN
-  export PATH=$GOBIN:$PATH
+
+  # GOBIN will get set to the first one in the list
+  export GOBIN=$PWD/bin
   popd > /dev/null
 done
+
+# update the path to whatever GOBIN is
+export PATH=$GOBIN:$PATH
 
 # cleanup
 unset gp gopath
