@@ -3,24 +3,40 @@ is_git_repository() {
   git branch > /dev/null 2>&1
 }
 
-set_git_prompt() {
+set_git_branch() {
   if is_git_repository; then
-    GIT_BRANCH=$(git_info_for_prompt)
+    GIT=$(git_info_for_prompt)
   else
-    unset GIT_BRANCH
+    unset GIT
   fi
 }
 
-prompt() {
-  set_git_prompt
 
-  if [[ -n "$GIT_BRANCH" ]]; then
-    GIT_PROMPT=" {$GIT_BRANCH}"
-  else
-    unset GIT_PROMPT
+set_my_env() {
+  MY_ENV=('PWD' 'GIT')
+
+  ls | grep -c '\.go' > /dev/null 2>&1
+  if [[ $? -eq 0 ]]; then
+    MY_ENV+=('GOPATH')
   fi
+}
 
-  PS1="\n[\h:\w]$GIT_PROMPT\$ "
+set_ps1() {
+  PS1="\e[33m\n"
+
+  for e in "${MY_ENV[@]}"; do
+    if [[ -n "${!e}" ]]; then
+      PS1+="$e=${!e} "
+    fi
+  done
+
+  PS1+="\e[0;0m\n> "
+}
+
+prompt() {
+  set_my_env
+  set_git_branch
+  set_ps1
 }
 
 PROMPT_COMMAND=prompt
