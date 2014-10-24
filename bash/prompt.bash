@@ -11,9 +11,10 @@ set_git_branch() {
   fi
 }
 
+DEFAULT_MY_ENV=(GIT)
 
 set_my_env() {
-  MY_ENV=('PWD' 'GIT')
+  MY_ENV=($DEFAULT_MY_ENV $*)
 
   ls | grep -c '\.go' > /dev/null 2>&1
   if [[ $? -eq 0 ]]; then
@@ -30,7 +31,7 @@ set_ps1() {
     fi
   done
 
-  PS1+="\e[0;0m\n> "
+  PS1+="\e[32m\n\W >\e[0;0m "
 }
 
 prompt() {
