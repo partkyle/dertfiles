@@ -23,7 +23,7 @@ set_my_env() {
 }
 
 set_ps1() {
-  PS1="\[\e[33\]m\n"
+  PS1="\[\e[33m\]\n"
 
   for e in "${MY_ENV[@]}"; do
     if [[ -n "${!e}" ]]; then
@@ -31,12 +31,12 @@ set_ps1() {
     fi
   done
 
-  prompt_color="\[\e[32\]m"
+  prompt_color="\[\e[32m\]"
   if [[ $last_cmd -ne 0 ]]; then
-    prompt_color="\[\e[0;31\]m"
+    prompt_color="\[\e[0;31m\]"
   fi
 
-  PS1+="\[\e[32\]m\n\W $prompt_color>\[\e[0\]m "
+  PS1+="\[\e[32m\]\n\W $prompt_color>\[\e[0m\] "
 }
 
 prompt() {
