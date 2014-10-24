@@ -23,7 +23,7 @@ set_my_env() {
 }
 
 set_ps1() {
-  PS1="\e[33m\n"
+  PS1="\[\e[33\]m\n"
 
   for e in "${MY_ENV[@]}"; do
     if [[ -n "${!e}" ]]; then
@@ -31,7 +31,7 @@ set_ps1() {
     fi
   done
 
-  PS1+="\e[32m\n\W >\e[0m "
+  PS1+="\[\e[32\]m\n\W >\[\e[0\]m "
 }
 
 prompt() {
