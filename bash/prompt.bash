@@ -31,7 +31,7 @@ set_ps1() {
     fi
   done
 
-  PS1+="\e[32m\n\W >\e[0;0m "
+  PS1+="\e[32m\n\W >\e[0m "
 }
 
 prompt() {
