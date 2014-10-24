@@ -31,10 +31,17 @@ set_ps1() {
     fi
   done
 
-  PS1+="\[\e[32\]m\n\W >\[\e[0\]m "
+  prompt_color="\[\e[32\]m"
+  if [[ $last_cmd -ne 0 ]]; then
+    prompt_color="\[\e[0;31\]m"
+  fi
+
+  PS1+="\[\e[32\]m\n\W $prompt_color>\[\e[0\]m "
 }
 
 prompt() {
+  last_cmd=$?
+
   set_my_env
   set_git_branch
   set_ps1
