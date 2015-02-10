@@ -5,3 +5,8 @@ vim/.netrwhist
 zsh/vendor/
 emacs.d/auto-save-list
 emacs.d/ac-comphist.dat
+
+config/*
+!config/fish/
+config/fish/fish_history
+config/fish/fishd.20c9d04343ad
