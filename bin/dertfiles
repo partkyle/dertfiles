@@ -1,13 +1,16 @@
 #!/bin/bash
 
-DOTFILES_DIR=~/.dotfiles
+DOTFILES_DIR=$HOME/.dotfiles
+if [[ -z "$DOTFILES_DEST" ]]; then
+  DOTFILES_DEST=$HOME
+fi
 
 echo 'creating localrc.d directories'
-mkdir -p $HOME/.localrc.d $HOME/.localrc.zsh.d
+mkdir -p $DOTFILES_DEST/.localrc.d $DOTFILES_DEST/.localrc.zsh.d
 
 for file in $DOTFILES_DIR/*; do
   filename=`basename $file`
-  dest=~/.$filename
+  dest=$DOTFILES_DEST/.$filename
   if [[ -e $dest ]]; then
     echo "removing existing $dest"
     rm $dest
@@ -21,22 +24,3 @@ for file in $DOTFILES_DIR/*; do
   ln -s $file $dest
   echo "linking $file -> $dest"
 done
-
-shell=`basename $SHELL`
-if [[ $shell == 'zsh' ]]; then
-  # set up zsh-syntax-highlighting
-  zshhighlight=~/.zsh/vendor/zsh-syntax-highlighting
-  if [[ ! -e $zshhighlight ]]; then
-    git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshhighlight
-  fi
-
-  zshhistory=~/.zsh/vendor/zsh-history-substring-search
-  if [[ ! -e $zshhistory ]]; then
-    git clone git://github.com/zsh-users/zsh-history-substring-search.git $zshhistory
-  fi
-fi
-
-tmuxifier=~/.tmuxifier
-if [[ ! -e $tmuxifier ]]; then
-  git clone https://github.com/jimeh/tmuxifier.git $tmuxifier
-fi
