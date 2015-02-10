@@ -2,7 +2,7 @@ set CDPATH . $HOME $HOME/sendgrid $HOME/code
 
 # colors
 
-colors_setup
-fish_git_setup
-docker_setup
+_colors_setup
+_fish_git_setup
+_docker_setup
 _rbenv_setup

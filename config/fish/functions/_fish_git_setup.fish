@@ -1,4 +1,4 @@
-function fish_git_setup
+function _fish_git_setup
   # Fish git prompt
   set -g __fish_git_prompt_color_branch yellow
   set -g __fish_git_prompt_color_upstream_ahead green

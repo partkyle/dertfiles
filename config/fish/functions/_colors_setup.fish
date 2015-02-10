@@ -1,4 +1,4 @@
-function colors_setup
+function _colors_setup
   set -g normal (set_color normal)
   set -g magenta (set_color magenta)
   set -g yellow (set_color yellow)
