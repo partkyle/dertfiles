@@ -21,7 +21,7 @@ if has('gui_macvim')
   inoremenu File.Close\ Instance :qa<CR>
 
   set cc=80                                  " Put at line @ column 80
-  set guifont=Inconsolata-g:h14              " Monaco!
+  set guifont=M+\ 2m:h16
   set guioptions-=T                          " Hide the tool bar
   set guioptions=c                           " Use simple dialogs rather than pop-ups
 endif

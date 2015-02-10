@@ -1,7 +1,7 @@
 execute pathogen#infect()
 
 set nocompatible               " be iMproved
-filetype off                   " required!
+filetype on
 
 let mapleader=","
 
