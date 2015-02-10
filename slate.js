@@ -1,4 +1,4 @@
-var margin = 15;
+var margin = 0;
 
 // General Config
 slate.cfga({
@@ -101,11 +101,18 @@ var fullscreen = slate.operation("move", {
   "height" : "screenSizeY-" + margin * 2
 });
 
-var centered = slate.operation("move", {
+var centeredResize = slate.operation("move", {
   "x": "screenOriginX+screenSizeX*.1",
   "y": "screenOriginY+screenSizeY*.05",
   "width": "screenSizeX*.8",
   "height": "screenSizeY*.9"
+});
+
+var centered = slate.operation("move", {
+  "x": "screenOriginX+(screenSizeX-windowSizeX)/2",
+  "y": "screenOriginY+(screenSizeY-windowSizeY)/2",
+  "width": "windowSizeX",
+  "height": "windowSizeY"
 });
 
 // Focus Operations
@@ -150,33 +157,32 @@ function callsReset(operation, elements) {
 var leftCycle = cycle([pushLeft, pushLeftThird, pushLeftTwoThirds]);
 var rightCycle = cycle([pushRight, pushRightThird, pushRightTwoThirds]);
 
-var hyper = "ctrl;alt";
-
 // corners
-slate.bind("1:" + hyper, callsReset(topLeft, [leftCycle, rightCycle]));
-slate.bind("2:" + hyper, callsReset(topRight, [leftCycle, rightCycle]));
-slate.bind("3:" + hyper, callsReset(bottomLeft, [leftCycle, rightCycle]));
-slate.bind("4:" + hyper, callsReset(bottomRight, [leftCycle, rightCycle]));
+slate.bind("1:ctrl;alt", callsReset(topLeft, [leftCycle, rightCycle]));
+slate.bind("2:ctrl;alt", callsReset(topRight, [leftCycle, rightCycle]));
+slate.bind("3:ctrl;alt", callsReset(bottomLeft, [leftCycle, rightCycle]));
+slate.bind("4:ctrl;alt", callsReset(bottomRight, [leftCycle, rightCycle]));
 
-slate.bind("left:" + hyper, callsReset(leftCycle, [rightCycle]));
-slate.bind("right:" + hyper, callsReset(rightCycle, [leftCycle]));
+slate.bind("left:ctrl;alt", callsReset(leftCycle, [rightCycle]));
+slate.bind("right:ctrl;alt", callsReset(rightCycle, [leftCycle]));
 
 // top and bottom
-slate.bind("down:" + hyper, callsReset(pushBottom, [leftCycle, rightCycle]));
-slate.bind("up:" + hyper, callsReset(pushTop, [leftCycle, rightCycle]));
+slate.bind("down:ctrl;alt", callsReset(pushBottom, [leftCycle, rightCycle]));
+slate.bind("up:ctrl;alt", callsReset(pushTop, [leftCycle, rightCycle]));
 
 // total screen actions
-slate.bind("c:" + hyper, callsReset(centered, [leftCycle, rightCycle]));
-slate.bind("f:" + hyper, callsReset(fullscreen, [leftCycle, rightCycle]));
+slate.bind("c:ctrl;alt", callsReset(centered, [leftCycle, rightCycle]));
+slate.bind("c:ctrl;alt;shift", callsReset(centeredResize, [leftCycle, rightCycle]));
+slate.bind("f:ctrl;alt", callsReset(fullscreen, [leftCycle, rightCycle]));
 
 // focus
-slate.bind("h:" + hyper, focusLeft);
-slate.bind("j:" + hyper, focusUp);
-slate.bind("k:" + hyper, focusDown);
-slate.bind("l:" + hyper, focusRight);
+slate.bind("h:ctrl;alt", focusLeft);
+slate.bind("j:ctrl;alt", focusUp);
+slate.bind("k:ctrl;alt", focusDown);
+slate.bind("l:ctrl;alt", focusRight);
 
 // misc
-slate.bind("s:" + hyper, hint);
-slate.bind("g:" + hyper, grid);
-slate.bind("x:" + hyper, throwNext);
-slate.bind("/:" + hyper, undo);
+slate.bind("s:ctrl;alt", hint);
+slate.bind("g:ctrl;alt", grid);
+slate.bind("x:ctrl;alt", throwNext);
+slate.bind("/:ctrl;alt", undo);
