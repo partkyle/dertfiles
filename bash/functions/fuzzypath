@@ -1,0 +1,11 @@
+function fuzzypath() {
+    if [ -z $2 ]; then
+        COMPREPLY=( `ls` )
+    else
+        DIRPATH=`echo "$2" | sed 's|[^/]*$||'`
+        BASENAME=`echo "$2" | sed 's|.*/||'`
+        FILTER=`echo "$BASENAME" | sed 's|.|\0.*|g'`
+        COMPREPLY=( `ls $DIRPATH | grep -i "^$FILTER" | sed "s|^|$DIRPATH|g"` )
+    fi
+}
+

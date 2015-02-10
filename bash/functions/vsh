@@ -1,0 +1,3 @@
+vsh() { cd $1 && vagrant ssh; }
+
+complete -o nospace -F _cd vsh

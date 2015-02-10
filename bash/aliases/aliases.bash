@@ -1,4 +1,4 @@
-alias e='$EDITOR'
+# alias e='$EDITOR'
 
 alias json='python -m json.tool | less'
 
