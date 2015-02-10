@@ -4,3 +4,4 @@ emacs.d/elpa
 vim/.netrwhist
 zsh/vendor/
 emacs.d/auto-save-list
+emacs.d/ac-comphist.dat
