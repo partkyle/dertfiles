@@ -1,6 +1,6 @@
-vim/bundle/
-zsh/vendor/
-vim/.netrwhist
-emacs.d/elpa
-emacs.d/auto-save-list
 emacs.d/url
+vim/bundle/
+emacs.d/elpa
+vim/.netrwhist
+zsh/vendor/
+emacs.d/auto-save-list
