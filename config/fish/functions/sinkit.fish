@@ -1,18 +1,13 @@
-function kthxbai
-  if test -z $argv
-    echo "argument is required!"
-    return 1
-  end
-
+function sinkit
   set_color yellow
 
-  set result (ps aux | grep "$argv" | grep -v "grep")
+  set result (docker ps -a | tail -n+2)
   for line in $result
     echo $line
-    set pids $pids (echo $line | awk '{print $2}')
+    set cids $cids (echo $line | awk '{print $1}')
   end
 
-  set num (count $pids)
+  set num (count $cids)
 
   set_color normal
 
@@ -24,10 +19,10 @@ function kthxbai
     set_color normal
 
     if read -p echo
-      kill -9 $pids
+      docker rm -f $cids
     end
   else
-    echo "no processes found"
+    echo "no containers found"
   end
 
   set_color normal
