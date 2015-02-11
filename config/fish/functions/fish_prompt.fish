@@ -7,6 +7,13 @@ function fish_prompt
 
   printf '%s ' (__fish_git_prompt)
 
+  if test $last_status -eq 0
+    set_color green
+  else
+    set_color red
+  end
+
   printf '> '
+
   set_color normal
 end
