@@ -38,9 +38,9 @@
   (other-window 1))
 
 ;; TODO(partkyle): all of my todos!
-;; FIXME: it doesn't need fixed
-;; TODO: NOTHING!
-;; IMPORTANT(partkyle): we need to keep this
+;; FIXME: it doesn't need FIXED
+;; TODO: NOTHING is left TODO
+;; IMPORTANT(partkyle): we need to keep this because it's IMPORTANT
 ;; BUG: it's not a bug!
 ;; XXX: this one too for some reason
 (defun partkyle/highlight-todos ()
@@ -70,7 +70,6 @@
 (global-set-key (kbd "s-p") 'helm-M-x)
 (global-set-key (kbd "s-w") 'delete-window)
 (global-set-key (kbd "s-b") 'helm-buffers-list)
-(global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 (global-set-key (kbd "s-/") 'comment-or-uncomment-region)
 
 ;; split management
@@ -83,11 +82,12 @@
 
 (require 'helm-config)
 
+(add-to-list 'default-frame-alist
+             '(font . "M+ 2m-16"))
+
 ;; look and feel
 (if window-system
     (progn
-      (set-frame-font "M+ 2m")
-      (set-face-attribute 'default nil :height 160)
       (delete-selection-mode t)
       (tool-bar-mode -1)
       (menu-bar-mode -1)
