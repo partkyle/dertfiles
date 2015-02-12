@@ -17,12 +17,12 @@
  (lambda () (interactive)
    (find-file "~/.emacs.d/init.el" t)))
 
-(defun jmc-eval-to-here ()
+(defun jmc/eval-to-here ()
   (interactive)
   (eval-region 0 (point)))
 (global-set-key
  [f8]
- 'jmc-eval-to-here)
+ 'jmc/eval-to-here)
 
 ;; redo last command
 (defun describe-last-function ()
