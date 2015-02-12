@@ -77,6 +77,12 @@
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
 
+;; multi cursors - starting to be better than sublime
+(require 'multiple-cursors)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
+
 ;; only highlight after C-SPC C-SPC
 (transient-mark-mode -1)
 
@@ -138,12 +144,6 @@
 ;; go-mode
 (require 'go-mode-autoloads)
 (require 'go-autocomplete)
-
-;; multi cursors - starting to be better than sublime
-(require 'multiple-cursors)
-(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
 
 (set 'gofmt-command "goimports")
 
