@@ -9,10 +9,6 @@
 ;; /usr/local/bin
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-;; load-path
-(add-to-list 'load-path "~/.emacs.d/vendor/")
-(add-to-list 'load-path "~/.emacs.d/vendor/go-mode.el")
-
 ; Stop Emacs from losing undo information by
 ; setting very high limits for undo buffers
 (setq undo-limit 20000000)
@@ -20,19 +16,21 @@
 
 ;; this needs to run first for when I eventually
 ;; break something
-(global-set-key
- [f7]
- (lambda () (interactive)
-   (find-file "~/.emacs.d/init.el" t)))
+(defun edit-init-el ()
+  "Open emacs.d/init.el for editing."
+  (interactive)
+  (find-file "~/.emacs.d/init.el" t))
 
-(defun jmc/eval-to-here ()
+(global-set-key [f7] 'edit-init-el)
+
+(defun eval-to-point ()
   "Eval Lisp expression from buffer start to point."
   (interactive)
   (eval-region 0 (point)))
 
 (global-set-key
  [f8]
- 'jmc/eval-to-here)
+ 'eval-to-point)
 
 ;; redo last command
 (defun describe-last-function ()
@@ -52,14 +50,26 @@
 ;; FIXME: it doesn't need FIXME
 ;; TODO: NOTHING is left TODO
 ;; IMPORTANT(partkyle): we need to keep this because it's IMPORTANT
-;; BUG: it's not a bug!
+;; BUG: it's not a BUG!
 ;; XXX: this one too for some reason
-(defun partkyle/highlight-todos ()
+;; NOTE(partkyle): don't forget to leave a note
+(defun partkyle/highlight-todo ()
   "Highlight all instances of TODO FIXME IMPORTANT BUG NOTE and XXX."
   (font-lock-add-keywords nil
-                          '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\|IMPORTANT\\|NOTE\\):" 1 font-lock-warning-face t)
-                            ("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\|IMPORTANT\\|NOTE\\)(.*):" 1 font-lock-warning-face t))))
-(add-hook 'prog-mode-hook 'partkyle/highlight-todos)
+                          '(("\\<\\(XXX\\):" 1 font-lock-warning-face t)
+                            ("\\<\\(XXX\\)(.*):" 1 font-lock-warning-face t)
+                            ("\\<\\(TODO\\):" 1 font-lock-warning-face t)
+                            ("\\<\\(TODO\\)(.*):" 1 font-lock-warning-face t)
+                            ("\\<\\(BUG\\):" 1 font-lock-warning-face t)
+                            ("\\<\\(BUG\\)(.*):" 1 font-lock-warning-face t)
+                            ("\\<\\(FIXME\\):" 1 font-lock-warning-face t)
+                            ("\\<\\(FIXME\\)(.*):" 1 font-lock-warning-face t)
+                            ("\\<\\(NOTE\\):" 1 font-lock-keyword-face t)
+                            ("\\<\\(NOTE\\)(.*):" 1 font-lock-keyword-face t)
+                            ("\\<\\(IMPORTANT\\):" 1 font-lock-keyword-face t)
+                            ("\\<\\(IMPORTANT\\)(.*):" 1 font-lock-keyword-face t))))
+
+(add-hook 'prog-mode-hook 'partkyle/highlight-todo)
 
 ;; make sure all packages are loaded
 (require 'package)
@@ -71,6 +81,9 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+;;
+;; keybindings
+;;
 (global-set-key (kbd "M-S-<left>") 'previous-buffer)
 (global-set-key (kbd "M-S-<right>") 'next-buffer)
 (global-set-key (kbd "M-<up>") 'windmove-up)
@@ -82,7 +95,9 @@
 (global-set-key (kbd "s-<left>") 'windmove-left)
 (global-set-key (kbd "s-<right>") 'windmove-right)
 (global-set-key (kbd "s-o") 'helm-find-files)
+(global-set-key (kbd "s-t") 'helm-projectile)
 (global-set-key (kbd "s-p") 'helm-M-x)
+(global-set-key (kbd "s-g") 'ag-project)
 (global-set-key (kbd "s-w") 'delete-window)
 (global-set-key (kbd "s-b") 'helm-buffers-list)
 (global-set-key (kbd "s-/") 'comment-or-uncomment-region)
@@ -96,6 +111,9 @@
 ;; flycheck
 (global-set-key (kbd "M-p") 'flycheck-previous-error)
 (global-set-key (kbd "M-n") 'flycheck-next-error)
+
+(global-set-key (kbd "C-c c") 'compile)
+(global-set-key (kbd "C-c C-c") 'recompile)
 
 ;; make the zoom window not apparent (this might be a mistake)
 (defvar zoom-window-mode-line-color "Gray")
@@ -123,16 +141,16 @@
       (menu-bar-mode -1)
       (blink-cursor-mode -1)
       (scroll-bar-mode -1)
-      (color-theme-cobalt)
-      ;; 24.4 theme color
-      (set-face-attribute 'fringe nil :background "#0A233E")
-      ;; 24.3 theme color
-      (set-face-attribute 'linum nil :background "#092F4F")))
+      (load-theme 'solarized-light t)
+      ;; (color-theme-cobalt)
+      ;; ;; 24.4 theme color
+      ;; (set-face-attribute 'fringe nil :background "#0A233E")
+      ;; ;; 24.3 theme color
+      ;; (set-face-attribute 'linum nil :background "#092F4F")
+      ))
 
 (when (require 'yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
-
-;; (global-linum-mode 0)
 
 ;; highlight line
 (global-hl-line-mode 1)
@@ -182,10 +200,12 @@
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq-default tab-width 4)
   (setq-default indent-tabs-mode t)
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "C-c C-c") 'recompile))
+  (local-set-key (kbd "M-.") 'godef-jump))
 
 (add-hook 'go-mode-hook 'partkyle/go-mode-hook)
+
+;; projectile
+(projectile-global-mode)
 
 (provide 'init)
 ;;; init.el ends here
