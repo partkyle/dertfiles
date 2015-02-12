@@ -1,10 +1,14 @@
 emacs.d/url
-vim/bundle/
+emacs.d/.emacs.desktop
+emacs.d/.mc-lists.el
 emacs.d/elpa
-vim/.netrwhist
-zsh/vendor/
 emacs.d/auto-save-list
 emacs.d/ac-comphist.dat
+
+vim/bundle/
+vim/.netrwhist
+
+zsh/vendor/
 
 config/*
 !config/fish/
