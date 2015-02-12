@@ -77,9 +77,13 @@
 (global-set-key (kbd "s-/") 'comment-or-uncomment-region)
 
 ;; split management
-(global-set-key (kbd "s-1") 'delete-other-windows)
+;; (global-set-key (kbd "s-1") 'delete-other-windows)
+(global-set-key (kbd "s-1") 'zoom-window-zoom)
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
+
+;; make the zoom window not apparent (this might be a mistake)
+(setq zoom-window-mode-line-color "Gray")
 
 ;; multi cursors - starting to be better than sublime
 (require 'multiple-cursors)
