@@ -78,6 +78,9 @@
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
 
+;; only highlight after C-SPC C-SPC
+(transient-mark-mode -1)
+
 (require 'helm-config)
 
 ;; look and feel
