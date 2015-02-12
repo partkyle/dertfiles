@@ -1,3 +1,11 @@
+;;; init.el -- My emacs init
+
+;;; Commentary:
+
+;; @partkyle emacs setup
+
+;;; Code:
+
 ;; /usr/local/bin
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
@@ -18,14 +26,17 @@
    (find-file "~/.emacs.d/init.el" t)))
 
 (defun jmc/eval-to-here ()
+  "Eval Lisp expression from buffer start to point."
   (interactive)
   (eval-region 0 (point)))
+
 (global-set-key
  [f8]
  'jmc/eval-to-here)
 
 ;; redo last command
 (defun describe-last-function ()
+  "Describe the last command that ran."
   (interactive)
   (describe-function last-command))
 
@@ -34,23 +45,23 @@
 
 ;; change to split after creation
 (defadvice split-window (after move-point-to-new-window activate)
-  "Moves the point to the newly created window after splitting."
+  "Move the point to the newly created window after splitting."
   (other-window 1))
 
 ;; TODO(partkyle): all of my todos!
-;; FIXME: it doesn't need FIXED
+;; FIXME: it doesn't need FIXME
 ;; TODO: NOTHING is left TODO
 ;; IMPORTANT(partkyle): we need to keep this because it's IMPORTANT
 ;; BUG: it's not a bug!
 ;; XXX: this one too for some reason
 (defun partkyle/highlight-todos ()
+  "Highlight all instances of TODO FIXME IMPORTANT BUG NOTE and XXX."
   (font-lock-add-keywords nil
                           '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\|IMPORTANT\\|NOTE\\):" 1 font-lock-warning-face t)
                             ("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\|IMPORTANT\\|NOTE\\)(.*):" 1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'partkyle/highlight-todos)
 
 ;; make sure all packages are loaded
-(require 'cl)
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
@@ -82,8 +93,12 @@
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
 
+;; flycheck
+(global-set-key (kbd "M-p") 'flycheck-previous-error)
+(global-set-key (kbd "M-n") 'flycheck-next-error)
+
 ;; make the zoom window not apparent (this might be a mistake)
-(setq zoom-window-mode-line-color "Gray")
+(defvar zoom-window-mode-line-color "Gray")
 
 ;; multi cursors - starting to be better than sublime
 (require 'multiple-cursors)
@@ -95,7 +110,7 @@
 (transient-mark-mode -1)
 
 (require 'helm-config)
-(setq helm-split-window-in-side-p t)
+(defvar helm-split-window-in-side-p t)
 
 (add-to-list 'default-frame-alist
              '(font . "M+ 2m-16"))
@@ -152,13 +167,17 @@
 ;; enable autocomplete for other modes
 (add-hook 'prog-mode-hook #'auto-complete-mode)
 
+;; flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 ;; go-mode
 (require 'go-mode-autoloads)
 (require 'go-autocomplete)
 
-(set 'gofmt-command "goimports")
+(defvar gofmt-command "goimports")
 
-(defun partkyle-go-mode-hook ()
+(defun partkyle/go-mode-hook ()
+  "Go configuration."
   (go-eldoc-setup)
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq-default tab-width 4)
@@ -166,4 +185,7 @@
   (local-set-key (kbd "M-.") 'godef-jump)
   (local-set-key (kbd "C-c C-c") 'recompile))
 
-(add-hook 'go-mode-hook 'partkyle-go-mode-hook)
+(add-hook 'go-mode-hook 'partkyle/go-mode-hook)
+
+(provide 'init)
+;;; init.el ends here
