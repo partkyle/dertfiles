@@ -100,7 +100,9 @@
       (blink-cursor-mode -1)
       (scroll-bar-mode -1)
       (color-theme-cobalt)
-      (set-face-attribute 'fringe nil :background "#092F4F")
+      ;; 24.4 theme color
+      (set-face-attribute 'fringe nil :background "#0A233E")
+      ;; 24.3 theme color
       (set-face-attribute 'linum nil :background "#092F4F")))
 
 (when (require 'yaml-mode)
