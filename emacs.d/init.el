@@ -95,6 +95,7 @@
 (transient-mark-mode -1)
 
 (require 'helm-config)
+(setq helm-split-window-in-side-p t)
 
 (add-to-list 'default-frame-alist
              '(font . "M+ 2m-16"))
