@@ -32,13 +32,22 @@
 ;; the bell is evil
 (setq ring-bell-function 'ignore)
 
-;; newline-and-indent
-(define-key global-map (kbd "RET") 'newline-and-indent)
-
 ;; change to split after creation
 (defadvice split-window (after move-point-to-new-window activate)
   "Moves the point to the newly created window after splitting."
   (other-window 1))
+
+;; TODO(partkyle): all of my todos!
+;; FIXME: it doesn't need fixed
+;; TODO: NOTHING!
+;; IMPORTANT(partkyle): we need to keep this
+;; BUG: it's not a bug!
+;; XXX: this one too for some reason
+(defun partkyle/highlight-todos ()
+  (font-lock-add-keywords nil
+                          '(("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\|IMPORTANT\\|NOTE\\):" 1 font-lock-warning-face t)
+                            ("\\<\\(XXX\\|FIXME\\|TODO\\|BUG\\|IMPORTANT\\|NOTE\\)(.*):" 1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook 'partkyle/highlight-todos)
 
 ;; make sure all packages are loaded
 (require 'cl)
@@ -51,6 +60,26 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+(global-set-key (kbd "M-<left>") 'previous-buffer)
+(global-set-key (kbd "M-<right>") 'next-buffer)
+(global-set-key (kbd "M-S-<up>") 'windmove-up)
+(global-set-key (kbd "M-S-<down>") 'windmove-down)
+(global-set-key (kbd "M-S-<left>") 'windmove-left)
+(global-set-key (kbd "M-S-<right>") 'windmove-right)
+(global-set-key (kbd "s-o") 'helm-find-files)
+(global-set-key (kbd "s-p") 'helm-M-x)
+(global-set-key (kbd "s-w") 'delete-window)
+(global-set-key (kbd "s-b") 'helm-buffers-list)
+(global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
+(global-set-key (kbd "s-/") 'comment-or-uncomment-region)
+
+;; split management
+(global-set-key (kbd "s-1") 'delete-other-windows)
+(global-set-key (kbd "s-2") 'split-window-below)
+(global-set-key (kbd "s-3") 'split-window-right)
+
+(require 'helm-config)
+
 ;; look and feel
 (if window-system
     (progn
@@ -61,7 +90,14 @@
       (menu-bar-mode -1)
       (blink-cursor-mode -1)
       (scroll-bar-mode -1)
-	  (color-theme-cobalt)))
+      (color-theme-cobalt)
+      (set-face-attribute 'fringe nil :background "#092F4F")
+      (set-face-attribute 'linum nil :background "#092F4F")))
+
+(when (require 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+
+;; (global-linum-mode 0)
 
 ;; highlight line
 (global-hl-line-mode 1)
@@ -83,52 +119,37 @@
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
-;; ido settings (fuzzy finder)
-(when (require 'ido)
-  (ido-mode t)
-  (setq ido-max-directory-size 10000
-        Ido-enable-flex-matching t)) ;; enable fuzzy matching
-
-;; (require 'helm-config)
-;; (helm-mode 1)
-
-;; smart tabs
-(require 'smart-tab)
-(add-hook 'prog-mode-hook #'smart-tab-mode)
-
-(when (require 'smex)
-  (global-set-key (kbd "M-x") 'smex))
+;; ;; ido settings (fuzzy finder)
+;; (when (require 'ido)
+;;   (ido-mode t)
+;;   (setq ido-max-directory-size 10000
+;;         Ido-enable-flex-matching t)) ;; enable fuzzy matching
 
 ;; auto-complete
 (require 'auto-complete)
 (require 'auto-complete-config)
 
+;; enable autocomplete for other modes
+(add-hook 'prog-mode-hook #'auto-complete-mode)
+
 ;; go-mode
 (require 'go-mode-autoloads)
 (require 'go-autocomplete)
-(require 'flymake-go)
+
+;; multi cursors - starting to be better than sublime
+(require 'multiple-cursors)
+(global-set-key (kbd "C-.") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-,") 'mc/mark-all-like-this)
 
 (set 'gofmt-command "goimports")
 
-(global-set-key (kbd "M-<left>") 'previous-buffer)
-(global-set-key (kbd "M-<right>") 'next-buffer)
+(defun partkyle-go-mode-hook ()
+  (go-eldoc-setup)
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (setq-default tab-width 4)
+  (setq-default indent-tabs-mode t)
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "C-c C-c") 'recompile))
 
-(add-hook 'go-mode-hook (lambda ()
-						  (flymake-mode)
-						  (auto-complete-mode)
-              (go-eldoc-setup)
-              (add-hook 'before-save-hook 'gofmt-before-save)
-              (setq-default tab-width 4)
-              (setq-default indent-tabs-mode t)
-              (local-set-key (kbd "M-.") 'godef-jump)
-						  (local-set-key (kbd "C-c C-c") 'recompile)))
-
-
-(add-to-list 'load-path "/usr/local/src/rust/src/etc/emacs/")
-(autoload 'rust-mode "rust-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-
-(setq racer-rust-src-path "/usr/local/src/rust/src/")
-(setq racer-cmd "~/code/racer/target/racer")
-(add-to-list 'load-path "~/code/racer/editors")
-(eval-after-load "rust-mode" '(require 'racer))
+(add-hook 'go-mode-hook 'partkyle-go-mode-hook)
