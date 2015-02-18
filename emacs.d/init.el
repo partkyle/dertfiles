@@ -54,7 +54,10 @@
     (when (eq pt (point))
       (beginning-of-line-text))))
 
-(global-set-key (kbd "C-a") 'smart-line-beginning)
+;; TODO(partkyle): trim down to 1 prog-mode-hook
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (global-set-key (kbd "C-a") 'smart-line-beginning)))
 
 ;; TODO(partkyle): all of my todos!
 ;; FIXME: it doesn't need FIXME
