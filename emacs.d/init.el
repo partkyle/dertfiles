@@ -176,7 +176,8 @@
       ))
 
 (when (require 'yaml-mode)
-  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode)))
 
 ;; highlight line
 (global-hl-line-mode t)
