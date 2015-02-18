@@ -50,9 +50,9 @@
   "Alternate between line start and text start."
   (interactive)
   (let ((pt (point)))
-    (beginning-of-line-text)
+    (beginning-of-line)
     (when (eq pt (point))
-      (beginning-of-line))))
+      (beginning-of-line-text))))
 
 (global-set-key (kbd "C-a") 'smart-line-beginning)
 
