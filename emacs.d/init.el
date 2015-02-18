@@ -197,12 +197,14 @@
 ;; tab settings
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
+(setq-default c-default-style "linux"
+              c-basic-offset 4)
 
 ;; ;; ido settings (fuzzy finder)
 (when (require 'ido)
   (ido-mode t)
-  (setq ido-max-directory-size 10000
-        Ido-enable-flex-matching t)) ;; enable fuzzy matching
+  (setq-default ido-max-directory-size 10000
+                ido-enable-flex-matching t)) ;; enable fuzzy matching
 
 (add-hook 'prog-mode-hook #'global-company-mode)
 
