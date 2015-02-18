@@ -46,6 +46,16 @@
   "Move the point to the newly created window after splitting."
   (other-window 1))
 
+(defun smart-line-beginning ()
+  "Alternate between line start and text start."
+  (interactive)
+  (let ((pt (point)))
+    (beginning-of-line-text)
+    (when (eq pt (point))
+      (beginning-of-line))))
+
+(global-set-key (kbd "C-a") 'smart-line-beginning)
+
 ;; TODO(partkyle): all of my todos!
 ;; FIXME: it doesn't need FIXME
 ;; TODO: NOTHING is left TODO
@@ -95,12 +105,13 @@
 (global-set-key (kbd "s-<left>") 'windmove-left)
 (global-set-key (kbd "s-<right>") 'windmove-right)
 (global-set-key (kbd "s-o") 'helm-find-files)
-(global-set-key (kbd "s-t") 'helm-projectile)
-(global-set-key (kbd "s-p") 'helm-M-x)
+(global-set-key (kbd "s-p") 'helm-projectile)
+(global-set-key (kbd "s-[") 'helm-M-x)
 (global-set-key (kbd "s-g") 'ag-project)
 (global-set-key (kbd "s-w") 'delete-window)
 (global-set-key (kbd "s-b") 'helm-buffers-list)
 (global-set-key (kbd "s-/") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
 ;; split management
 ;; (global-set-key (kbd "s-1") 'delete-other-windows)
@@ -115,6 +126,10 @@
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c C-c") 'recompile)
 
+;; magit
+(global-set-key (kbd "M-?") 'magit-status)
+(global-set-key (kbd "M-B") 'magit-blame-mode)
+
 ;; make the zoom window not apparent (this might be a mistake)
 (defvar zoom-window-mode-line-color "Gray")
 
@@ -127,21 +142,33 @@
 ;; only highlight after C-SPC C-SPC
 (transient-mark-mode -1)
 
+;; smartparens
+(require 'smartparens-config)
+(smartparens-global-mode t)
+
 (require 'helm-config)
 (defvar helm-split-window-in-side-p t)
 
-(add-to-list 'default-frame-alist
-             '(font . "M+ 2m-16"))
+(add-to-list 'default-frame-alist '(font . "M+ 2m-16"))
 
 ;; look and feel
 (if window-system
     (progn
       (delete-selection-mode t)
+
       (tool-bar-mode -1)
       (menu-bar-mode -1)
       (blink-cursor-mode -1)
       (scroll-bar-mode -1)
-      (load-theme 'solarized-light t)
+
+      ;; professional-theme settings
+      (professional-theme)
+      (set-face-attribute 'fringe nil :background "#FFFEDE")
+
+      ;; solarized settings
+      ;; (load-theme 'solarized-light t)
+
+      ;; cobalt settings
       ;; (color-theme-cobalt)
       ;; ;; 24.4 theme color
       ;; (set-face-attribute 'fringe nil :background "#0A233E")
@@ -153,7 +180,7 @@
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
 
 ;; highlight line
-(global-hl-line-mode 1)
+(global-hl-line-mode t)
 
 (setq inhibit-startup-message t)
 (show-paren-mode t)
@@ -173,24 +200,18 @@
 (setq-default indent-tabs-mode nil)
 
 ;; ;; ido settings (fuzzy finder)
-;; (when (require 'ido)
-;;   (ido-mode t)
-;;   (setq ido-max-directory-size 10000
-;;         Ido-enable-flex-matching t)) ;; enable fuzzy matching
+(when (require 'ido)
+  (ido-mode t)
+  (setq ido-max-directory-size 10000
+        Ido-enable-flex-matching t)) ;; enable fuzzy matching
 
-;; auto-complete
-(require 'auto-complete)
-(require 'auto-complete-config)
-
-;; enable autocomplete for other modes
-(add-hook 'prog-mode-hook #'auto-complete-mode)
+(add-hook 'prog-mode-hook #'global-company-mode)
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; go-mode
 (require 'go-mode-autoloads)
-(require 'go-autocomplete)
 
 (defvar gofmt-command "goimports")
 
