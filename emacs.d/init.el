@@ -116,6 +116,9 @@
 (global-set-key (kbd "s-/") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
+(global-set-key (kbd "C-t") 'pop-global-mark)
+(global-set-key (kbd "C-]") 'projectile-find-tag)
+
 ;; split management
 ;; (global-set-key (kbd "s-1") 'delete-other-windows)
 (global-set-key (kbd "s-1") 'zoom-window-zoom)
