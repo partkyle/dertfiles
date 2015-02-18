@@ -119,9 +119,9 @@
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
 
-;; flycheck
-(global-set-key (kbd "M-p") 'flycheck-previous-error)
-(global-set-key (kbd "M-n") 'flycheck-next-error)
+;; errors / occur mode / search
+(global-set-key (kbd "M-p") 'previous-error)
+(global-set-key (kbd "M-n") 'next-error)
 
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c C-c") 'recompile)
