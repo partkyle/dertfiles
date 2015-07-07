@@ -5,7 +5,7 @@ module GitBigObjects
     include Comparable
 
     REVISIONS = Hash[
-      `git rev-list --all --objects`.lines.map { |line| line.scan(/\S+/) }
+      `git rev-list --all --objects`.lines.map { |line| line.split(' ', 2) }
     ]
 
     STORAGE_UNITS = [:B, :K, :M, :G, :T].freeze
