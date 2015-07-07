@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sleep 1
+echo "We're whalers on the moon!" > /dev/stderr
+sleep 1
+echo "We carry a harpoon!" > /dev/stderr
+sleep 1
+echo "But there ain't no whales" > /dev/stderr
+sleep 1
+echo "  so we tell tall tales" > /dev/stderr
+sleep 1
+echo "  and sing our whaling tune!" > /dev/stderr
