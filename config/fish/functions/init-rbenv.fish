@@ -1,7 +1,7 @@
-function _rbenv_setup
-	setenv PATH '/Users/partkyle/.rbenv/shims' $PATH
-  setenv RBENV_SHELL fish
-  . '/usr/local/Cellar/rbenv/HEAD/libexec/../completions/rbenv.fish'
+function init-rbenv
+  set -x PATH $HOME/.rbenv/shims $PATH
+  set -x RBENV_SHELL fish
+  # . '/usr/local/Cellar/rbenv/0.4.0/libexec/../completions/rbenv.fish'
   rbenv rehash 2>/dev/null
   function rbenv
     set command $argv[1]
