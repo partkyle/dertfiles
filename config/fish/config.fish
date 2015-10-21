@@ -1,8 +1,4 @@
-set CDPATH . $HOME $HOME/sendgrid $HOME/code
-
-# colors
+set CDPATH . $HOME $HOME/sendgrid $HOME/sendgrid-ops $HOME/code
+set PATH $GOBIN $PATH
 
 _fish_git_setup
-_docker_setup
-_rbenv_setup
-_go_setup
