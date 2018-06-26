@@ -7,13 +7,8 @@ if which whalers-on-the-moon >/dev/null 2>&1; then
   trap "kill $tune > /dev/null 2>&1" EXIT
 fi
 
-# check if the DNS container is running, and don't remove it
-if docker inspect dns > /dev/null 2>&1; then
-  DNS_FLAGS="--since dns"
-fi
-
 # find all containers
-containers=$(docker ps -a -q $DNS_FLAGS 2>/dev/null)
+containers=$(docker ps -a -q 2>/dev/null)
 
 # if there are containers, remove them
 if [[ -n "$containers" ]]; then
