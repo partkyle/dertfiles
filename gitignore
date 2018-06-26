@@ -51,3 +51,7 @@ Thumbs.db
 .idea
 .codeintel
 node_modules/
+
+# .envrc files
+.envrc
+.env
