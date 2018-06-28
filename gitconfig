@@ -73,3 +73,5 @@
 [credential]
 	helper = !aws codecommit credential-helper $@
 	UseHttpPath = true
+[pull]
+	rebase = true
