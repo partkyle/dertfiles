@@ -70,8 +70,5 @@
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
-[credential]
-	helper = !aws codecommit credential-helper $@
-	UseHttpPath = true
 [pull]
 	rebase = true
