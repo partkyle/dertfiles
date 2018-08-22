@@ -27,48 +27,41 @@
 	default = current
 
 [alias]
-	last-merge = !git show --pretty=raw HEAD | grep parent | head -n 1 | sed 's/parent //'
-  s   = status --short
 	c   = commit -v
 	ci  = commit
-	co  = checkout
-  com = commit -m
-	di  = diff
-	dc  = diff --cached
-  d = diff \
-  --minimal \
-  --word-diff=color \
-  --word-diff-regex='([0-9@A-Za-z]+|[^0-9@A-Za-z()]+|[()])'
 
 	amend = commit --amend
-	aa = add --all
-	ff = merge --ff-only
-	l = log --graph --abbrev-commit --date=relative
-	la = !git l --all
-	fa = fetch --all
-	pom = push origin master
-	b = branch
-	undo = !git add . && git reset --hard
-	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
 
-	# git gui
-	k = "!gitx || gitk"
-	nff = merge --no-ff
+	co  = checkout
+
+
+	d = diff \
+		--minimal \
+		--word-diff=color \
+		--word-diff-regex='([0-9@A-Za-z]+|[^0-9@A-Za-z()]+|[()])'
+	di  = diff
+	dc  = diff --cached
+
+	ff = merge --ff-only
+	fa = fetch --all
+
+	b = branch
+	ba = branch --all
+
+	last-merge = !git show --pretty=raw HEAD | grep parent | head -n 1 | sed 's/parent //'
+
 	big-objects = !~/.bin/git-big-objects
 
 	who = !~/.bin/git-who
 
-  pr = !~/.bin/git-pr
-
-	# .pairs fixes
-	me   = !git config --global user.name \"Kyle Partridge\" && git config --global user.email partkyle@gmail.com && git who
-	local-me = !git config user.name \"Kyle Partridge\" && git config user.email partkyle@gmail.com && git who
-
-	grid = !git config --global user.name \"Kyle Partridge\" && git config --global user.email kyle.partridge@sendgrid.com && git who
-	local-grid = !git config user.name \"Kyle Partridge\" && git config user.email kyle.partridge@sendgrid.com && git who
-
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
 [pull]
 	rebase = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

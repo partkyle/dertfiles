@@ -1,8 +1,0 @@
-#!/bin/bash
-
-filename="PULL_REQUEST_TEMPLATE.md"
-if [[ -e PULL_REQUEST_TEMPLATE.md ]]; then
-  hub pull-request -F PULL_REQUEST_TEMPLATE.md $@
-else
-  hub pull-request $@
-fi
