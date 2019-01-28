@@ -12,11 +12,15 @@ function fish_prompt
   set last_status $status
 
   if test -z "$PROMPT_DEMO"
+    if test -z "$PROMPT_RIGHT"
+      printf "\n"
+      printf '%s%s %s@%s\n' (set_color blue) (date "+[%Y-%m-%d %H:%M:%S]") (set_color yellow) (hostname)
+    end
 
     set_color $fish_color_cwd
     printf '%s' (prompt_pwd)
-    set_color normal
 
+    set_color normal
     printf '%s ' (__fish_git_prompt)
 
     _prompt_char_color $last_status '> '
