@@ -1,105 +1,43 @@
 return {
+  { "akinsho/bufferline.nvim", enabled = false },
   {
-    "akinsho/bufferline.nvim",
-    enabled = false,
-  },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    config = function()
-      vim.cmd("colorscheme rose-pine-moon")
-    end,
-  },
-  --  {
-  --    "catppuccin/nvim",
-  --    name = "catppuccin",
-  --    config = function()
-  --      vim.g.catppuccin_flavour = "macchiato"
-  --    end,
-  --  },
-
-  --  {
-  --    "LazyVim/LazyVim",
-  --    opts = {
-  --      colorscheme = "catppuccin",
-  --    },
-  --  },
-  {
-    "snacks.nvim",
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
     opts = {
       scroll = { enabled = false },
+      scratch = {},
     },
-  },
-
-  -- add more treesitter parsers
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "go",
-        "gomod",
-        "gosum",
-        "zig",
-        "bash",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
+    keys = {
+      {
+        "<leader>.",
+        function()
+          Snacks.scratch()
+        end,
+        desc = "Toggle Scratch Buffer",
+      },
+      {
+        "<leader>S",
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = "Select Scratch Buffer",
       },
     },
   },
-
   -- update position of command thingy
   {
     "folke/noice.nvim",
     opts = function(_, opts)
-      opts.presets = {
-        command_palette = {
-          views = {
-            cmdline_popup = {
-              position = {
-                row = "30%",
-                col = "50%",
-              },
-              size = {
-                min_width = 60,
-                width = "auto",
-                height = "auto",
-              },
-            },
-            popupmenu = {
-              relative = "editor",
-              position = {
-                row = 23,
-                col = "50%",
-              },
-              size = {
-                width = 60,
-                height = "auto",
-                max_height = 15,
-              },
-              border = {
-                style = "rounded",
-                padding = { 0, 1 },
-              },
-              win_options = {
-                winhighlight = { Normal = "Normal", FloatBorder = "NoiceCmdlinePopupBorder" },
-              },
-            },
+      opts.presets = opts.presets or {}
+      opts.presets.command_palette = {
+        views = {
+          cmdline_popup = {
+            position = { row = "30%", col = "50%" },
+            anchor = "NW",
+            size = { min_width = 60, width = "auto", height = "auto" },
           },
         },
-      }
-      opts.lsp.signature = {
-        opts = { size = { max_height = 15 } },
       }
     end,
   },

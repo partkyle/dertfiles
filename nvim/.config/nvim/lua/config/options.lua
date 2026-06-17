@@ -3,4 +3,4 @@
 -- Add any additional options here
 
 vim.opt.scrolloff = 10
-vim.o.mouse = ""
+vim.o.guicursor = "n-v-c:block,i:blinkon0"
