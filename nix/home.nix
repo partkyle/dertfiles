@@ -8,24 +8,26 @@
   home.packages = with pkgs; [
     btop
     clang
+    erlang
+    fd
     foot
     fzf
     git
-    go
     gnumake
+    go
     mako
     neovim
     nodejs
-    tree-sitter
-    erlang
     python3
-    unzip
+    ripgrep
     rofi
     signal-desktop
-    wiremix
+    tree-sitter
+    unzip
     vivaldi
     waybar
     wget
+    wiremix
     wl-clipboard
     zoxide
 
