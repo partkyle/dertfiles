@@ -10,7 +10,13 @@ local function send_shortcut_once(mods, key)
 	end
 end
 
-hl.bind("SUPER + C", send_shortcut_once("CTRL", "Insert"))
+-- Copy: capture PRIMARY selection (highlighted text) into CLIPBOARD via wl-clipboard
+-- Works universally in Wayland, unlike sending keystrokes to the active window
+hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"))
+
+-- Paste: Shift+Insert works in foot, most terminals, and many GUI apps
 hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"))
+
+-- Select all / Cut: these keystroke senders work fine in most apps
 hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"))
 hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"))

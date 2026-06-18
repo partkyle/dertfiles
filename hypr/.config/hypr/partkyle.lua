@@ -9,8 +9,6 @@
 -- Create your files separately and then require them like this:
 -- require("myColors")
 
-require("clipboard")
-
 -----------------------
 --- Default Montior ---
 -----------------------
@@ -22,16 +20,14 @@ hl.monitor({
 	scale = "1.25",
 })
 
-pcall(require, "local")
-
 ---------------------
 ---- MY PROGRAMS ----
 ---------------------
 
 -- Set programs that you use
-local terminal = "alacritty"
-local fileManager = "dolphin"
-local menu = "hyprlauncher"
+local terminal = "foot"
+local fileManager = "foot -e yazi"
+local menu = "rofi -show drun"
 
 -------------------
 ---- AUTOSTART ----
@@ -51,21 +47,6 @@ local menu = "hyprlauncher"
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
-
--- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
-
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
-
--- Dark mode setup
-hl.on("hyprland.start", function()
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'")
-
-	hl.exec_cmd("mako")
-end)
-
-hl.env("GTK_THEME", "Adwaita:dark")
 
 -----------------------
 ----- PERMISSIONS -----
@@ -95,11 +76,11 @@ hl.config({
 		gaps_in = 2,
 		gaps_out = 2,
 
-		border_size = 1,
+		border_size = 2,
 
 		col = {
 			active_border = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
-			inactive_border = "rgba(595959aa)",
+			inactive_border = { colors = { "rgba(45475aee)", "rgba(313244ee)" }, angle = 45 },
 		},
 
 		-- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -150,7 +131,7 @@ hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
 hl.curve("easy", { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
 
 hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
-hl.animation({ leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" })
+hl.animation({ leaf = "border", enabled = false })
 hl.animation({ leaf = "windows", enabled = true, speed = 4.79, spring = "easy" })
 hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.1, spring = "easy", style = "popin 87%" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.49, bezier = "linear", style = "popin 87%" })

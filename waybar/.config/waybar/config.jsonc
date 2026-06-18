@@ -5,6 +5,8 @@
   ],
   "modules-center": [],
   "modules-right": [
+    "cpu",
+    "memory",
     "network",
     "pulseaudio",
     "battery",
@@ -12,7 +14,8 @@
   ],
   "clock": {
     "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %H:%M}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "on-click": "xdg-open https://calendar.google.com"
   },
   "battery": {
     "states": {
@@ -40,7 +43,18 @@
     "format-ethernet": "<span size='13000' foreground='#f5e0dc'>󰤭  </span> Disconnected",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "<span size='13000' foreground='#f5e0dc'>  </span>Disconnected",
-    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%"
+    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%",
+    "on-click": "foot -e nmtui"
+  },
+  "cpu": {
+    "format": "  {usage}%",
+    "interval": 5,
+    "on-click": "foot -e btop"
+  },
+  "memory": {
+    "format": "  {used:0.1f}G/{total:0.1f}G",
+    "interval": 10,
+    "on-click": "foot -e btop"
   },
   "pulseaudio": {
     "format": "{icon}  {volume}%",
@@ -52,6 +66,6 @@
         " "
       ]
     },
-    "on-click": "pavucontrol"
+    "on-click": "foot -e wiremix"
   }
 }
