@@ -136,7 +136,6 @@
     };
   };
 
-
   home.file.".ssh/config".text = ''
     IdentityAgent ~/.1password/agent.sock
   '';

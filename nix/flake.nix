@@ -1,5 +1,5 @@
 {
-	description = "parktyle nixos config";
+	description = "partkyle nixos config";
 
 	inputs = {
 		nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
