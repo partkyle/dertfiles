@@ -1,0 +1,16 @@
+[core]
+	excludesfile = ~/.gitignore_global
+
+[alias]
+	co = checkout
+	b = branch
+	dc = diff --cached
+
+[init]
+	defaultBranch = main
+
+[push]
+	default = matching
+
+[include]
+	path = ~/.gitconfig_local

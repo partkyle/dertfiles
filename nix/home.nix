@@ -116,6 +116,9 @@
 
   home.file.".zshrc".source = ../zsh/.zshrc;
 
+  home.file.".gitconfig".source = ../git/.gitconfig;
+  home.file.".gitignore_global".source = ../git/.gitignore_global;
+
   xdg.configFile = {
     "nvim".source = ../nvim/.config/nvim;
     "waybar".source = ../waybar/.config/waybar;
