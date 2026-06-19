@@ -119,6 +119,7 @@
   home.file.".gitignore_global".source = ../git/.gitignore_global;
 
   xdg.configFile = {
+    "fastfetch".source = ../fastfetch/.config/fastfetch;
     "nvim".source = ../nvim/.config/nvim;
     "waybar".source = ../waybar/.config/waybar;
     "rofi".source = ../rofi/.config/rofi;

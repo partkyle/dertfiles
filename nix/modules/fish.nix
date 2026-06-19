@@ -17,12 +17,10 @@
             cd ~/.dertfiles/nix; and sudo nixos-rebuild switch --flake .#${config.networking.hostName} $argv
           '';
         };
+        fish_greeting = {
+          body = ''fastfetch'';
+        };
       };
-
-      # Inject initialization scripts (e.g., Starship prompt)
-      interactiveShellInit = ''
-        set -g fish_greeting ""
-      '';
 
       # plugins = [
       #   { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
@@ -31,8 +29,9 @@
   };
 
   environment.systemPackages = with pkgs; [
+    fastfetch
     fishPlugins.fzf-fish
+    fishPlugins.pure
     fzf
   ];
 }
-

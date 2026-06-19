@@ -1,0 +1,27 @@
+{
+  // Fastfetch optimized config for NixOS + Hyprland
+  // Skips slow probes: nix-only package detection, no WM version query
+
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "type": "auto"
+  },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "shell",
+    "terminal",
+    "cpu",
+    "gpu",
+    "memory",
+    "disk",
+    "battery",
+    "localip",
+    "separator",
+    "colors"
+  ]
+}
