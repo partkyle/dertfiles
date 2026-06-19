@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }:
+
+let
+  webApps = import ./webapps.nix { inherit pkgs lib; };
+in {
 
   home.username = "partkyle";
   home.homeDirectory = "/home/partkyle";
@@ -159,6 +163,8 @@
     enable = true;
     package = pkgs.vscode.fhs;
   };
+
+  xdg.desktopEntries = webApps;
 
   home.stateVersion = "26.05";
 }
