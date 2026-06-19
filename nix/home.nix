@@ -151,5 +151,8 @@
     };
   };
 
+
+  programs.yazi.enable = true;
+
   home.stateVersion = "26.05";
 }
