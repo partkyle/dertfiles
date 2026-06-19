@@ -8,6 +8,8 @@
 
 	nixpkgs.config.allowUnfree = true;
 
+	time.timeZone = "America/Los_Angeles";
+
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
