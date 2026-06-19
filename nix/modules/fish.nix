@@ -1,4 +1,4 @@
-{ pkgs, home-manager, environment, ... }: {
+{ config, pkgs, home-manager, environment, ... }: {
   home-manager.users.partkyle = {
     programs.fish = {
       enable = true;
@@ -7,6 +7,16 @@
       shellAliases = {
         g = "git";
         # update = "sudo nixos-rebuild switch";
+      };
+
+      # Fish functions
+      functions = {
+        rebuild = {
+          description = "Rebuild NixOS system";
+          body = ''
+            cd ~/.dertfiles/nix; and sudo nixos-rebuild switch --flake .#${config.networking.hostName} $argv
+          '';
+        };
       };
 
       # Inject initialization scripts (e.g., Starship prompt)
