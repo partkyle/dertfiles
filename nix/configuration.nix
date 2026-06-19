@@ -1,7 +1,9 @@
 { lib, pkgs, ...}: {
+
   imports = [
     ./greetd.nix
   ];
+
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 	nixpkgs.config.allowUnfree = true;
@@ -14,7 +16,8 @@
 
 	virtualisation.docker.enable = true;
 
-	programs.zsh.enable = true;
+	programs.fish.enable = true;
+
 	programs.hyprland.enable = true;
 
 	hardware.graphics.enable = true;
@@ -25,7 +28,7 @@
 	users.users.partkyle = {
 		isNormalUser = true;
 		extraGroups = [ "wheel" "networkmanager" "docker" ];
-		shell = pkgs.zsh;
+		shell = pkgs.fish;
 	};
 
 	environment.systemPackages = with pkgs; [

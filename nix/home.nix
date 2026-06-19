@@ -3,8 +3,6 @@
   home.username = "partkyle";
   home.homeDirectory = "/home/partkyle";
 
-  programs.zsh.enable = true;
-
   home.packages = with pkgs; [
     btop
     clang
@@ -116,8 +114,6 @@
       WantedBy = [ "hyprland-session.target" ];
     };
   };
-
-  home.file.".zshrc".source = ../zsh/.zshrc;
 
   home.file.".gitconfig".source = ../git/.gitconfig;
   home.file.".gitignore_global".source = ../git/.gitignore_global;
