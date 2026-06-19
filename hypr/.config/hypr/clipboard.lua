@@ -20,3 +20,8 @@ hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"))
 -- Select all / Cut: these keystroke senders work fine in most apps
 hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"))
 hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"))
+
+hl.bind("CTRL + A", send_shortcut_once("", "HOME"))
+hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"))
+hl.bind("CTRL + E", send_shortcut_once("", "END"))
+hl.bind("CTRL + SHIFT + E", send_shortcut_once("SHIFT", "END"))
