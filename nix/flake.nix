@@ -19,19 +19,23 @@
 				home-manager.users.partkyle = import ./home.nix;
 			}
 		];
-	in {
-		nixosConfigurations.dionysus = nixpkgs.lib.nixosSystem {
-			system = "x86_64-linux";
-			modules = [
-				./hosts/dionysus/default.nix
-			] ++ sharedModules;
-		};
 
-		nixosConfigurations.theseus = nixpkgs.lib.nixosSystem {
+		mkHost = hostName: nixpkgs.lib.nixosSystem {
 			system = "x86_64-linux";
 			modules = [
-				./hosts/theseus/default.nix
-			] ++ sharedModules;
+				./hosts/${hostName}/default.nix
+			] ++ sharedModules ++ [{
+			# Host-specific hyprland monitor config
+			home-manager.users.partkyle = { lib, ... }: {
+				wayland.windowManager.hyprland.extraLuaFiles."host" = {
+					content = ../hypr/.config/hypr/hosts/${hostName}.lua;
+					autoLoad = true;
+				};
+			};
+		}];
 		};
+	in {
+		nixosConfigurations.dionysus = mkHost "dionysus";
+		nixosConfigurations.theseus = mkHost "theseus";
 	};
 }
