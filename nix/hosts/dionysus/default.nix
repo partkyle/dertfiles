@@ -7,4 +7,9 @@
 
   networking.hostName = "dionysus";
 
+  # Intel graphics
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+  ];
+
 }

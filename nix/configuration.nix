@@ -23,9 +23,6 @@
 	programs.hyprland.enable = true;
 
 	hardware.graphics.enable = true;
-	hardware.graphics.extraPackages = with pkgs; [
-		intel-media-driver
-	];
 
 	users.users.partkyle = {
 		isNormalUser = true;
