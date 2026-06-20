@@ -23,7 +23,9 @@ in {
     mako
     neovim
     nodejs
+    pkg-config
     python3
+    raylib
     ripgrep
     rofi
     signal-desktop
