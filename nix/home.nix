@@ -18,6 +18,8 @@ in {
     git
     gnumake
     go
+    lazydocker
+    lazygit
     mako
     neovim
     nodejs
