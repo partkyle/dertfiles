@@ -157,7 +157,7 @@ in {
         pad = "2x2";
       };
       colors = {
-        alpha = "0.9";
+        alpha = "0.95";
       };
     };
   };
