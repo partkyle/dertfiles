@@ -156,6 +156,9 @@ in {
         font = "Maple Mono NF:size=13:fontfeatures=\\\"cv05\\\"";
         pad = "2x2";
       };
+      colors = {
+        alpha = "0.9";
+      };
     };
   };
 
