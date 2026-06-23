@@ -169,6 +169,8 @@ hl.config({
 -- See https://wiki.hypr.land/Configuring/Layouts/Master-Layout/ for more
 hl.config({
 	master = {
+		orientation = "center",
+		new_on_top = false,
 		new_status = "master",
 	},
 })
