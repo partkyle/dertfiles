@@ -13,8 +13,9 @@
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	networking.networkmanager.enable = true;
-	networking.wireless.enable = true;
+	systemd.network.enable = true;
+	services.resolved.enable = true;
+	networking.wireless.iwd.enable = true;
 
 	virtualisation.docker.enable = true;
 
@@ -26,12 +27,12 @@
 
 	users.users.partkyle = {
 		isNormalUser = true;
-		extraGroups = [ "wheel" "networkmanager" "docker" ];
+		extraGroups = [ "wheel" "docker" ];
 		shell = pkgs.fish;
 	};
 
 	environment.systemPackages = with pkgs; [
-		networkmanagerapplet
+		# empty
 	];
 
   services.tailscale = {

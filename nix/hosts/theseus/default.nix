@@ -7,6 +7,9 @@
 
   networking.hostName = "theseus";
 
+  # Don't wait for network on boot (desktop, no need)
+  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+
   # Trust Tailscale interface — no need to open individual ports
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
