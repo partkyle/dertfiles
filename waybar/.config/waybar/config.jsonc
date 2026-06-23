@@ -67,6 +67,6 @@
         " "
       ]
     },
-    "on-click": "foot -e wiremix"
+    "on-click": "foot -e wiremix -v output"
   }
 }
