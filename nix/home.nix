@@ -174,7 +174,7 @@ in {
         font = "Maple Mono NF:size=11:fontfeatures=\\\"cv05\\\"";
         pad = "2x2";
       };
-      colors = {
+      colors-dark = {
         alpha = "0.95";
       };
     };
