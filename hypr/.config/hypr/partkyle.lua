@@ -249,6 +249,14 @@ hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }))
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 hl.bind("SUPER + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
+-- Swap between master and dwindle layouts
+hl.bind(
+	"SUPER + SHIFT + M",
+	hl.dsp.exec_cmd(
+		[[hyprctl getoption general:layout | grep -q "dwindle" && TARGET=master || TARGET=dwindle; hyprctl eval "hl.config({ general = { layout = \"$TARGET\" } })"]]
+	)
+)
+
 hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }))
 hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
 hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }))
