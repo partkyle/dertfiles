@@ -14,10 +14,11 @@
   ],
   "clock": {
     "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %H:%M}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "on-click": "xdg-open https://calendar.google.com"
+    "on-click": "xdg-open https://calendar.google.com",
+    "tooltip": false
   },
   "battery": {
+    "tooltip": false,
     "states": {
       "warning": 30,
       "critical": 15
@@ -35,16 +36,14 @@
       "",
       "",
       ""
-    ],
-    "tooltip-format": "{time}"
+    ]
   },
   "network": {
+    "tooltip": false,
     "format-wifi": "<span size='13000' foreground='#f5e0dc'>  </span>{essid}",
     "format-ethernet": "<span size='13000' foreground='#f5e0dc'>󰈀  </span> Connected",
-    "tooltip-format-ethernet": "Interface: {ifname}\nIP: {ipaddr}",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "<span size='13000' foreground='#f5e0dc'>  </span>Disconnected",
-    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%",
     "on-click": "foot -e iwctl"
   },
   "cpu": {
