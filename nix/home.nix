@@ -152,10 +152,10 @@ in {
 
   programs.pi-coding-agent = {
     enable = true;
-    
+
     # Extra tools Pi can use in your terminal (e.g., bun, python)
     extraPackages = [ pkgs.bun pkgs.python3 ];
-    
+
     # Define models, keybindings, or agent context
     settings = {
       defaultProvider = "opencode-go";
