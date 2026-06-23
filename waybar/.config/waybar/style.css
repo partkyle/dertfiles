@@ -1,10 +1,11 @@
 @import "mocha.css"; 
 
 * {
-    font-family: "MonaspiceRn Nerd Font Mono";
+    font-family: "Maple Mono NF";
     font-size: 14px;
     min-height: 0;
     font-weight: bold;
+    font-feature-settings: "cv05";
 }
 
 window#waybar {
