@@ -153,7 +153,7 @@ in {
     enable = true;
     settings = {
       main = {
-        font = "Maple Mono NF:size=13:fontfeatures=\\\"cv05\\\"";
+        font = "Maple Mono NF:size=11:fontfeatures=\\\"cv05\\\"";
         pad = "2x2";
       };
       colors = {
