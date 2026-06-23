@@ -33,7 +33,7 @@
 				};
 			};
 		}];
-		};
+  };
 	in {
 		nixosConfigurations.dionysus = mkHost "dionysus";
 		nixosConfigurations.theseus = mkHost "theseus";
