@@ -18,6 +18,7 @@ in {
     git
     gnumake
     go
+    hypridle
     lazydocker
     lazygit
     mako
@@ -121,6 +122,22 @@ in {
     };
   };
 
+  systemd.user.services.hypridle = {
+    Unit = {
+      Description = "Hyprland idle daemon";
+      PartOf = [ "hyprland-session.target" ];
+      After = [ "hyprland-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.hypridle}/bin/hypridle";
+      Restart = "on-failure";
+      RestartSec = 3;
+    };
+    Install = {
+      WantedBy = [ "hyprland-session.target" ];
+    };
+  };
+
   home.file.".gitconfig".source = ../git/.gitconfig;
   home.file.".gitignore_global".source = ../git/.gitignore_global;
 
@@ -130,6 +147,7 @@ in {
     "waybar".source = ../waybar/.config/waybar;
     "rofi".source = ../rofi/.config/rofi;
     "mako".source = ../mako/.config/mako;
+    "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
   };
 
   programs.pi-coding-agent = {
