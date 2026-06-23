@@ -43,7 +43,7 @@
     "format-wifi": "<span foreground='#f5e0dc'>  </span>{essid}",
     "format-ethernet": "<span foreground='#f5e0dc'>󰈀  </span> Connected",
     "format-linked": "<span foreground='#f5e0dc'>󰤬  </span>{ifname} (No IP)",
-    "format-disconnected": "<span foreground='#f5e0dc'>󰤬  </span>Disconnected",
+    "format-disconnected": "<span foreground='#f5e0dc'>󰤮 </span>Disconnected",
     "on-click": "foot -e iwctl"
   },
   "cpu": {
