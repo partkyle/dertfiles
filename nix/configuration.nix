@@ -23,8 +23,6 @@
 
 	programs.hyprland.enable = true;
 
-	hardware.graphics.enable = true;
-
 	users.users.partkyle = {
 		isNormalUser = true;
 		extraGroups = [ "wheel" "docker" ];
@@ -45,6 +43,7 @@
     "1password-gui"
     "1password"
   ];
+
   # Alternatively, you could also just allow all unfree packages
   # nixpkgs.config.allowUnfree = true;
 
