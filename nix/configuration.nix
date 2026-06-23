@@ -24,6 +24,7 @@
 	boot.loader.efi.canTouchEfiVariables = true;
 
 	systemd.network.enable = true;
+	networking.useNetworkd = true;
 	services.resolved.enable = true;
 	networking.wireless.iwd.enable = true;
 
