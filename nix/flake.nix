@@ -7,11 +7,19 @@
 			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+		pi-nix = {
+			url = "github:lukasl-dev/pi.nix";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 	};
 
-	outputs = { nixpkgs, home-manager, ...}: let
+	outputs = { nixpkgs, home-manager, pi-nix, ...}: let
 		sharedModules = [
 			./modules/fish.nix
+
+			{
+				nixpkgs.overlays = [ pi-nix.overlays.default ];
+			}
 
 			home-manager.nixosModules.home-manager {
 				home-manager.useGlobalPkgs = true;

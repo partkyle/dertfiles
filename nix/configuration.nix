@@ -4,7 +4,17 @@
     ./greetd.nix
   ];
 
-	nix.settings.experimental-features = [ "nix-command" "flakes" ];
+	nix.settings = {
+		experimental-features = [ "nix-command" "flakes" ];
+
+		# Binary cache for pi-coding-agent
+		extra-substituters = [
+			"https://pi.cachix.org"
+		];
+		extra-trusted-public-keys = [
+			"pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
+		];
+	};
 
 	nixpkgs.config.allowUnfree = true;
 
