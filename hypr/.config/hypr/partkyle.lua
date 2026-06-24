@@ -236,7 +236,7 @@ hl.device({
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal))
-local closeWindowBind = hl.bind("SUPER + W", hl.dsp.window.close())
+local closeWindowBind = hl.bind("SUPER + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(
 	"SUPER + M",
