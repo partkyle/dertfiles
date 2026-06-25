@@ -21,6 +21,10 @@ hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"))
 hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"))
 hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"))
 
+-- Add these convenience methods for browser handling
+hl.bind("SUPER + T", send_shortcut_once("CTRL", "T"))
+hl.bind("SUPER + W", send_shortcut_once("CTRL", "W"))
+
 hl.bind("CTRL + A", send_shortcut_once("", "HOME"))
 hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"))
 hl.bind("CTRL + E", send_shortcut_once("", "END"))
