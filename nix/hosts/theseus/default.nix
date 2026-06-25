@@ -35,20 +35,4 @@
     };
   };
 
-  # Ollama: local LLM server with NVIDIA GPU acceleration
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-cuda; # NVIDIA GPU acceleration
-
-    # Uncomment to make Ollama accessible on the network
-    # host = "0.0.0.0";
-    # openFirewall = true;
-
-    # Pre-load some models (runs as a systemd oneshot after ollama starts)
-    # loadModels = [
-    #   "llama3.2"        # ~2GB, good general purpose
-    #   "deepseek-r1:7b"  # ~4.7GB, reasoning model
-    # ];
-  };
-
 }
