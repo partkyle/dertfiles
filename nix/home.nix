@@ -2,6 +2,7 @@
 
 let
   webApps = import ./webapps.nix { inherit pkgs lib; };
+  bibataRainbow = pkgs.callPackage ./packages/bibata-rainbow {};
 in {
 
   home.username = "partkyle";
@@ -41,6 +42,9 @@ in {
     adwaita-qt
     libsForQt5.qtstyleplugin-kvantum
     qt6Packages.qtstyleplugin-kvantum
+
+    # rainbow cursor theme
+    bibataRainbow.bibata-rainbow-original
   ];
 
   home.sessionVariables = {
@@ -69,6 +73,17 @@ in {
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
     };
+  };
+
+  # Cursor theme configuration
+  home.pointerCursor = {
+    enable = true;
+    name = "Bibata-Rainbow-Original";
+    package = bibataRainbow.bibata-rainbow-original;
+    size = 24;
+    gtk.enable = true;
+    hyprcursor.enable = true;
+    x11.enable = true;
   };
 
   wayland.windowManager.hyprland = {
