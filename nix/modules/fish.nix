@@ -6,6 +6,7 @@
       # Declarative aliases (substitutes traditional fish_aliases)
       shellAliases = {
         g = "git";
+        gst = "git status";
         # update = "sudo nixos-rebuild switch";
       };
 
