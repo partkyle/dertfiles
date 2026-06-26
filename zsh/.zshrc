@@ -85,4 +85,4 @@ alias less='less -R'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-
+[[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
