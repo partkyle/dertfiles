@@ -183,6 +183,7 @@ in {
 
   programs.foot = {
     enable = true;
+    server.enable = true;
     settings = {
       main = {
         font = "Maple Mono NF:size=11:fontfeatures=cv05:fontfeatures=cv38";

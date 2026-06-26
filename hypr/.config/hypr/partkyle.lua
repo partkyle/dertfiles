@@ -18,8 +18,8 @@
 ---------------------
 
 -- Set programs that you use
-local terminal = "foot"
-local fileManager = "foot -e yazi"
+local terminal = "footclient"
+local fileManager = terminal .. " -e yazi"
 local menu = "rofi -show drun"
 
 -------------------
