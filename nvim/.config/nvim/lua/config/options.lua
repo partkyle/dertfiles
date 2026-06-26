@@ -4,3 +4,6 @@
 
 vim.opt.scrolloff = 10
 vim.o.guicursor = "n-v-c:block,i:blinkon0"
+
+-- Disable autoformat globally; opt-in per filetype
+vim.g.autoformat = false
