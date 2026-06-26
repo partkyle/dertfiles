@@ -15,7 +15,7 @@ let
     bibata-rainbow-original = {
       dirName = "Bibata-Rainbow-Original";
       url = "https://github.com/ful1e5/Bibata_Cursor_Rainbow/releases/download/v${version}/Bibata-Rainbow-Original.tar.gz";
-      hash = "sha256-h5D4MbrWeUIClognV6f8QQSETFXI2LOGKxBjGog51hE=";
+      hash = "sha256-I+RgkIVtDXuX6Tt8S4uQPniHOGbbhV2DeS43gsCwt78=";
     };
   };
 in
