@@ -26,6 +26,10 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   # SSH daemon
+  environment.systemPackages = with pkgs; [
+    calibre
+  ];
+
   services.openssh = {
     enable = true;
     settings = {
