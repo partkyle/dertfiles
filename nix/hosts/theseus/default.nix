@@ -39,4 +39,8 @@
     };
   };
 
+  programs.steam = {
+      enable = true;
+  };
+
 }
