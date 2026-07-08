@@ -36,6 +36,7 @@
       PasswordAuthentication = false;    # key-based auth only
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "prohibit-password";
+      AllowAgentForwarding = true;       # allow ssh -A from dionysus
     };
   };
 

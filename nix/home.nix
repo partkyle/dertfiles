@@ -48,10 +48,24 @@ in {
   ];
 
   home.sessionVariables = {
-    QT_QPA_PLATFORMTHEME = "qt5ct"; 
+    QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
-    SSH_AUTH_SOCK = "$HOME/.1password/agent.sock";
   };
+
+  # Only set 1Password agent socket when no forwarded agent is present
+  # This preserves SSH agent forwarding (ssh -A)
+  programs.bash.initExtra = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
+    if [ -z "$SSH_AUTH_SOCK" ] || [ "$SSH_AUTH_SOCK" = "" ]; then
+      export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+    fi
+  '';
+
+  # shellInit runs for ALL fish shells (interactive and non-interactive)
+  programs.fish.shellInit = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
+    if test -z "$SSH_AUTH_SOCK"
+      set -gx SSH_AUTH_SOCK "$HOME/.1password/agent.sock"
+    end
+  '';
 
   # Force global dark preference via dconf
   dconf.settings = {
@@ -177,9 +191,8 @@ in {
     };
   };
 
-  home.file.".ssh/config".text = ''
-    IdentityAgent ~/.1password/agent.sock
-  '';
+  # SSH_AUTH_SOCK is set conditionally above; no IdentityAgent needed
+  home.file.".ssh/config".text = "";
 
   programs.foot = {
     enable = true;
