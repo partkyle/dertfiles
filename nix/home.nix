@@ -36,6 +36,8 @@ in {
     wget
     wiremix
     wl-clipboard
+
+    wmenu          # launcher used by dwl (Alt+p)
     zoxide
 
     # theme stuff
@@ -51,6 +53,7 @@ in {
   home.sessionVariables = {
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
+
   };
 
   # Only set 1Password agent socket when no forwarded agent is present
@@ -66,6 +69,7 @@ in {
     if test -z "$SSH_AUTH_SOCK"
       set -gx SSH_AUTH_SOCK "$HOME/.1password/agent.sock"
     end
+
   '';
 
   # Force global dark preference via dconf

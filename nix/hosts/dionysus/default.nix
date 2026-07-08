@@ -15,4 +15,12 @@
     intel-media-driver
   ];
 
+  # dwl with eDP-1 @ 1.25 scale + cursor-scale patch for HiDPI cursor
+  environment.systemPackages = with pkgs; [
+    ((dwl.override { configH = ../../packages/dwl/config-dionysus.h; }).overrideAttrs (old: {
+      patches = (old.patches or []) ++ [ ../../packages/dwl/cursor-scale.patch ];
+    }))
+    wlr-randr
+  ];
+
 }

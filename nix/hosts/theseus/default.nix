@@ -25,9 +25,13 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  # SSH daemon
+  # dwl with minimal config: only DP-2 rotated 270° (portrait), nothing else changed
   environment.systemPackages = with pkgs; [
     calibre
+    ((dwl.override { configH = ../../packages/dwl/config-theseus.h; }).overrideAttrs (old: {
+      patches = (old.patches or []) ++ [ ../../packages/dwl/cursor-scale.patch ];
+    }))
+    wlr-randr
   ];
 
   services.openssh = {

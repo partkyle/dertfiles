@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-07-08
+
+- **dwl**: Stripped down to minimal config.
+  - Removed all custom scale/position changes — only the DP-2 270°
+    rotation on theseus remains in `packages/dwl/config-theseus.h`.
+  - Dionusus uses stock `dwl` with no custom config.
+  - `cursor-scale.patch` kept on theseus to ensure cursor loads at
+    any output scale.
+
 ## 2026-07-07
 
 - **syncthing**: Added `modules/syncthing.nix` — dedicated NixOS module for

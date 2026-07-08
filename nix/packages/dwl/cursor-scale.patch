@@ -1,0 +1,25 @@
+Load cursor theme at each monitor scale so the cursor renders on HiDPI.
+dwl creates the xcursor manager but never calls wlr_xcursor_manager_load,
+so at any scale > 1 there are no cursor images and the cursor is invisible.
+
+--- a/dwl.c
++++ b/dwl.c
+@@ -1072,6 +1072,9 @@
+ 			break;
+ 		}
+ 	}
++	/* Load cursor theme at this monitor scale */
++	if (r < END(monrules))
++		wlr_xcursor_manager_load(cursor_mgr, r->scale);
+ 
+ 	/* The mode is a tuple of (width, height, refresh rate), and each
+ 	 * monitor supports only a specific set of modes. We just pick the
+@@ -2597,6 +2600,7 @@
+ 	 * images are available at all scale factors on the screen (necessary for
+ 	 * HiDPI support). Scaled cursors will be loaded with each output. */
+ 	cursor_mgr = wlr_xcursor_manager_create(NULL, 24);
++	wlr_xcursor_manager_load(cursor_mgr, 1);
+ 	setenv("XCURSOR_SIZE", "24", 1);
+ 
+ 	/*
+

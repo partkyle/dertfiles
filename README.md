@@ -32,6 +32,50 @@ Partkyle's NixOS dotfiles and system configuration.
 | `dionysus` | Laptop      |
 | `theseus`  | Desktop     |
 
+## Compositors
+
+### Hyprland (default)
+
+The default session launched by greetd. Configured in `hypr/.config/hypr/` (Lua
+config split across `partkyle.lua`, `clipboard.lua`, and `hosts/<host>.lua`).
+
+### dwl (experimental)
+
+[dwl](https://codeberg.org/dwl/dwl) is a minimalist wlroots-based compositor
+(like dwm for Wayland). Each host has a custom build with its own monitor
+settings in `nix/packages/dwl/`.
+
+Start it from a TTY (Ctrl+Alt+F2/F3, login, then run):
+
+```bash
+dwl
+```
+
+Default keybindings:
+
+| Keys | Action |
+|------|--------|
+| `Alt + p` | Launcher (`wmenu-run`) |
+| `Alt + Shift + Enter` | Terminal (`foot`) |
+| `Alt + j` / `k` | Focus next/prev window |
+| `Alt + Return` | Swap focused with master |
+| `Alt + Shift + c` | Close window |
+| `Alt + 1–9` | Switch tags |
+| `Alt + Shift + 1–9` | Move window to tag |
+| `Alt + q` | Quit dwl |
+
+**Monitor layouts:**
+
+| Host | Config |
+|------|--------|
+| `dionysus` | eDP-1 @ 1.25 scale, preferred mode |
+| `theseus` | DP-2 rotated 270° (portrait), all scale 1 |
+
+Theseus can set custom refresh rates after dwl starts with `wlr-randr`.
+
+To switch the display manager to dwl permanently, edit `nix/greetd.nix` and
+change `command = "start-hyprland"` to `command = "dwl"`, then rebuild.
+
 ## Common commands
 
 ### Upgrade pi (the coding agent) only
