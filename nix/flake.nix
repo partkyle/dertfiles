@@ -16,6 +16,7 @@
 	outputs = { nixpkgs, home-manager, pi-nix, ...}: let
 		sharedModules = [
 			./modules/fish.nix
+			./modules/syncthing.nix
 
 			{
 				nixpkgs.overlays = [ pi-nix.overlays.default ];
