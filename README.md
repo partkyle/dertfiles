@@ -51,12 +51,54 @@ Check the new version:
 pi --version
 ```
 
+### Update a single package (e.g., Vivaldi)
+
+Updating just the `nixpkgs` input bumps all packages, but if you only care about
+one (like Vivaldi), this is the simplest way — no flake restructuring needed:
+
+```bash
+cd ~/.dertfiles/nix
+nix flake lock --update-input nixpkgs
+sudo nixos-rebuild switch --flake .#<hostname>
+```
+
+To quickly test a newer version without rebuilding your config at all:
+
+```bash
+nix run nixpkgs#vivaldi
+```
+
 ### Upgrade everything
 
 ```bash
 cd ~/.dertfiles/nix
 nix flake update
 sudo nixos-rebuild switch --flake .#
+```
+
+### Dry-run (build without switching)
+
+```bash
+cd ~/.dertfiles/nix
+nix build .#nixosConfigurations.<hostname>.config.system.build.toplevel
+# Inspect versions under the result/ symlink
+```
+
+Then apply with:
+
+```bash
+sudo nixos-rebuild switch --flake .#<hostname>
+```
+
+### Rollback
+
+If a rebuild breaks something:
+
+```bash
+# Revert to the previous generation immediately
+sudo nixos-rebuild switch --rollback
+
+# Or reboot and pick the old generation from the boot menu
 ```
 
 ### Quick rebuild (no input update)
@@ -72,3 +114,11 @@ sudo nixos-rebuild switch --flake .#
 sudo nixos-rebuild switch --flake .#dionysus   # laptop
 sudo nixos-rebuild switch --flake .#theseus    # desktop
 ```
+
+### Safety notes
+
+- Each rebuild adds a boot entry — you can always pick a previous generation from
+  GRUB/systemd-boot if something goes wrong.
+- Use `nix build` (dry-run) first to preview what changed before switching.
+- On NixOS unstable, packages are tested against each other; isolated breakage
+  of a single package is uncommon.
