@@ -24,6 +24,7 @@ in {
     mako
     neovim
     nodejs
+    obsidian
     python3
     ripgrep
     rofi
