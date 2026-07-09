@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-08
+
+- **nvim**: add nix LSP/formatter support
+- **nvim**: fix LazyVim import ordering warning
+- **nvim**: skip Mason for nil_ls (installed via Nix), add statix
+
 ## 2026-07-07
 
 - **syncthing**: Added `modules/syncthing.nix` — dedicated NixOS module for
