@@ -3,6 +3,9 @@
 ## 2026-07-08
 
 - **fonts**: add `comic-neue` to system fonts in configuration.nix
+- **foot**: add `pipe-command-output` (Control+Shift+L) experiment, then
+  reverted — foot's pipe mechanism doesn't support in-terminal paging
+  (stdout is piped away). Documented dual systemd services in ISSUES.md.
 
 - **nvim**: add nix LSP/formatter support
 - **nvim**: fix LazyVim import ordering warning

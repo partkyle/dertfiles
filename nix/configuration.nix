@@ -100,10 +100,5 @@
     ];
   };
 
-  fonts.packages = with pkgs; [
-    comic-neue
-    maple-mono.NF
-  ];
-
   system.stateVersion = "26.05";
 }
