@@ -2,6 +2,8 @@
 
 ## 2026-07-08
 
+- **fonts**: add `comic-neue` to system fonts in configuration.nix
+
 - **nvim**: add nix LSP/formatter support
 - **nvim**: fix LazyVim import ordering warning
 - **nvim**: skip Mason for nil_ls (installed via Nix), add statix
