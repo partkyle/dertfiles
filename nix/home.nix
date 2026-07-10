@@ -17,7 +17,9 @@ in
   home.packages = with pkgs; [
     btop
     clang
+    comic-neue
     corefonts
+    maple-mono.NF
     erlang
     fd
     fzf
