@@ -2,6 +2,14 @@
 
 ## 2026-07-09
 
+- **foot/waybar/hyprland**: Replaced all `footclient` invocations with `foot`
+  (Waybar `on-click` handlers and Hyprland `terminal` variable). This removes
+  the footclient/server split — `foot` is always used directly.
+- **foot**: Removed `server.enable = true` from `home.nix` so foot runs as a
+  standalone terminal rather than as a server daemon.
+
+## 2026-07-09
+
 - **hyprland**: Made animations snappier — increased speeds across all
   animation leaves (windows, fade, layers, workspaces, zoom), tightened the
   spring curve (stiffness 71→120, dampening 16→20), and replaced the mild
