@@ -2,6 +2,11 @@
 
 ## 2026-07-09
 
+- **hyprland/dionysus**: Removed `scale = "1.25"` from monitor config — let monitor use its native scale.
+
+- **nvim**: Enabled `exrc` + `secure` for project-local `.nvim.lua` configs.
+- **nvim**: Created `~/.dertfiles/.nvim.lua` to show hidden files in Telescope only in this repo.
+
 - **foot/waybar/hyprland**: Replaced all `footclient` invocations with `foot`
   (Waybar `on-click` handlers and Hyprland `terminal` variable). This removes
   the footclient/server split — `foot` is always used directly.
