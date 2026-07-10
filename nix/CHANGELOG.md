@@ -3,6 +3,7 @@
 ## 2026-07-10
 
 - **brave**: Added Brave browser to home packages and 1Password custom allowed browsers.
+- **waybar/webapps**: Switched browser from Vivaldi to Brave in waybar calendar launcher and webapps.nix desktop entries.
 - **git**: Changed `push.default` from `matching` to `simple` — only the current branch is pushed by default.
 
 ## 2026-07-09

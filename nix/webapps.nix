@@ -18,7 +18,7 @@ builtins.listToAttrs (map (name:
     name = sanitized;
     value = {
       name = name;
-      exec = "${pkgs.vivaldi}/bin/vivaldi --app=${url}";
+      exec = "${pkgs.brave}/bin/brave --app=${url}";
       categories = [ "Network" ];
       terminal = false;
       startupNotify = true;

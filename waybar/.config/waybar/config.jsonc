@@ -15,7 +15,7 @@
   "clock": {
     "tooltip": false,
     "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %H:%M}",
-    "on-click": "vivaldi --app=https://calendar.google.com",
+    "on-click": "brave --app=https://calendar.google.com",
   },
   "battery": {
     "tooltip": false,
