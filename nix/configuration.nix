@@ -82,6 +82,7 @@
   environment.etc = {
     "1password/custom_allowed_browsers" = {
       text = ''
+        brave
         vivaldi-bin
       '';
       mode = "0755"; # Crucial file permissions required by 1Password

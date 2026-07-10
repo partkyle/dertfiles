@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-10
+
+- **brave**: Added Brave browser to home packages and 1Password custom allowed browsers.
+
 ## 2026-07-09
 
 - **hyprland/dionysus**: Removed `scale = "1.25"` from monitor config — let monitor use its native scale.

@@ -47,6 +47,7 @@ in
     tree-sitter
     unzip
     vivaldi
+    brave
     waybar
     wget
     wiremix
