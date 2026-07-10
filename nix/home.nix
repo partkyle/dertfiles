@@ -52,7 +52,7 @@ in
     wiremix
     wl-clipboard
 
-    wmenu          # launcher used by dwl (Alt+p)
+    tofi # launcher used by dwl (Alt+p)
     zoxide
 
     # theme stuff
@@ -218,6 +218,22 @@ in
 
   # SSH_AUTH_SOCK is set conditionally above; no IdentityAgent needed
   home.file.".ssh/config".text = "";
+
+  programs.tofi = {
+    enable = true;
+    settings = {
+      background-color = "#11111b";
+      border-color = "#89b4fa";
+      border-width = 2;
+      font = "Maple Mono NF:size=12";
+      height = "40%";
+      width = "40%";
+      num-results = 8;
+      outline-width = 0;
+      result-spacing = 8;
+      selection-color = "#89b4fa";
+    };
+  };
 
   programs.foot = {
     enable = true;

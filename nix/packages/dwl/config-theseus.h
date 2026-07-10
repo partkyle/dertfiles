@@ -53,10 +53,7 @@ static const MonitorRule monrules[] = {
 /* keyboard */
 static const struct xkb_rule_names xkb_rules = {
 	/* can specify fields: rules, model, layout, variant, options */
-	/* example:
 	.options = "ctrl:nocaps",
-	*/
-	.options = NULL,
 };
 
 static const int repeat_rate = 25;
@@ -119,7 +116,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
-static const char *menucmd[] = { "wmenu-run", NULL };
+static const char *menucmd[] = { "/bin/sh", "-c", "compgen -c | sort -u | tofi | xargs -r sh -c 'exec \"$0\"'", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */

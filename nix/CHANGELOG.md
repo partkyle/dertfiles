@@ -1,6 +1,14 @@
 # Changelog
 
-## 2026-07-08: in progress, merge this in when merged to main
+## 2026-07-09: in progress, merge this in when merged to main
+
+- **dwl**: Caps Lock now acts as an additional Ctrl key (`xkb_rules.options = "ctrl:nocaps"`) on both hosts.
+- **dwl**: Replaced `wmenu-run` launcher with `tofi`.
+  - Both config headers now pipe `compgen -c | sort -u | tofi | xargs -r sh -c` on Alt+p.
+- **tofi**: Added to home packages with Catppuccin-mocha-styled config.
+- **home**: Replaced `wmenu` with `tofi` in user packages.
+
+## 2026-07-08
 
 - **dwl**: Stripped down to minimal config.
   - Removed all custom scale/position changes — only the DP-2 270°
