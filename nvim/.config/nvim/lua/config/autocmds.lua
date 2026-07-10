@@ -11,6 +11,7 @@
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {
     "go",
+    "nix",
     "rust",
     -- add more filetypes here as needed
   },

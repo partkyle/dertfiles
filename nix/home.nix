@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   webApps = import ./webapps.nix { inherit pkgs lib; };
-  bibataRainbow = pkgs.callPackage ./packages/bibata-rainbow {};
-in {
+  bibataRainbow = pkgs.callPackage ./packages/bibata-rainbow { };
+in
+{
 
   home.username = "partkyle";
   home.homeDirectory = "/home/partkyle";
@@ -11,7 +17,9 @@ in {
   home.packages = with pkgs; [
     btop
     clang
+    comic-neue
     corefonts
+    maple-mono.NF
     erlang
     fd
     fzf
@@ -28,6 +36,13 @@ in {
     python3
     ripgrep
     rofi
+
+    # nix tooling
+    nil
+    nixd
+    nixfmt
+    statix
+
     signal-desktop
     tree-sitter
     unzip
@@ -51,6 +66,8 @@ in {
   ];
 
   home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
 
@@ -83,7 +100,7 @@ in {
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita-dark"; 
+      name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
     gtk3.extraConfig = {
@@ -187,7 +204,10 @@ in {
     enable = true;
 
     # Extra tools Pi can use in your terminal (e.g., bun, python)
-    extraPackages = [ pkgs.bun pkgs.python3 ];
+    extraPackages = [
+      pkgs.bun
+      pkgs.python3
+    ];
 
     # Define models, keybindings, or agent context
     settings = {

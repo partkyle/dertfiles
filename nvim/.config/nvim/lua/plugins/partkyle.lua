@@ -25,6 +25,17 @@ return {
       },
     },
   },
+  -- nil_ls is installed via Nix, skip Mason
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        nil_ls = {
+          mason = false,
+        },
+      },
+    },
+  },
   -- update position of command thingy
   {
     "folke/noice.nvim",

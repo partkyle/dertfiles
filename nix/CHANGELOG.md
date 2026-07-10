@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026-07-08
+## 2026-07-08: in progress, merge this in when merged to main
 
 - **dwl**: Stripped down to minimal config.
   - Removed all custom scale/position changes — only the DP-2 270°
@@ -8,6 +8,25 @@
   - Dionusus uses stock `dwl` with no custom config.
   - `cursor-scale.patch` kept on theseus to ensure cursor loads at
     any output scale.
+
+## 2026-07-09
+
+- **nixfmt**: Replaced deprecated `nixfmt-rfc-style` with `nixfmt` in
+  `home.nix` (nixfmt-rfc-style is now an alias for pkgs.nixfmt).
+
+- **editor**: Set `EDITOR` and `VISUAL` to `nvim` in `home.sessionVariables`
+  (home.nix) and as explicit exports in `.zshrc`.
+
+## 2026-07-08
+
+- **fonts**: add `comic-neue` to system fonts in configuration.nix
+- **foot**: add `pipe-command-output` (Control+Shift+L) experiment, then
+  reverted — foot's pipe mechanism doesn't support in-terminal paging
+  (stdout is piped away). Documented dual systemd services in ISSUES.md.
+
+- **nvim**: add nix LSP/formatter support
+- **nvim**: fix LazyVim import ordering warning
+- **nvim**: skip Mason for nil_ls (installed via Nix), add statix
 
 ## 2026-07-07
 
