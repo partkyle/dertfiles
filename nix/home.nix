@@ -40,7 +40,7 @@ in
     # nix tooling
     nil
     nixd
-    nixfmt-rfc-style
+    nixfmt
     statix
 
     signal-desktop

@@ -2,6 +2,9 @@
 
 ## 2026-07-09
 
+- **nixfmt**: Replaced deprecated `nixfmt-rfc-style` with `nixfmt` in
+  `home.nix` (nixfmt-rfc-style is now an alias for pkgs.nixfmt).
+
 - **editor**: Set `EDITOR` and `VISUAL` to `nvim` in `home.sessionVariables`
   (home.nix) and as explicit exports in `.zshrc`.
 
