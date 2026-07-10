@@ -3,6 +3,7 @@
 ## 2026-07-10
 
 - **brave**: Added Brave browser to home packages and 1Password custom allowed browsers.
+- **git**: Changed `push.default` from `matching` to `simple` — only the current branch is pushed by default.
 
 ## 2026-07-09
 
