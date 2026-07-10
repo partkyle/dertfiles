@@ -219,7 +219,7 @@ in
     enable = true;
     settings = {
       main = {
-        font = "Maple Mono NF:size=11:fontfeatures=cv05:fontfeatures=cv38";
+        font = "Maple Mono NF:size=12:fontfeatures=cv05:fontfeatures=cv38";
         pad = "2x2";
       };
       colors-dark = {

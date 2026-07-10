@@ -13,6 +13,8 @@
 - **foot**: Removed `server.enable = true` from `home.nix` so foot runs as a
   standalone terminal rather than as a server daemon.
 
+- **foot**: Bumped font size from 11 to 12 in `home.nix` for better readability.
+
 ## 2026-07-09
 
 - **hyprland**: Made animations snappier — increased speeds across all
