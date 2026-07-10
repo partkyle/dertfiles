@@ -5,6 +5,7 @@
 - **brave**: Added Brave browser to home packages and 1Password custom allowed browsers.
 - **waybar/webapps**: Switched browser from Vivaldi to Brave in waybar calendar launcher and webapps.nix desktop entries.
 - **git**: Changed `push.default` from `matching` to `simple` — only the current branch is pushed by default.
+- **hyprland**: Added Super+B hotkey to open default browser via `xdg-open about:blank`.
 
 ## 2026-07-09
 

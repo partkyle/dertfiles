@@ -19,6 +19,7 @@
 
 -- Set programs that you use
 local terminal = "foot"
+local browser = "brave"
 local fileManager = terminal .. " -e yazi"
 local menu = "rofi -show drun"
 
@@ -246,6 +247,7 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
 hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + R", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu))
+hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
 hl.bind("SUPER + P", hl.dsp.window.pseudo())
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }))
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
