@@ -62,6 +62,8 @@ in
   ];
 
   home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
   };

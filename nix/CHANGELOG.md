@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-09
+
+- **editor**: Set `EDITOR` and `VISUAL` to `nvim` in `home.sessionVariables`
+  (home.nix) and as explicit exports in `.zshrc`.
+
 ## 2026-07-08
 
 - **fonts**: add `comic-neue` to system fonts in configuration.nix
