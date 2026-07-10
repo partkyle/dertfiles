@@ -2,6 +2,13 @@
 
 ## 2026-07-09
 
+- **hyprland**: Made animations snappier — increased speeds across all
+  animation leaves (windows, fade, layers, workspaces, zoom), tightened the
+  spring curve (stiffness 71→120, dampening 16→20), and replaced the mild
+  `almostLinear` bezier with a sharper `snappy` curve.
+- **hyprland**: Fixed Waybar flicker when closing the last window on a
+  workspace — switched `windowsOut` from `popin 87%` (scaling) to `fade`.
+
 - **nixfmt**: Replaced deprecated `nixfmt-rfc-style` with `nixfmt` in
   `home.nix` (nixfmt-rfc-style is now an alias for pkgs.nixfmt).
 
