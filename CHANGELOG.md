@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-14
+
+- **erlang**: don't install erlang by default
+- **nixos**: nix flake update
+
 ## 2026-07-10
 
 - **brave**: Added Brave browser to home packages and 1Password custom allowed browsers.
