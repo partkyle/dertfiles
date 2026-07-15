@@ -69,22 +69,10 @@ in
     VISUAL = "nvim";
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
-  # Only set 1Password agent socket when no forwarded agent is present
-  # This preserves SSH agent forwarding (ssh -A)
-  programs.bash.initExtra = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
-    if [ -z "$SSH_AUTH_SOCK" ] || [ "$SSH_AUTH_SOCK" = "" ]; then
-      export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-    fi
-  '';
-
-  # shellInit runs for ALL fish shells (interactive and non-interactive)
-  programs.fish.shellInit = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
-    if test -z "$SSH_AUTH_SOCK"
-      set -gx SSH_AUTH_SOCK "$HOME/.1password/agent.sock"
-    end
-  '';
+  # SSH agent socket is set in home.sessionVariables; no per-shell init needed
 
   # Force global dark preference via dconf
   dconf.settings = {
@@ -181,6 +169,20 @@ in
     };
   };
 
+  systemd.user.services.ssh-agent = {
+    Unit = {
+      Description = "SSH key agent";
+    };
+    Service = {
+      ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %t/ssh-agent.socket";
+      Restart = "on-failure";
+      RestartSec = 3;
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
   home.file.".gitconfig".source = ../git/.gitconfig;
   home.file.".gitignore_global".source = ../git/.gitignore_global;
 
@@ -212,8 +214,7 @@ in
     };
   };
 
-  # SSH_AUTH_SOCK is set conditionally above; no IdentityAgent needed
-  home.file.".ssh/config".text = "";
+  programs.ssh.enable = true;
 
   programs.foot = {
     enable = true;

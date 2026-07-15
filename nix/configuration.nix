@@ -48,6 +48,9 @@
       "docker"
     ];
     shell = pkgs.fish;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp85TrChiL89pkPmnzz0xjJVEuWdFlVJFakA2exblXr partkyle@theseus"
+    ];
   };
 
   environment.systemPackages = with pkgs; [

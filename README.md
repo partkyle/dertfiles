@@ -32,6 +32,17 @@ Partkyle's NixOS dotfiles and system configuration.
 | `dionysus` | Laptop      |
 | `theseus`  | Desktop     |
 
+## Adding a new machine
+
+1. Generate a unique SSH key:
+   ```bash
+   ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -C "partkyle@$(hostname)"
+   ```
+2. Append the public key to `programs.ssh.authorizedKeys` in `nix/home.nix`.
+3. Rebuild: `sudo nixos-rebuild switch --flake .#<hostname>`
+4. Load the key: `ssh-add ~/.ssh/id_ed25519`
+5. Add the public key to GitHub: `gh ssh-key add ~/.ssh/id_ed25519.pub`
+
 ## Common commands
 
 ### Upgrade pi (the coding agent) only
