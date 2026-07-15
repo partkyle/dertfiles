@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-15
+
+- **hyprland**: Consolidated clipboard keybinds into partkyle.lua (`send_shortcut_once` helper, SUPER+C/V/A/X/T/W, CTRL+A/E line navigation); removed `clipboard.lua` extraLuaFile from nix config and deleted stub file
+- **hyprland**: Rebound `SUPER+R` from run launcher → `hl.dsp.window.swap()` (rotate/swap windows); run is already on `SUPER+SPACE`
+- **hyprland**: Added vim-style directional keys — `SUPER+h/j/k/l` for focus, `SUPER+SHIFT+h/j/k/l` for moving windows
+
 ## 2026-07-14
 
 - **erlang**: don't install erlang by default

@@ -235,6 +235,34 @@ hl.device({
 ---- KEYBINDINGS ----
 ---------------------
 
+-- [[ Clipboard helper — synthetic key state workaround              ]]
+-- https://github.com/hyprwm/Hyprland/discussions/14099
+local function send_shortcut_once(mods, key)
+	return function()
+		hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down", window = "activewindow" }))
+
+		hl.timer(function()
+			hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up", window = "activewindow" }))
+		end, { timeout = 50, type = "oneshot" })
+	end
+end
+
+-- Copy: capture PRIMARY selection into CLIPBOARD via wl-clipboard
+hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"))
+-- Paste: Shift+Insert works in foot, terminals, and many GUI apps
+hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"))
+-- Select all / Cut
+hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"))
+hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"))
+-- Browser convenience
+hl.bind("SUPER + T", send_shortcut_once("CTRL", "T"))
+hl.bind("SUPER + W", send_shortcut_once("CTRL", "W"))
+-- Line navigation in text fields
+hl.bind("CTRL + A", send_shortcut_once("", "HOME"))
+hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"))
+hl.bind("CTRL + E", send_shortcut_once("", "END"))
+hl.bind("CTRL + SHIFT + E", send_shortcut_once("SHIFT", "END"))
+
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind("SUPER + Q", hl.dsp.window.close())
@@ -245,13 +273,13 @@ hl.bind(
 )
 hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
 hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }))
-hl.bind("SUPER + R", hl.dsp.exec_cmd(menu))
+hl.bind("SUPER + ;", hl.dsp.layout("togglesplit"))  -- dwindle toggle split
+hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }))  -- rotate / swap with next window
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
 hl.bind("SUPER + P", hl.dsp.window.pseudo())
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }))
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
-hl.bind("SUPER + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Swap between master and dwindle layouts
 hl.bind(
@@ -265,10 +293,18 @@ hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }))
 hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
 hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + down", hl.dsp.focus({ direction = "down" }))
+hl.bind("SUPER + h", hl.dsp.focus({ direction = "left" }))      -- vim-style
+hl.bind("SUPER + l", hl.dsp.focus({ direction = "right" }))     -- vim-style
+hl.bind("SUPER + k", hl.dsp.focus({ direction = "up" }))        -- vim-style
+hl.bind("SUPER + j", hl.dsp.focus({ direction = "down" }))      -- vim-style
 hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "left" }))
 hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
 hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "down" }))
+hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "left" }))   -- vim-style
+hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "right" }))  -- vim-style
+hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "up" }))     -- vim-style
+hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "down" }))   -- vim-style
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]

@@ -129,10 +129,6 @@ in
         content = ../hypr/.config/hypr/partkyle.lua;
         autoLoad = true;
       };
-      "clipboard" = {
-        content = ../hypr/.config/hypr/clipboard.lua;
-        autoLoad = true;
-      };
     };
   };
 
