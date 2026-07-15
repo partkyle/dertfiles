@@ -277,6 +277,7 @@ hl.bind("SUPER + semicolon", hl.dsp.layout("togglesplit"))  -- dwindle toggle sp
 hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }))  -- rotate / swap with next window
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
+hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("hyprlock"))
 hl.bind("SUPER + P", hl.dsp.window.pseudo())
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }))
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))

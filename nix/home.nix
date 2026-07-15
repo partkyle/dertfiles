@@ -26,6 +26,7 @@ in
     gnumake
     go
     hypridle
+    hyprlock
     lazydocker
     lazygit
     mako
@@ -190,6 +191,9 @@ in
     "rofi".source = ../rofi/.config/rofi;
     "mako".source = ../mako/.config/mako;
     "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
+    "hypr/hyprlock.conf".source = ../hyprlock/.config/hypr/hyprlock.conf;
+    "hypr/mocha.conf".source = ../hyprmocha/.config/hypr/mocha.conf;
+    "backgrounds".source = ../backgrounds/.config/backgrounds;
   };
 
   programs.pi-coding-agent = {
