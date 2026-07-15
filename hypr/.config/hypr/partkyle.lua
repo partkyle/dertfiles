@@ -273,7 +273,7 @@ hl.bind(
 )
 hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
 hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }))
-hl.bind("SUPER + ;", hl.dsp.layout("togglesplit"))  -- dwindle toggle split
+hl.bind("SUPER + semicolon", hl.dsp.layout("togglesplit"))  -- dwindle toggle split
 hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }))  -- rotate / swap with next window
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
