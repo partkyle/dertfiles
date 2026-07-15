@@ -20,7 +20,6 @@ in
     comic-neue
     corefonts
     maple-mono.NF
-    erlang
     fd
     fzf
     git
