@@ -10,7 +10,7 @@
 	defaultBranch = main
 
 [push]
-	default = matching
+	default = simple
 
 [include]
 	path = ~/.gitconfig_local

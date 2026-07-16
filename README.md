@@ -32,49 +32,39 @@ Partkyle's NixOS dotfiles and system configuration.
 | `dionysus` | Laptop      |
 | `theseus`  | Desktop     |
 
-## Compositors
-
-### Hyprland (default)
-
-The default session launched by greetd. Configured in `hypr/.config/hypr/` (Lua
-config split across `partkyle.lua`, `clipboard.lua`, and `hosts/<host>.lua`).
-
-### dwl (experimental)
+## dwl (the compositor)
 
 [dwl](https://codeberg.org/dwl/dwl) is a minimalist wlroots-based compositor
 (like dwm for Wayland). Each host has a custom build with its own monitor
 settings in `nix/packages/dwl/`.
 
-Start it from a TTY (Ctrl+Alt+F2/F3, login, then run):
+It's started by greetd (via `nix/greetd.nix`).
+
+Start it manually from a TTY (Ctrl+Alt+F2/F3, login):
 
 ```bash
 dwl
 ```
-
-Default keybindings:
-
-| Keys | Action |
-|------|--------|
-| `Alt + p` | Launcher (`wmenu-run`) |
-| `Alt + Shift + Enter` | Terminal (`foot`) |
-| `Alt + j` / `k` | Focus next/prev window |
-| `Alt + Return` | Swap focused with master |
-| `Alt + Shift + c` | Close window |
-| `Alt + 1–9` | Switch tags |
-| `Alt + Shift + 1–9` | Move window to tag |
-| `Alt + q` | Quit dwl |
 
 **Monitor layouts:**
 
 | Host | Config |
 |------|--------|
 | `dionysus` | eDP-1 @ 1.25 scale, preferred mode |
-| `theseus` | DP-2 rotated 270° (portrait), all scale 1 |
+| `theseus` | DP-2 rotated 270° (portrait), DP-1 @ 1.5 scale |
 
 Theseus can set custom refresh rates after dwl starts with `wlr-randr`.
 
-To switch the display manager to dwl permanently, edit `nix/greetd.nix` and
-change `command = "start-hyprland"` to `command = "dwl"`, then rebuild.
+## Adding a new machine
+
+1. Generate a unique SSH key:
+   ```bash
+   ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -C "partkyle@$(hostname)"
+   ```
+2. Append the public key to `programs.ssh.authorizedKeys` in `nix/home.nix`.
+3. Rebuild: `sudo nixos-rebuild switch --flake .#<hostname>`
+4. Load the key: `ssh-add ~/.ssh/id_ed25519`
+5. Add the public key to GitHub: `gh ssh-key add ~/.ssh/id_ed25519.pub`
 
 ## Common commands
 

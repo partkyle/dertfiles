@@ -1,0 +1,21 @@
+font=Maple Mono NF
+font-size=18
+indicator-radius=120
+indicator-thickness=8
+inside-color=00000066
+inside-ver-color=00000066
+inside-wrong-color=00000066
+key-hl-color=89b4fa
+ring-color=313244
+ring-ver-color=89b4fa
+ring-wrong-color=f38ba8
+text-color=cdd6f4
+text-ver-color=89b4fa
+text-wrong-color=f38ba8
+line-uses-inside
+separator-color=00000000
+fade-in=0.2
+effect-pixel-sort=25
+clock
+timestr=%H:%M
+datestr=%a %Y-%m-%d

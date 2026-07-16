@@ -1,4 +1,10 @@
-{ lib, pkgs, config, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+{
 
   imports = [
     ./hardware-configuration.nix
@@ -37,15 +43,15 @@
   services.openssh = {
     enable = true;
     settings = {
-      PasswordAuthentication = false;    # key-based auth only
+      PasswordAuthentication = false; # key-based auth only
       KbdInteractiveAuthentication = false;
       PermitRootLogin = "prohibit-password";
-      AllowAgentForwarding = true;       # allow ssh -A from dionysus
+      AllowAgentForwarding = true;
     };
   };
 
   programs.steam = {
-      enable = true;
+    enable = true;
   };
 
 }

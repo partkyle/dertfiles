@@ -39,7 +39,7 @@
 
   programs.fish.enable = true;
 
-  programs.hyprland.enable = true;
+  # dwl is the compositor; built per-host in hosts/<host>/default.nix
 
   users.users.partkyle = {
     isNormalUser = true;
@@ -48,10 +48,39 @@
       "docker"
     ];
     shell = pkgs.fish;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbDY+neU1up+zsrz75ZsJGbgdupbYJdcCsLZJ/p+W26 partkyle@theseus"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBL1TBBccA0/KpzcekAUr/peNgc1QTNN4W9UK8ofQR4G partkyle@dionysus"
+    ];
   };
 
   environment.systemPackages = with pkgs; [
-    # empty
+    (writeShellScriptBin "start-dwl" ''
+      set -e
+
+      cleanup() {
+        kill "$DWL_PID" "$WAYBAR_PID" "$MAKO_PID" "$HYPRIDLE_PID" 2>/dev/null || true
+      }
+      trap cleanup EXIT
+
+      # Start dwl compositor
+      dwl &
+      DWL_PID=$!
+
+      # Give dwl a moment to set up the wlroots session
+      sleep 0.3
+
+      # Start companion services
+      waybar &
+      WAYBAR_PID=$!
+      mako &
+      MAKO_PID=$!
+      hypridle &
+      HYPRIDLE_PID=$!
+
+      # Wait for dwl to exit
+      wait $DWL_PID
+    '')
   ];
 
   services.tailscale = {
@@ -82,6 +111,7 @@
   environment.etc = {
     "1password/custom_allowed_browsers" = {
       text = ''
+        brave
         vivaldi-bin
       '';
       mode = "0755"; # Crucial file permissions required by 1Password
@@ -95,7 +125,7 @@
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
     ];
   };

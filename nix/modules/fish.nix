@@ -1,4 +1,11 @@
-{ config, pkgs, home-manager, environment, ... }: {
+{
+  config,
+  pkgs,
+  home-manager,
+  environment,
+  ...
+}:
+{
   home-manager.users.partkyle = {
     programs.fish = {
       enable = true;
@@ -19,7 +26,7 @@
           '';
         };
         fish_greeting = {
-          body = ''fastfetch'';
+          body = "";
         };
       };
 

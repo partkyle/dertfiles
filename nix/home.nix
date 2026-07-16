@@ -20,7 +20,6 @@ in
     comic-neue
     corefonts
     maple-mono.NF
-    erlang
     fd
     fzf
     git
@@ -47,10 +46,15 @@ in
     tree-sitter
     unzip
     vivaldi
+    brave
+    brightnessctl
+    grim
+    slurp
     waybar
     wget
     wiremix
     wl-clipboard
+    swaylock
 
     tofi # launcher used by dwl (Alt+p)
     zoxide
@@ -70,24 +74,10 @@ in
     VISUAL = "nvim";
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
-
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
-  # Only set 1Password agent socket when no forwarded agent is present
-  # This preserves SSH agent forwarding (ssh -A)
-  programs.bash.initExtra = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
-    if [ -z "$SSH_AUTH_SOCK" ] || [ "$SSH_AUTH_SOCK" = "" ]; then
-      export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-    fi
-  '';
-
-  # shellInit runs for ALL fish shells (interactive and non-interactive)
-  programs.fish.shellInit = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
-    if test -z "$SSH_AUTH_SOCK"
-      set -gx SSH_AUTH_SOCK "$HOME/.1password/agent.sock"
-    end
-
-  '';
+  # SSH agent socket is set in home.sessionVariables; no per-shell init needed
 
   # Force global dark preference via dconf
   dconf.settings = {
@@ -122,69 +112,24 @@ in
     x11.enable = true;
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd.enable = true;
+  # dwl replaces Hyprland as the compositor.
+  # It is built per-host in hosts/<host>/default.nix via environment.systemPackages
+  # and launched by greetd (see nix/greetd.nix).
 
-    configType = "lua";
+  # waybar, mako, hypridle are launched by start-dwl (see configuration.nix)
+  # directly — they need the WAYLAND_DISPLAY env var set by the compositor.
 
-    extraLuaFiles = {
-      "partkyle" = {
-        content = ../hypr/.config/hypr/partkyle.lua;
-        autoLoad = true;
-      };
-      "clipboard" = {
-        content = ../hypr/.config/hypr/clipboard.lua;
-        autoLoad = true;
-      };
-    };
-  };
-
-  systemd.user.services.mako = {
+  systemd.user.services.ssh-agent = {
     Unit = {
-      Description = "Mako notification daemon";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
+      Description = "SSH key agent";
     };
     Service = {
-      ExecStart = "${pkgs.mako}/bin/mako";
+      ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %t/ssh-agent.socket";
       Restart = "on-failure";
       RestartSec = 3;
     };
     Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
-  };
-
-  systemd.user.services.waybar = {
-    Unit = {
-      Description = "Waybar status bar";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.waybar}/bin/waybar";
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
-  };
-
-  systemd.user.services.hypridle = {
-    Unit = {
-      Description = "Hyprland idle daemon";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.hypridle}/bin/hypridle";
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
+      WantedBy = [ "default.target" ];
     };
   };
 
@@ -198,6 +143,9 @@ in
     "rofi".source = ../rofi/.config/rofi;
     "mako".source = ../mako/.config/mako;
     "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
+    "backgrounds".source = ../backgrounds/.config/backgrounds;
+    "swaylock/config".source = ../swaylock/.config/swaylock/config;
+    "wallpaper".source = ../wallpaper/.config/wallpaper;
   };
 
   programs.pi-coding-agent = {
@@ -216,8 +164,22 @@ in
     };
   };
 
-  # SSH_AUTH_SOCK is set conditionally above; no IdentityAgent needed
-  home.file.".ssh/config".text = "";
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings."*" = {
+      ForwardAgent = false;
+      AddKeysToAgent = "no";
+      Compression = false;
+      ServerAliveInterval = 0;
+      ServerAliveCountMax = 3;
+      HashKnownHosts = false;
+      UserKnownHostsFile = "~/.ssh/known_hosts";
+      ControlMaster = "no";
+      ControlPath = "~/.ssh/master-%r@%n:%p";
+      ControlPersist = "no";
+    };
+  };
 
   programs.tofi = {
     enable = true;
@@ -237,10 +199,9 @@ in
 
   programs.foot = {
     enable = true;
-    server.enable = true;
     settings = {
       main = {
-        font = "Maple Mono NF:size=11:fontfeatures=cv05:fontfeatures=cv38";
+        font = "Maple Mono NF:size=12:fontfeatures=cv05:fontfeatures=cv38";
         pad = "2x2";
       };
       colors-dark = {

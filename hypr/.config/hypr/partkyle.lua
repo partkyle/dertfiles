@@ -18,7 +18,8 @@
 ---------------------
 
 -- Set programs that you use
-local terminal = "footclient"
+local terminal = "foot"
+local browser = "brave"
 local fileManager = terminal .. " -e yazi"
 local menu = "rofi -show drun"
 
@@ -117,29 +118,29 @@ hl.config({
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
 hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
 hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
-hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
-hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
+hl.curve("snappy", { type = "bezier", points = { { 0.05, 0.3 }, { 0.2, 1 } } })
+hl.curve("quick", { type = "bezier", points = { { 0.1, 0 }, { 0.05, 1 } } })
 
 -- Default springs
-hl.curve("easy", { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
+hl.curve("easy", { type = "spring", mass = 1, stiffness = 120, dampening = 20 })
 
 hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "border", enabled = false })
-hl.animation({ leaf = "windows", enabled = true, speed = 4.79, spring = "easy" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.1, spring = "easy", style = "popin 87%" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.49, bezier = "linear", style = "popin 87%" })
-hl.animation({ leaf = "fadeIn", enabled = true, speed = 1.73, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.46, bezier = "almostLinear" })
-hl.animation({ leaf = "fade", enabled = true, speed = 3.03, bezier = "quick" })
-hl.animation({ leaf = "layers", enabled = true, speed = 3.81, bezier = "easeOutQuint" })
-hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQuint", style = "fade" })
-hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
-hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
+hl.animation({ leaf = "windows", enabled = true, speed = 8, spring = "easy" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 8, spring = "easy", style = "popin 87%" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 4, bezier = "linear" })
+hl.animation({ leaf = "fadeIn", enabled = true, speed = 5, bezier = "snappy" })
+hl.animation({ leaf = "fadeOut", enabled = true, speed = 4, bezier = "snappy" })
+hl.animation({ leaf = "fade", enabled = true, speed = 6, bezier = "quick" })
+hl.animation({ leaf = "layers", enabled = true, speed = 7, bezier = "snappy" })
+hl.animation({ leaf = "layersIn", enabled = true, speed = 7, bezier = "snappy", style = "fade" })
+hl.animation({ leaf = "layersOut", enabled = true, speed = 4, bezier = "linear", style = "fade" })
+hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 5, bezier = "snappy" })
+hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 4, bezier = "snappy" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "snappy", style = "fade" })
+hl.animation({ leaf = "workspacesIn", enabled = true, speed = 4, bezier = "snappy", style = "fade" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 4, bezier = "snappy", style = "fade" })
+hl.animation({ leaf = "zoomFactor", enabled = true, speed = 10, bezier = "quick" })
 
 -- Ref https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
 -- "Smart gaps" / "No gaps when only"
@@ -234,6 +235,34 @@ hl.device({
 ---- KEYBINDINGS ----
 ---------------------
 
+-- [[ Clipboard helper — synthetic key state workaround              ]]
+-- https://github.com/hyprwm/Hyprland/discussions/14099
+local function send_shortcut_once(mods, key)
+	return function()
+		hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down", window = "activewindow" }))
+
+		hl.timer(function()
+			hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up", window = "activewindow" }))
+		end, { timeout = 50, type = "oneshot" })
+	end
+end
+
+-- Copy: capture PRIMARY selection into CLIPBOARD via wl-clipboard
+hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"))
+-- Paste: Shift+Insert works in foot, terminals, and many GUI apps
+hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"))
+-- Select all / Cut
+hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"))
+hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"))
+-- Browser convenience
+hl.bind("SUPER + T", send_shortcut_once("CTRL", "T"))
+hl.bind("SUPER + W", send_shortcut_once("CTRL", "W"))
+-- Line navigation in text fields
+hl.bind("CTRL + A", send_shortcut_once("", "HOME"))
+hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"))
+hl.bind("CTRL + E", send_shortcut_once("", "END"))
+hl.bind("CTRL + SHIFT + E", send_shortcut_once("SHIFT", "END"))
+
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind("SUPER + Q", hl.dsp.window.close())
@@ -244,12 +273,14 @@ hl.bind(
 )
 hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
 hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }))
-hl.bind("SUPER + R", hl.dsp.exec_cmd(menu))
+hl.bind("SUPER + semicolon", hl.dsp.layout("togglesplit"))  -- dwindle toggle split
+hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }))  -- rotate / swap with next window
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu))
+hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
+hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("hyprlock"))
 hl.bind("SUPER + P", hl.dsp.window.pseudo())
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }))
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
-hl.bind("SUPER + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Swap between master and dwindle layouts
 hl.bind(
@@ -263,10 +294,18 @@ hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }))
 hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
 hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + down", hl.dsp.focus({ direction = "down" }))
+hl.bind("SUPER + h", hl.dsp.focus({ direction = "left" }))      -- vim-style
+hl.bind("SUPER + l", hl.dsp.focus({ direction = "right" }))     -- vim-style
+hl.bind("SUPER + k", hl.dsp.focus({ direction = "up" }))        -- vim-style
+hl.bind("SUPER + j", hl.dsp.focus({ direction = "down" }))      -- vim-style
 hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "left" }))
 hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
 hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "down" }))
+hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "left" }))   -- vim-style
+hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "right" }))  -- vim-style
+hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "up" }))     -- vim-style
+hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "down" }))   -- vim-style
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
