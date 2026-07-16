@@ -49,7 +49,7 @@
     ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICp85TrChiL89pkPmnzz0xjJVEuWdFlVJFakA2exblXr partkyle@theseus"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbDY+neU1up+zsrz75ZsJGbgdupbYJdcCsLZJ/p+W26 partkyle@theseus"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBL1TBBccA0/KpzcekAUr/peNgc1QTNN4W9UK8ofQR4G partkyle@dionysus"
     ];
   };
