@@ -30,6 +30,12 @@
         };
       };
 
+      # Infinite shell history — no size or age limits
+      interactiveShellInit = ''
+        set -U fish_max_history_file_size 0
+        set -U fish_max_history_age 0
+      '';
+
       # plugins = [
       #   { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
       # ];

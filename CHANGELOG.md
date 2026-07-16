@@ -2,8 +2,9 @@
 
 ## 2026-07-16
 
-- **steam**: enabled steam on dionysus
+- **fish**: Added `interactiveShellInit` to set universal variables `fish_max_history_file_size=0` and `fish_max_history_age=0` for infinite shell history
 - **ssh**: Suppressed `enableDefaultConfig` deprecation warning by explicitly setting `enableDefaultConfig = false` and inlining the default settings under `programs.ssh.settings."*"`
+- **steam**: enabled steam on dionysus
 
 ## 2026-07-15
 
