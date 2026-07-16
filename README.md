@@ -14,7 +14,7 @@ Partkyle's NixOS dotfiles and system configuration.
 │   ├── hosts/              # Per-host configs (dionysus, theseus)
 │   └── packages/           # Custom package derivations
 ├── nvim/                   # Neovim config (LazyVim-based)
-├── hypr/                   # Hyprland Lua config (+ clipboards, hosts)
+├── hypr/                   # hypridle config (idle daemon)
 ├── waybar/                 # Waybar config
 ├── foot/                   # Foot terminal config
 ├── wofi/                   # Wofi launcher config

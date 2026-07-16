@@ -1,5 +1,5 @@
 {
-  // Fastfetch optimized config for NixOS + Hyprland
+  // Fastfetch optimized config for NixOS + dwl
   // Skips slow probes: nix-only package detection, no WM version query
 
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
