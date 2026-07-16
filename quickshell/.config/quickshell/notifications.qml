@@ -16,7 +16,6 @@ Scope {
     readonly property string subtext0: "#a6adc8"
     readonly property string mauve: "#cba6f7"
     readonly property string red: "#f38ba8"
-    readonly property string green: "#a6e3a1"
 
     NotificationServer {
         id: server
@@ -27,21 +26,8 @@ Scope {
         imageSupported: true
 
         onNotification: notif => {
-            // Track notification so it appears in trackedNotifications model
+            // Track to keep it alive and visible in trackedNotifications model
             notif.tracked = true;
-
-            // Auto-dismiss non-critical after timeout
-            if (notif.expireTimeout > 0 && notif.urgency !== NotificationUrgency.Critical) {
-                notif.expireTimer = Qt.createQmlObject(
-                    'import QtQuick; Timer { interval: ' + notif.expireTimeout + '; running: true; onTriggered: notifObj.dismiss() }',
-                    notif, "expireTimer");
-            }
-
-            // Limit to 5 visible
-            var count = 0;
-            for (var i = 0; i < server.trackedNotifications.length; i++) {
-                if (!server.trackedNotifications[i].dismissed) count++;
-            }
         }
     }
 
@@ -58,15 +44,12 @@ Scope {
 
             title: "notification"
             color: "transparent"
-            visible: !dismissed && !modelData.expired
+            visible: !dismissed && modelData.lastGeneration
             minimumSize.width: 350
             minimumSize.height: content.implicitHeight + 24
             maximumSize.width: 350
 
-            // Position in top-right, stacked
             screen: Quickshell.screens[0]
-            x: screen ? screen.width - 370 - 10 : 10
-            y: 38 + index * 80
 
             WrapperRectangle {
                 anchors.fill: parent
@@ -87,7 +70,6 @@ Scope {
                     anchors.margins: 10
                     spacing: 4
 
-                    // Header row
                     RowLayout {
                         Label {
                             text: modelData.appName || "Notification"
@@ -113,7 +95,6 @@ Scope {
                         }
                     }
 
-                    // Summary
                     Label {
                         text: modelData.summary || ""
                         font.bold: true
@@ -124,7 +105,6 @@ Scope {
                         wrapMode: Text.WordWrap
                     }
 
-                    // Body
                     Label {
                         text: modelData.body || ""
                         font.pixelSize: 12
@@ -134,7 +114,6 @@ Scope {
                         wrapMode: Text.WordWrap
                     }
 
-                    // Actions
                     RowLayout {
                         visible: modelData.actions && modelData.actions.length > 0
                         spacing: 6
@@ -154,7 +133,6 @@ Scope {
                 }
             }
 
-            // Listen for notification dismissal
             Connections {
                 target: modelData
                 function onClosed(reason) {

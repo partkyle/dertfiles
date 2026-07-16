@@ -16,13 +16,47 @@ Scope {
     readonly property string subtext0: "#a6adc8"
     readonly property string mauve: "#cba6f7"
     readonly property string red: "#f38ba8"
-    readonly property string green: "#a6e3a1"
-    readonly property string yellow: "#f9e2af"
-    readonly property string rosewater: "#f5e0dc"
 
     property string failText: ""
     property bool lockedOut: false
 
+    // ══ PAM context at root so it's accessible from the surface ══
+    PamContext {
+        id: pam
+        active: true
+        config: "quickshell"
+        user: "partkyle"
+
+        function onMessage(msg, isError, respReq, respVisible) {
+            failText = isError ? msg : "";
+            if (isError) failTimer.restart();
+        }
+
+        function onCompleted(result) {
+            if (result === PamResult.Success) {
+                lock.unlock();
+            } else if (result === PamResult.MaxTries) {
+                lockedOut = true;
+                failText = "Too many attempts. Please wait...";
+            } else {
+                failText = "Authentication failed";
+                failTimer.restart();
+            }
+        }
+
+        function onError(error) {
+            failText = "PAM error: " + PamError.toString(error);
+            failTimer.restart();
+        }
+    }
+
+    Timer {
+        id: failTimer
+        interval: 3000
+        onTriggered: { failText = ""; }
+    }
+
+    // ══ Session lock ══
     WlSessionLock {
         id: lock
         locked: true
@@ -35,7 +69,6 @@ Scope {
                 Item {
                     anchors.fill: parent
 
-                    // Background
                     Rectangle {
                         anchors.fill: parent
                         color: base
@@ -54,17 +87,13 @@ Scope {
                             font.pixelSize: 72
                             font.bold: true
                             color: text
-                            text: ""
+                            text: clockText()
 
                             Timer {
                                 interval: 1000
                                 running: true
                                 repeat: true
-                                onTriggered: {
-                                    var now = new Date();
-                                    timeLabel.text = String(now.getHours()).padStart(2,'0') + ":" +
-                                                     String(now.getMinutes()).padStart(2,'0');
-                                }
+                                onTriggered: { timeLabel.text = clockText() }
                             }
                         }
 
@@ -74,18 +103,13 @@ Scope {
                             font.family: "Maple Mono NF"
                             font.pixelSize: 20
                             color: subtext0
-                            text: ""
-                        }
+                            text: dateText()
 
-                        Timer {
-                            interval: 60000
-                            running: true
-                            repeat: true
-                            onTriggered: {
-                                var now = new Date();
-                                var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-                                var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-                                dateLabel.text = days[now.getDay()] + ", " + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();
+                            Timer {
+                                interval: 60000
+                                running: true
+                                repeat: true
+                                onTriggered: { dateLabel.text = dateText() }
                             }
                         }
                     }
@@ -97,7 +121,6 @@ Scope {
                         spacing: 12
                         width: 300
 
-                        // Avatar circle
                         WrapperRectangle {
                             Layout.alignment: Qt.AlignHCenter
                             implicitWidth: 80
@@ -113,7 +136,6 @@ Scope {
                             }
                         }
 
-                        // Prompt
                         Label {
                             Layout.alignment: Qt.AlignHCenter
                             text: pam.message || "Enter password to unlock"
@@ -121,7 +143,6 @@ Scope {
                             color: pam.messageIsError ? red : subtext0
                         }
 
-                        // Failure text
                         Label {
                             Layout.alignment: Qt.AlignHCenter
                             text: failText
@@ -130,7 +151,6 @@ Scope {
                             visible: failText !== ""
                         }
 
-                        // Password field
                         TextField {
                             id: passwordField
                             Layout.fillWidth: true
@@ -151,18 +171,21 @@ Scope {
                                 if (pam.responseRequired && text.length > 0) {
                                     pam.respond(text);
                                     text = "";
+                                } else if (!pam.responseRequired && text.length > 0) {
+                                    // Initial password: start PAM if not started
+                                    pam.respond(text);
+                                    text = "";
                                 }
                             }
                         }
 
-                        // Unlock button
                         Button {
                             Layout.alignment: Qt.AlignHCenter
                             text: "Unlock"
                             flat: false
                             enabled: !lockedOut && passwordField.text.length > 0
                             onClicked: {
-                                if (pam.responseRequired) {
+                                if (pam.responseRequired || passwordField.text.length > 0) {
                                     pam.respond(passwordField.text);
                                 }
                                 passwordField.text = "";
@@ -174,55 +197,17 @@ Scope {
         }
     }
 
-    // ══ PAM authentication ══
-    PamContext {
-        id: pam
-        active: true
-        config: "quickshell" // Uses /etc/pam.d/quickshell
-        user: "partkyle"
-
-        onMessage: (msg, isError, respReq, respVisible) => {
-            if (isError) {
-                failText = msg;
-                failTimer.start();
-            }
-            passwordField.text = "";
-            passwordField.focus = true;
-        }
-
-        onCompleted: result => {
-            if (result === PamResult.Success) {
-                lock.unlock();
-            } else if (result === PamResult.MaxTries) {
-                lockedOut = true;
-                failText = "Too many attempts. Please wait...";
-            } else {
-                failText = "Authentication failed";
-                failTimer.start();
-                passwordField.text = "";
-                passwordField.focus = true;
-            }
-        }
-
-        onError: error => {
-            failText = "PAM error: " + PamError.toString(error);
-            failTimer.start();
-        }
-    }
-
-    Timer {
-        id: failTimer
-        interval: 3000
-        onTriggered: { failText = ""; }
-    }
-
-    Component.onCompleted: {
-        // Trigger initial clock/date
+    // Helper functions for clock/date
+    function clockText() {
         var now = new Date();
-        timeLabel.text = String(now.getHours()).padStart(2,'0') + ":" +
-                         String(now.getMinutes()).padStart(2,'0');
+        return String(now.getHours()).padStart(2,'0') + ":" +
+               String(now.getMinutes()).padStart(2,'0');
+    }
+
+    function dateText() {
+        var now = new Date();
         var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        dateLabel.text = days[now.getDay()] + ", " + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();
+        return days[now.getDay()] + ", " + now.getDate() + " " + months[now.getMonth()] + " " + now.getFullYear();
     }
 }

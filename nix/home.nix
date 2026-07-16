@@ -118,7 +118,7 @@ in
     };
     Service = {
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
-      ExecStart = "${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/bar.qml";
+      ExecStart = "${pkgs.quickshell}/bin/quickshell --path %h/.config/quickshell/bar.qml";
       Restart = "on-failure";
       RestartSec = 3;
     };
@@ -138,7 +138,7 @@ in
     };
     Service = {
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
-      ExecStart = "${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/notifications.qml";
+      ExecStart = "${pkgs.quickshell}/bin/quickshell --path %h/.config/quickshell/notifications.qml";
       Restart = "on-failure";
       RestartSec = 3;
     };
@@ -159,9 +159,9 @@ in
     Service = {
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
       ExecStart = "${pkgs.swayidle}/bin/swayidle -w " +
-        "timeout 120 '${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/lock.qml' " +
+        "timeout 120 '${pkgs.quickshell}/bin/quickshell --path %h/.config/quickshell/lock.qml' " +
         "timeout 300 '${pkgs.swaylock}/bin/swaylock -f' " +
-        "before-sleep '${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/lock.qml'";
+        "before-sleep '${pkgs.quickshell}/bin/quickshell --path %h/.config/quickshell/lock.qml'";
       Restart = "on-failure";
       RestartSec = 3;
     };

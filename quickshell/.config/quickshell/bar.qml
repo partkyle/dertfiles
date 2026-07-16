@@ -163,7 +163,6 @@ Scope {
         repeat: true
         onTriggered: updateClock()
     }
-    Component.onCompleted: updateClock()
     function updateClock() {
         var now = new Date();
         var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -309,6 +308,7 @@ Scope {
     }
 
     Component.onCompleted: {
+        updateClock();
         updateAudio();
         updateBattery();
     }

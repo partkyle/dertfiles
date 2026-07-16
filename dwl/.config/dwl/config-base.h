@@ -74,7 +74,7 @@ static const char *termcmd[]  = { "foot", NULL };
 static const char *menucmd[]  = { "rofi", "-show", "drun", NULL };
 static const char *browsercmd[] = { "brave", NULL };
 static const char *filemgr[]  = { "foot", "-e", "yazi", NULL };
-static const char *lockcmd[]  = { "quickshell", "-c", "~/.config/quickshell/lock.qml", NULL };
+static const char *lockcmd[]  = { "quickshell", "--path", "~/.config/quickshell/lock.qml", NULL };
 
 static const Key keys[] = {
 	/* ---- launching ----
