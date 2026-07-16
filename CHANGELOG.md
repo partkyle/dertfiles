@@ -2,6 +2,12 @@
 
 ## 2026-07-16
 
+- **dwl**: Switched compositor from Hyprland to dwl + quickshell; created host-specific dwl configs with Super-key bindings matching Hyprland muscle memory, Catppuccin Mocha colors, foot/rofi/brave launchers, media keys
+- **quickshell**: Replaced waybar with quickshell PanelWindow bar (clock, CPU/memory, network, audio, battery, system tray), replaced mako with quickshell NotificationServer, replaced hyprlock with quickshell WlSessionLock+PamContext
+- **systemd**: Updated user services (quickshell-bar, quickshell-notifications, swayidle) to bind to default.target with startup delays; removed hyprland-session.target references
+
+## 2026-07-16
+
 - **ssh**: Suppressed `enableDefaultConfig` deprecation warning by explicitly setting `enableDefaultConfig = false` and inlining the default settings under `programs.ssh.settings."*"`
 
 ## 2026-07-15

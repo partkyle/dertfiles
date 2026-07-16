@@ -1,13 +1,15 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }: let
+  dwlSessionExe = lib.getExe pkgs.dwl-session;
+in {
   services.greetd = {
     enable = true;
     settings = {
       initial_session = {
-        command = "start-hyprland";
+        command = dwlSessionExe;
         user = "partkyle";
       };
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland --remember --theme 'text=green;input=cyan;action=yellow'";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${dwlSessionExe} --remember --theme 'text=green;input=cyan;action=yellow'";
       };
     };
   };

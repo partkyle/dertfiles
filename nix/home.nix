@@ -25,17 +25,16 @@ in
     git
     gnumake
     go
-    hypridle
-    hyprlock
     lazydocker
     lazygit
-    mako
     neovim
     nodejs
     obsidian
     python3
     ripgrep
     rofi
+    swayidle       # idle daemon for dwl (replaces hypridle)
+    swaylock       # fallback lock (quickshell lock is primary)
 
     # nix tooling
     nil
@@ -48,11 +47,13 @@ in
     unzip
     vivaldi
     brave
-    waybar
     wget
     wiremix
     wl-clipboard
     zoxide
+
+    # quickshell for bar, notifications, lock
+    quickshell
 
     # theme stuff
     gnome-themes-extra
@@ -96,76 +97,76 @@ in
     };
   };
 
-  # Cursor theme configuration
+  # Cursor theme configuration (no hyprcursor for dwl)
   home.pointerCursor = {
     enable = true;
     name = "Bibata-Rainbow-Original";
     package = bibataRainbow.bibata-rainbow-original;
     size = 24;
     gtk.enable = true;
-    hyprcursor.enable = true;
     x11.enable = true;
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd.enable = true;
-
-    configType = "lua";
-
-    extraLuaFiles = {
-      "partkyle" = {
-        content = ../hypr/.config/hypr/partkyle.lua;
-        autoLoad = true;
-      };
-    };
-  };
-
-  systemd.user.services.mako = {
+  # ═══════════════════════════════════════════
+  # QUICKSHELL BAR (replaces waybar)
+  # ═══════════════════════════════════════════
+  systemd.user.services.quickshell-bar = {
     Unit = {
-      Description = "Mako notification daemon";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
+      Description = "Quickshell status bar";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.mako}/bin/mako";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
+      ExecStart = "${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/bar.qml";
       Restart = "on-failure";
       RestartSec = 3;
     };
     Install = {
-      WantedBy = [ "hyprland-session.target" ];
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 
-  systemd.user.services.waybar = {
+  # ═══════════════════════════════════════════
+  # QUICKSHELL NOTIFICATIONS (replaces mako)
+  # ═══════════════════════════════════════════
+  systemd.user.services.quickshell-notifications = {
     Unit = {
-      Description = "Waybar status bar";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
+      Description = "Quickshell notification daemon";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.waybar}/bin/waybar";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
+      ExecStart = "${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/notifications.qml";
       Restart = "on-failure";
       RestartSec = 3;
     };
     Install = {
-      WantedBy = [ "hyprland-session.target" ];
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 
-  systemd.user.services.hypridle = {
+  # ═══════════════════════════════════════════
+  # SWAYIDLE (replaces hypridle)
+  # ═══════════════════════════════════════════
+  systemd.user.services.swayidle = {
     Unit = {
-      Description = "Hyprland idle daemon";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
+      Description = "Swayidle idle daemon";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.hypridle}/bin/hypridle";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
+      ExecStart = "${pkgs.swayidle}/bin/swayidle -w " +
+        "timeout 120 '${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/lock.qml' " +
+        "timeout 300 '${pkgs.swaylock}/bin/swaylock -f' " +
+        "before-sleep '${pkgs.quickshell}/bin/quickshell -c %h/.config/quickshell/lock.qml'";
       Restart = "on-failure";
       RestartSec = 3;
     };
     Install = {
-      WantedBy = [ "hyprland-session.target" ];
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 
@@ -189,25 +190,19 @@ in
   xdg.configFile = {
     "fastfetch".source = ../fastfetch/.config/fastfetch;
     "nvim".source = ../nvim/.config/nvim;
-    "waybar".source = ../waybar/.config/waybar;
     "rofi".source = ../rofi/.config/rofi;
-    "mako".source = ../mako/.config/mako;
-    "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
-    "hypr/hyprlock.conf".source = ../hyprlock/.config/hypr/hyprlock.conf;
-    "hypr/mocha.conf".source = ../hyprmocha/.config/hypr/mocha.conf;
+    "quickshell".source = ../quickshell/.config/quickshell;
     "backgrounds".source = ../backgrounds/.config/backgrounds;
   };
 
   programs.pi-coding-agent = {
     enable = true;
 
-    # Extra tools Pi can use in your terminal (e.g., bun, python)
     extraPackages = [
       pkgs.bun
       pkgs.python3
     ];
 
-    # Define models, keybindings, or agent context
     settings = {
       defaultProvider = "opencode-go";
       defaultModel = "deepseek-v4-flash";

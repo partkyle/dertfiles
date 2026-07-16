@@ -14,12 +14,10 @@
     extra-substituters = [
       "https://pi.cachix.org"
       "https://nix-community.cachix.org"
-      "https://hyprland.cachix.org"
     ];
     extra-trusted-public-keys = [
       "pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 
@@ -39,7 +37,8 @@
 
   programs.fish.enable = true;
 
-  programs.hyprland.enable = true;
+  # DWL is provided as a user package via home-manager (host-specific config)
+  # No system-level compositor program needed unlike Hyprland
 
   users.users.partkyle = {
     isNormalUser = true;
@@ -55,7 +54,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # empty
+    # basic system utils for dwl
+    libinput
+    wayland
+    wayland-protocols
+    xdg-desktop-portal-wlr
+    xdg-desktop-portal-gtk
   ];
 
   services.tailscale = {
@@ -71,14 +75,9 @@
       "1password"
     ];
 
-  # Alternatively, you could also just allow all unfree packages
-  # nixpkgs.config.allowUnfree = true;
-
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
-    # Certain features, including CLI integration and system authentication support,
-    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
     polkitPolicyOwners = [ "partkyle" ];
   };
 
@@ -89,20 +88,29 @@
         brave
         vivaldi-bin
       '';
-      mode = "0755"; # Crucial file permissions required by 1Password
+      mode = "0755";
     };
   };
 
   # Enable the dconf system service (required for Home Manager to change dconf settings)
   programs.dconf.enable = true;
 
-  # Ensure the portals are loaded at the system level
+  # XDG portals for wlroots-based compositors (dwl)
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
     ];
+    config.common.default = [ "gtk" ];
+  };
+
+  # PAM config for quickshell lock screen
+  security.pam.services.quickshell = {
+    text = ''
+      auth sufficient pam_unix.so likeauth try_first_pass nullok
+      auth required pam_deny.so
+    '';
   };
 
   system.stateVersion = "26.05";
