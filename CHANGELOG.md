@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-16
+
+- **ssh**: Suppressed `enableDefaultConfig` deprecation warning by explicitly setting `enableDefaultConfig = false` and inlining the default settings under `programs.ssh.settings."*"`
+
 ## 2026-07-15
 
 - **ssh**: Replaced 1Password SSH agent with standard ssh-agent systemd user service; added per-machine ED25519 keys, declarative `programs.ssh` config with matchBlocks and authorizedKeys; disabled agent forwarding
