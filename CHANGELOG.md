@@ -2,6 +2,7 @@
 
 ## 2026-07-16
 
+- **steam**: enabled steam on dionysus
 - **ssh**: Suppressed `enableDefaultConfig` deprecation warning by explicitly setting `enableDefaultConfig = false` and inlining the default settings under `programs.ssh.settings."*"`
 
 ## 2026-07-15

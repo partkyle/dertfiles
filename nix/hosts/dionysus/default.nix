@@ -15,4 +15,8 @@
     intel-media-driver
   ];
 
+  programs.steam = {
+    enable = true;
+  };
+
 }
