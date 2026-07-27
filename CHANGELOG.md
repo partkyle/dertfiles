@@ -2,6 +2,7 @@
 
 ## 2026-07-27
 
+- **brightnessctl**: add to system packages for screen brightness control
 - **godot**: add the godot binary
 
 ## 2026-07-16

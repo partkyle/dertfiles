@@ -55,7 +55,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # empty
+    brightnessctl
   ];
 
   services.tailscale = {
