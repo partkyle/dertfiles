@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-27
+
+- **godot**: add the godot binary
+
 ## 2026-07-16
 
 - **fish**: Added `interactiveShellInit` to set universal variables `fish_max_history_file_size=0` and `fish_max_history_age=0` for infinite shell history

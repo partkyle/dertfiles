@@ -62,6 +62,8 @@ in
 
     # rainbow cursor theme
     bibataRainbow.bibata-rainbow-original
+
+    godot_4
   ];
 
   home.sessionVariables = {
