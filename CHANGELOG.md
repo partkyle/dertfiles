@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-28
+
+- **fish**: Wrap `rebuild` in a `bash -c` subshell with `exec` so `$argv` is forwarded cleanly via `"$@"`
+
 ## 2026-07-27
 
 - **brightnessctl**: add to system packages for screen brightness control

@@ -22,7 +22,7 @@
         rebuild = {
           description = "Rebuild NixOS system";
           body = ''
-            cd ~/.dertfiles/nix; and sudo nixos-rebuild switch --flake .#${config.networking.hostName} $argv
+            bash -c 'cd ~/.dertfiles/nix && exec sudo nixos-rebuild switch --flake .#${config.networking.hostName} "$@"' -- $argv
           '';
         };
         fish_greeting = {
