@@ -48,6 +48,21 @@
 
   programs.steam = {
     enable = true;
+    extest.enable = true;
+    package = pkgs.steam.override {
+      extraEnv = {
+        STEAM_FORCE_WAYLAND = "1";
+        SDL_VIDEODRIVER = "wayland";
+        GDK_BACKEND = "wayland,x11";
+        QT_QPA_PLATFORM = "wayland;xcb";
+        # NVIDIA-specific Wayland helpers
+        GBM_BACKEND = "nvidia-drm";
+        __GL_GSYNC_ALLOWED = "0";
+      };
+    };
+    extraPackages = with pkgs; [ gamescope ];
   };
+
+  programs.gamescope.enable = true;
 
 }
