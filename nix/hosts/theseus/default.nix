@@ -9,6 +9,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../configuration.nix
+    ../../modules/git-server.nix
   ];
 
   networking.hostName = "theseus";
