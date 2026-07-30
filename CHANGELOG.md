@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-07-30
+
+- **ssh**: Added `partkyle@phoneus` ED25519 public key (Android/Termux) to `configuration.nix` for git server access on theseus
+
 ## 2026-07-29
 
 - **steam**: enabled `extest` for Wayland Steam Input support; added Wayland env vars (`STEAM_FORCE_WAYLAND`, `SDL_VIDEODRIVER`, `GDK_BACKEND`, `QT_QPA_PLATFORM`); added `GBM_BACKEND=nvidia-drm` on theseus; enabled gamescope on both hosts
