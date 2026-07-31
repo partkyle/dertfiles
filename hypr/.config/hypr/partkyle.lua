@@ -378,6 +378,16 @@ local suppressMaximizeRule = hl.window_rule({
 -- suppressMaximizeRule:set_enabled(false)
 
 hl.window_rule({
+	-- Float the Steam Settings dialog; the main Steam window is unaffected
+	name = "float-steam-settings",
+	match = {
+		class = "^steam$",
+		title = "^Steam Settings$",
+	},
+	float = true,
+})
+
+hl.window_rule({
 	-- Fix some dragging issues with XWayland
 	name = "fix-xwayland-drags",
 	match = {
