@@ -5,6 +5,7 @@
 - **hyprland**: Added `SUPER+SHIFT+C` hotkey to copy the active window's class to the clipboard via `hyprctl activewindow | grep | wl-copy`
 - **hyprland**: Added windowrule to float the Steam Settings dialog (class `steam`, title `Steam Settings`)
 - **ssh**: Added `partkyle@phoneus` ED25519 public key (Android/Termux) to `configuration.nix` for git server access on theseus
+- **steam**: Extracted shared Steam module (`nix/modules/steam.nix`) with Wayland libraries (`wayland`, `libxkbcommon`, `libdrm`, `libGL`) for native Wayland rendering; both hosts import the shared module (theseus declares NVIDIA-specific env vars via `programs.steam.waylandExtraEnv` option)
 
 ## 2026-07-29
 
