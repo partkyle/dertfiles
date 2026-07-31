@@ -26,6 +26,13 @@ in
       };
     };
 
-    programs.gamescope.enable = true;
+    # Gamescope: 4K/240Hz/HDR Overwatch via `gamescope -W 3840 -H 2160 -r 240 -f --hdr-enabled -- %command%`
+    # launch options (set in Steam per-game). capSysNice gives gamescope real-time
+    # priority via a setuid wrapper to prevent stutter at high refresh rates.
+    programs.gamescope = {
+      enable = true;
+      enableWsi = true;
+      capSysNice = true;
+    };
   };
 }
