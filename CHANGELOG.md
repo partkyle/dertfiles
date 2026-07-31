@@ -2,6 +2,7 @@
 
 ## 2026-07-30
 
+- **hyprland**: Enabled HDR on MSI MPG321UX OLED (DP-1, theseus) via `cm = "hdr"` and `bitdepth = 10` in `hypr/hosts/theseus.lua`
 - **hyprland**: Added `SUPER+SHIFT+C` hotkey to copy the active window's class to the clipboard via `hyprctl activewindow | grep | wl-copy`
 - **hyprland**: Added windowrule to float the Steam Settings dialog (class `steam`, title `Steam Settings`)
 - **ssh**: Added `partkyle@phoneus` ED25519 public key (Android/Termux) to `configuration.nix` for git server access on theseus
