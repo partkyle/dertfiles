@@ -247,6 +247,8 @@ local function send_shortcut_once(mods, key)
 	end
 end
 
+-- Copy active window class to clipboard
+hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("hyprctl activewindow | wl-copy"))
 -- Copy: capture PRIMARY selection into CLIPBOARD via wl-clipboard
 hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"))
 -- Paste: Shift+Insert works in foot, terminals, and many GUI apps

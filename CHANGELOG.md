@@ -2,6 +2,7 @@
 
 ## 2026-07-30
 
+- **hyprland**: Added `SUPER+SHIFT+C` hotkey to copy the active window's class to the clipboard via `hyprctl activewindow | grep | wl-copy`
 - **ssh**: Added `partkyle@phoneus` ED25519 public key (Android/Termux) to `configuration.nix` for git server access on theseus
 
 ## 2026-07-29
