@@ -14,7 +14,7 @@
   ],
   "clock": {
     "tooltip": false,
-    "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %H:%M}",
+    "format": "<span foreground='#f5c2e7'>   </span>{:%a %d %I:%M %p}",
     "on-click": "brave --app=https://calendar.google.com",
   },
   "battery": {

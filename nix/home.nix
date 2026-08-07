@@ -238,7 +238,7 @@ in
     settings = {
       main = {
         font = "Maple Mono NF:size=12:fontfeatures=cv05:fontfeatures=cv38";
-        pad = "2x2";
+        pad = "17x7";
       };
       colors-dark = {
         alpha = "0.95";

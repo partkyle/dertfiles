@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-08-06
+
+- **foot**: update foot padding to 17x7. going to try a little more space
+- **waybar**: Switched clock module from 24-hour (`%H:%M`) to 12-hour time with AM/PM (`%I:%M %p`)
+
 ## 2026-07-30
 
 - **hyprland**: Enabled HDR on MSI MPG321UX OLED (DP-1, theseus) via `cm = "hdr"` and `bitdepth = 10` in `hypr/hosts/theseus.lua`
