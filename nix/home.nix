@@ -212,7 +212,7 @@ in
     # Define models, keybindings, or agent context
     settings = {
       defaultProvider = "opencode-go";
-      defaultModel = "deepseek-v4-flash";
+      defaultModel = "qwen3.7-max";
     };
   };
 
