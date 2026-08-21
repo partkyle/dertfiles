@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-21
+
+- **changelog**: add `scripts/changelog.sh` helper that invokes pi to generate changelog entries with a braille progress spinner
+- **Makefile**: add `make update-pi`, `make rebuild`, and `make changelog` targets at repo root
+- **pi**: update pi-nix flake input to latest (0.83.0)
+
 ## 2026-08-06
 
 - **foot**: update foot padding to 17x7. going to try a little more space
