@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-23
+
+- **claude**: add `nix/modules/claude.nix`
+
 ## 2026-08-21
 
 - **changelog**: add `scripts/changelog.sh` helper that invokes pi to generate changelog entries with a braille progress spinner
