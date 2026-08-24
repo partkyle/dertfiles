@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-24 — hyprland
+
+- sped up layer animations for snappier launcher open/close (`layersIn` 12, `layersOut` 10, `fadeLayersIn` 12, `fadeLayersOut` 10)
+
 ## 2026-08-24 — quickshell
 
 - added app launcher overlay (`Launcher.qml`) replacing rofi: fuzzy search over desktop entries with keyboard navigation and themed icons, Catppuccin Mocha card; summoned via `qs ipc call launcher toggle` bound to SUPER+SPACE
