@@ -24,7 +24,7 @@ This is a Nix flake-based dotfiles repository managing NixOS configs and user ap
 
 ### Other Configs
 
-- `waybar/` — Status bar config
+- `quickshell/` — Quickshell desktop shell (replaces waybar); `shell.qml` entry point, `Commons/` theme singletons, `Ui/` base components, `widgets/` bar modules, `scripts/` helper scripts. Deployed via `nix/modules/quickshell.nix`
 - `foot/` — Terminal config
 - `nvim/` — Neovim config (LazyVim-based)
 - `git/` — Git config and global ignore

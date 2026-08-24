@@ -48,7 +48,6 @@ in
     unzip
     vivaldi
     brave
-    waybar
     wget
     wiremix
     wl-clipboard
@@ -139,22 +138,6 @@ in
     };
   };
 
-  systemd.user.services.waybar = {
-    Unit = {
-      Description = "Waybar status bar";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.waybar}/bin/waybar";
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
-  };
-
   systemd.user.services.hypridle = {
     Unit = {
       Description = "Hyprland idle daemon";
@@ -191,7 +174,6 @@ in
   xdg.configFile = {
     "fastfetch".source = ../fastfetch/.config/fastfetch;
     "nvim".source = ../nvim/.config/nvim;
-    "waybar".source = ../waybar/.config/waybar;
     "rofi".source = ../rofi/.config/rofi;
     "mako".source = ../mako/.config/mako;
     "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
