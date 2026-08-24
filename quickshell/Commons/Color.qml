@@ -37,4 +37,7 @@ QtObject {
   // waybar's focused-workspace background: rgba(0,0,0,0.3)
   readonly property color workspaceFocused: Qt.rgba(0, 0, 0, 0.3)
   readonly property color urgent: "#eb4d4b"
+
+  // launcher overlay scrim
+  readonly property color scrim: Qt.rgba(17, 17, 27, 0.55)
 }

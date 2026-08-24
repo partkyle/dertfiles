@@ -35,7 +35,6 @@ in
     obsidian
     python3
     ripgrep
-    rofi
 
     # nix tooling
     nil
@@ -174,7 +173,6 @@ in
   xdg.configFile = {
     "fastfetch".source = ../fastfetch/.config/fastfetch;
     "nvim".source = ../nvim/.config/nvim;
-    "rofi".source = ../rofi/.config/rofi;
     "mako".source = ../mako/.config/mako;
     "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
     "hypr/hyprlock.conf".source = ../hyprlock/.config/hypr/hyprlock.conf;

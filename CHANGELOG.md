@@ -1,12 +1,19 @@
 # Changelog
 
+## 2026-08-24 — quickshell
+
+- added app launcher overlay (`Launcher.qml`) replacing rofi: fuzzy search over desktop entries with keyboard navigation and themed icons, Catppuccin Mocha card; summoned via `qs ipc call launcher toggle` bound to SUPER+SPACE
+- bar widget fixes: FA-range Nerd Font icons, PipeWire volume tracking, networkd+iwd network status, lua workspace dispatch
+- `nix/modules/quickshell.nix`: added `programs.quickshell.enable` and `wantedBy` options (steam.nix pattern); enabled UPower for the battery widget
+- removed rofi and waybar packages and config deployment from `home.nix`
+
 ## 2026-08-23 — claude
 
 - add `nix/modules/claude.nix`
 
 ## 2026-08-23 — quickshell
 
-- replaced waybar with a standalone quickshell desktop shell modeled on omarchy quatro's architecture (`quickshell/`: shell entry, Commons singletons, Ui base components, per-widget modules); new `nix/modules/quickshell.nix` deploys the config and runs a `quickshell` systemd service; widgets replicate waybar functionality (Hyprland workspaces, cpu, memory, network via nmcli, audio via PipeWire, battery via UPower, clock, system tray) with the same Catppuccin Mocha look and click actions; removed waybar package, service, and config deployment from `home.nix`
+- replaced waybar with a standalone quickshell desktop shell modeled on omarchy quatro's architecture; deployed via new `nix/modules/quickshell.nix` systemd user service; same Catppuccin Mocha look and widget set as the old waybar config
 
 ## 2026-08-21 — changelog
 

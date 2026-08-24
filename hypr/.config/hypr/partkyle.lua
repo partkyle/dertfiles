@@ -21,7 +21,7 @@
 local terminal = "foot"
 local browser = "brave"
 local fileManager = terminal .. " -e yazi"
-local menu = "rofi -show drun"
+local menu = "qs ipc call launcher toggle"
 
 -------------------
 ---- AUTOSTART ----
