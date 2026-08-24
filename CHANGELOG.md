@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-24.2
+
+- **hyprland**: added direct layout switches — `SUPER+,` dwindle, `SUPER+.` master, `SUPER+/` scrolling
+
 ## 2026-08-24.1
 
 - **walker**: replaced quickshell app launcher (`Launcher.qml`) with walker — Wayland-native app runner with Catppuccin Mocha theme (`walker/.config/walker/themes/catppuccin-mocha/style.css`)
