@@ -24,7 +24,9 @@
       sharedModules = [
         ./modules/claude.nix
         ./modules/fish.nix
+        ./modules/pipewire.nix
         ./modules/quickshell.nix
+        ./modules/reaper.nix
         ./modules/syncthing.nix
 
         {

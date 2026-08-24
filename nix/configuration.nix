@@ -46,6 +46,7 @@
     extraGroups = [
       "wheel"
       "docker"
+      "audio"
     ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [

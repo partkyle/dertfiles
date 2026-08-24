@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-24
+
+- **reaper**: added `nix/modules/reaper.nix` — installs Reaper with `pw-jack` desktop entry ("REAPER (jack)") for low-latency PipeWire JACK audio
+- **reaper**: uses `pkgs.pipewire.jack` (which provides the `pw-jack` wrapper)
+- **pipewire**: extracted `nix/modules/pipewire.nix` from `configuration.nix` — PipeWire (ALSA + Pulse + JACK backends) and rtkit
+- **agents**: rewrote changelog conventions in AGENTS.md — one section per commit, append-on-top, date-only headers, bold concern tags in bullets
+
 ## 2026-08-24 — hyprland
 
 - sped up layer animations for snappier launcher open/close (`layersIn` 12, `layersOut` 10, `fadeLayersIn` 12, `fadeLayersOut` 10)

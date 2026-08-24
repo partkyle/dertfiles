@@ -49,13 +49,24 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 
 ### Changelog
 
-**Required**: Document substantive changes in `CHANGELOG.md`:
-- Each change gets its own section header: `## YYYY-MM-DD — tag`
-- Newest entries first (reverse chronological)
-- New entries append after existing entries for the same date (never re-sort)
-- Multiple related bullets under one header when a change spans multiple points
-- Format: `- description`
-- Omit formatting-only or mechanical changes
+**Required**: Document substantive changes in `CHANGELOG.md`. Omit formatting-only or mechanical changes.
+
+**Format:**
+
+```
+## YYYY-MM-DD
+
+- **<concern>**: short readable, yet complete description
+- **<concern>**: another point in the same commit
+```
+
+**Rules:**
+
+- **Append-on-top.** The working section is always the first `##` heading below `# Changelog`. Never touch, move, or re-sort anything below it.
+- **One section = one git commit.** While working, iterate on the top section — add, remove, reword bullets freely. The section is finalized when the commit lands.
+- **Same day, new commit:** increment the suffix — `## YYYY-MM-DD.1`, `## YYYY-MM-DD.2`. No suffix on the first entry of a day.
+- **Never modify a committed section** unless specifically asked to do so.
+- **Prefer one fact per bullet.** Split into separate bullets when it helps readability.
 
 ## Common Tasks
 
