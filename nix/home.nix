@@ -32,6 +32,7 @@ in
     obsidian
     python3
     ripgrep
+    rofi
 
     # nix tooling
     nil
@@ -125,6 +126,7 @@ in
     "fastfetch".source = ../fastfetch/.config/fastfetch;
     "nvim".source = ../nvim/.config/nvim;
     "backgrounds".source = ../backgrounds/.config/backgrounds;
+    "rofi".source = ../rofi/.config/rofi;
   };
 
   programs.pi-coding-agent = {

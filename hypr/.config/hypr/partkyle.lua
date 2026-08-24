@@ -21,7 +21,7 @@
 local terminal = "foot"
 local browser = "brave"
 local fileManager = terminal .. " -e yazi"
-local menu = "walker"
+local menu = "rofi -show drun -show-icons"
 
 -------------------
 ---- AUTOSTART ----
@@ -299,7 +299,7 @@ hl.bind("SUPER + comma", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = {
 hl.bind("SUPER + period", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "master" } })']]), { description = "Switch to master" })
 hl.bind("SUPER + slash", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "scrolling" } })']]), { description = "Switch to scrolling" })
 
--- Show keybinding reference in walker
+-- Show keybinding reference in rofi
 hl.bind("SUPER + SHIFT + slash", hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds.sh"), { description = "Show keybindings" })
 
 hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
@@ -412,10 +412,10 @@ hl.window_rule({
 	no_focus = true,
 })
 
--- Walker: instant open, no fade-in
+-- Rofi: instant open, no fade-in
 hl.layer_rule({
-	name = "walker-no-anim",
-	match = { namespace = "^walker$" },
+	name = "rofi-no-anim",
+	match = { namespace = "^rofi$" },
 	no_anim = true,
 })
 

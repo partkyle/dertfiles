@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-24.5
+
+- **rofi**: replaced walker with rofi as app launcher — reverted to `rofi -show drun -show-icons` for SUPER+SPACE, rofi dmenu for keybinds search
+- **rofi**: added `no_anim` layer rule for instant open/close
+- **rofi**: rewrote catppuccin-default theme based on rounded-nord-dark template — squared corners, outlined text input, increased row/window padding, hid "drun" prompt, added app icons
+- **nix**: removed `nix/modules/walker.nix` (walker + elephant systemd services); added rofi package and config link back to `home.nix`
+- **hyprland**: removed `walker-no-anim` layer rule; updated keybinds.sh to pipe through `rofi -dmenu` instead of `walker --dmenu`
+- **quickshell**: updated shell.qml comment to reference rofi instead of walker
+
 ## 2026-08-24.4
 
 - **hyprland**: extracted `nix/modules/hyprland.nix` from `configuration.nix`, `home.nix`, and `flake.nix` — consolidates Hyprland enable, cachix, xdg portal, hypridle/hyprlock/mako packages and services, config file symlinks, and host-specific Lua injection behind a `programs.hyprland.hostLuaFile` option

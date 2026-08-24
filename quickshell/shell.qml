@@ -6,8 +6,7 @@ import Quickshell.Wayland
 import qs.Commons
 
 // Shell entry point: a single long-running quickshell instance renders
-// one bar per screen. App launching is handled by walker (see
-// nix/modules/walker.nix).
+// one bar per screen. App launching is handled by rofi.
 ShellRoot {
   id: shellRoot
 

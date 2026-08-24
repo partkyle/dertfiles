@@ -19,6 +19,7 @@ builtins.listToAttrs (map (name:
     value = {
       name = name;
       exec = "${pkgs.brave}/bin/brave --app=${url}";
+      icon = "brave-browser";
       categories = [ "Network" ];
       terminal = false;
       startupNotify = true;

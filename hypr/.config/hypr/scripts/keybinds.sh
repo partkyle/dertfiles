@@ -325,7 +325,7 @@ format_bindings() {
 		# Shorten well-known commands
 		if (cmd == "foot") cmd = ""
 		else if (cmd == "brave") cmd = ""
-		else if (cmd == "walker") cmd = ""
+		else if (cmd == "rofi -show drun") cmd = ""
 		else if (cmd == "hyprlock") cmd = ""
 		else if (cmd ~ /^foot -e yazi$/) cmd = ""
 
@@ -348,5 +348,5 @@ output_keybindings() {
 if [[ ${1:-} == "--print" || ${1:-} == "-p" ]]; then
 	output_keybindings
 else
-	output_keybindings | walker --dmenu --placeholder "Search keybindings…" --height 600
+	output_keybindings | rofi -dmenu -p "Keybindings" -l 20
 fi
