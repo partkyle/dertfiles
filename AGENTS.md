@@ -10,7 +10,7 @@ This is a Nix flake-based dotfiles repository managing NixOS configs and user ap
 - `configuration.nix` — Shared system-wide NixOS config (imports greetd.nix)
 - `home.nix` — Home Manager config for user packages and services
 - `hosts/<hostname>/default.nix` — Host-specific NixOS configs (dionysus=laptop/Intel, theseus=desktop/NVIDIA)
-- `modules/*.nix` — Shared NixOS modules (steam.nix, fish.nix, syncthing.nix, git-server.nix)
+- `modules/*.nix` — Shared NixOS modules (hyprland.nix, steam.nix, fish.nix, syncthing.nix, git-server.nix)
 - `greetd.nix` — Display manager/login config
 - `webapps.nix` — Desktop entries for web apps
 

@@ -25,13 +25,8 @@ in
     git
     gnumake
     go
-    hypridle
-    hyprlock
     lazydocker
     lazygit
-    libxkbcommon  # xkbcli for keybind keycode resolution
-    lua
-    mako
     neovim
     nodejs
     obsidian
@@ -109,52 +104,6 @@ in
     x11.enable = true;
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd.enable = true;
-
-    configType = "lua";
-
-    extraLuaFiles = {
-      "partkyle" = {
-        content = ../hypr/.config/hypr/partkyle.lua;
-        autoLoad = true;
-      };
-    };
-  };
-
-  systemd.user.services.mako = {
-    Unit = {
-      Description = "Mako notification daemon";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.mako}/bin/mako";
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
-  };
-
-  systemd.user.services.hypridle = {
-    Unit = {
-      Description = "Hyprland idle daemon";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.hypridle}/bin/hypridle";
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
-  };
-
   systemd.user.services.ssh-agent = {
     Unit = {
       Description = "SSH key agent";
@@ -175,15 +124,7 @@ in
   xdg.configFile = {
     "fastfetch".source = ../fastfetch/.config/fastfetch;
     "nvim".source = ../nvim/.config/nvim;
-    "mako".source = ../mako/.config/mako;
-    "hypr/hypridle.conf".source = ../hypr/.config/hypr/hypridle.conf;
-    "hypr/hyprlock.conf".source = ../hyprlock/.config/hypr/hyprlock.conf;
-    "hypr/mocha.conf".source = ../hyprmocha/.config/hypr/mocha.conf;
     "backgrounds".source = ../backgrounds/.config/backgrounds;
-    "hypr/scripts/keybinds.sh" = {
-      source = ../hypr/.config/hypr/scripts/keybinds.sh;
-      executable = true;
-    };
   };
 
   programs.pi-coding-agent = {

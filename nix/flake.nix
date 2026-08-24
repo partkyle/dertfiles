@@ -24,6 +24,7 @@
       sharedModules = [
         ./modules/claude.nix
         ./modules/fish.nix
+        ./modules/hyprland.nix
         ./modules/pipewire.nix
         ./modules/quickshell.nix
         ./modules/reaper.nix
@@ -53,12 +54,7 @@
           ++ [
             {
               # Host-specific hyprland monitor config
-              home-manager.users.partkyle = { lib, ... }: {
-                wayland.windowManager.hyprland.extraLuaFiles."host" = {
-                  content = ../hypr/.config/hypr/hosts/${hostName}.lua;
-                  autoLoad = true;
-                };
-              };
+              programs.hyprland.hostLuaFile = ../hypr/.config/hypr/hosts/${hostName}.lua;
             }
           ];
         };

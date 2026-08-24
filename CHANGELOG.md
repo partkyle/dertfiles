@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-24.4
+
+- **hyprland**: extracted `nix/modules/hyprland.nix` from `configuration.nix`, `home.nix`, and `flake.nix` — consolidates Hyprland enable, cachix, xdg portal, hypridle/hyprlock/mako packages and services, config file symlinks, and host-specific Lua injection behind a `programs.hyprland.hostLuaFile` option
+
 ## 2026-08-24.3
 
 - **hyprland**: added `SUPER+SHIFT+?` keybind to show searchable keybinding reference in walker dmenu
