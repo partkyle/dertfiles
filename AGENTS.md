@@ -50,11 +50,11 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 ### Changelog
 
 **Required**: Document substantive changes in `CHANGELOG.md`:
-- Headers are newest-first (reverse chronological)
-- Within a date, bullets sorted alphabetically by **tag**
-- Single header per date (merge duplicates)
-- No blank lines between bullets; one blank line between sections
-- Format: `- **tag**: description`
+- Each change gets its own section header: `## YYYY-MM-DD — tag`
+- Newest entries first (reverse chronological)
+- New entries append after existing entries for the same date (never re-sort)
+- Multiple related bullets under one header when a change spans multiple points
+- Format: `- description`
 - Omit formatting-only or mechanical changes
 
 ## Common Tasks
