@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-24.1
+
+- **walker**: replaced quickshell app launcher (`Launcher.qml`) with walker — Wayland-native app runner with Catppuccin Mocha theme (`walker/.config/walker/themes/catppuccin-mocha/style.css`)
+- **walker**: added `nix/modules/walker.nix` — installs walker + elephant (data provider backend), deploys config via `xdg.configFile`, runs both as systemd user services (elephant first, walker depends on it)
+- **quickshell**: removed `Launcher.qml`, `Commons/AppSearch.js`, and launcher IPC handler from `shell.qml`; cleaned up unused `scrim` color from `Color.qml`
+- **hyprland**: changed SUPER+SPACE bind from `qs ipc call launcher toggle` to `walker`
+- **hyprland**: added `walker-no-anim` layer rule (`no_anim = true` for `^walker$` namespace) — instant open instead of slow fade-in
+- **walker**: simplified box-shadow and reduced border-radius in catppuccin-mocha theme for faster render
+
 ## 2026-08-24
 
 - **reaper**: added `nix/modules/reaper.nix` — installs Reaper with `pw-jack` desktop entry ("REAPER (jack)") for low-latency PipeWire JACK audio

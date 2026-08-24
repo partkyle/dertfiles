@@ -28,6 +28,7 @@
         ./modules/quickshell.nix
         ./modules/reaper.nix
         ./modules/syncthing.nix
+        ./modules/walker.nix
 
         {
           nixpkgs.overlays = [ pi-nix.overlays.default ];
