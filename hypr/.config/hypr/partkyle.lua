@@ -248,121 +248,126 @@ local function send_shortcut_once(mods, key)
 end
 
 -- Copy active window class to clipboard
-hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("hyprctl activewindow | wl-copy"))
+hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("hyprctl activewindow | wl-copy"), { description = "Copy window class" })
 -- Copy: capture PRIMARY selection into CLIPBOARD via wl-clipboard
-hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"))
+hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"), { description = "Copy PRIMARY to CLIPBOARD" })
 -- Paste: Shift+Insert works in foot, terminals, and many GUI apps
-hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"))
+hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"), { description = "Paste" })
 -- Select all / Cut
-hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"))
-hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"))
+hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"), { description = "Select all" })
+hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"), { description = "Cut" })
 -- Browser convenience
-hl.bind("SUPER + T", send_shortcut_once("CTRL", "T"))
-hl.bind("SUPER + W", send_shortcut_once("CTRL", "W"))
+hl.bind("SUPER + T", send_shortcut_once("CTRL", "T"), { description = "New browser tab" })
+hl.bind("SUPER + W", send_shortcut_once("CTRL", "W"), { description = "Close browser tab" })
 -- Line navigation in text fields
-hl.bind("CTRL + A", send_shortcut_once("", "HOME"))
-hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"))
-hl.bind("CTRL + E", send_shortcut_once("", "END"))
-hl.bind("CTRL + SHIFT + E", send_shortcut_once("SHIFT", "END"))
+hl.bind("CTRL + A", send_shortcut_once("", "HOME"), { description = "Jump to line start" })
+hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"), { description = "Select to line start" })
+hl.bind("CTRL + E", send_shortcut_once("", "END"), { description = "Jump to line end" })
+hl.bind("CTRL + SHIFT + E", send_shortcut_once("SHIFT", "END"), { description = "Select to line end" })
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal))
-local closeWindowBind = hl.bind("SUPER + Q", hl.dsp.window.close())
+hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal), { description = "Open terminal" })
+local closeWindowBind = hl.bind("SUPER + Q", hl.dsp.window.close(), { description = "Close window" })
 -- closeWindowBind:set_enabled(false)
 hl.bind(
 	"SUPER + M",
-	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'")
+	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"),
+	{ description = "Power menu" }
 )
-hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
-hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }))
-hl.bind("SUPER + semicolon", hl.dsp.layout("togglesplit"))  -- dwindle toggle split
-hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }))  -- rotate / swap with next window
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu))
-hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
-hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("hyprlock"))
-hl.bind("SUPER + P", hl.dsp.window.pseudo())
-hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }))
-hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager), { description = "Open file manager" })
+hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle float" })
+hl.bind("SUPER + semicolon", hl.dsp.layout("togglesplit"), { description = "Toggle split direction" })  -- dwindle toggle split
+hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }), { description = "Swap with next window" })  -- rotate / swap with next window
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu), { description = "Open launcher" })
+hl.bind("SUPER + B", hl.dsp.exec_cmd(browser), { description = "Open browser" })
+hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("hyprlock"), { description = "Lock screen" })
+hl.bind("SUPER + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tile" })
+hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }), { description = "Toggle fullscreen (fake)" })
+hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }), { description = "Toggle fullscreen (real)" })
 
 -- Swap between master and dwindle layouts
 hl.bind(
 	"SUPER + SHIFT + M",
 	hl.dsp.exec_cmd(
 		[[hyprctl getoption general:layout | grep -q "dwindle" && TARGET=master || TARGET=dwindle; hyprctl eval "hl.config({ general = { layout = \"$TARGET\" } })"]]
-	)
+	),
+	{ description = "Toggle dwindle ↔ master" }
 )
 
 -- Direct layout switches
-hl.bind("SUPER + comma", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "dwindle" } })']]))
-hl.bind("SUPER + period", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "master" } })']]))
-hl.bind("SUPER + slash", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "scrolling" } })']]))
+hl.bind("SUPER + comma", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "dwindle" } })']]), { description = "Switch to dwindle" })
+hl.bind("SUPER + period", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "master" } })']]), { description = "Switch to master" })
+hl.bind("SUPER + slash", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "scrolling" } })']]), { description = "Switch to scrolling" })
 
-hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }))
-hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
-hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }))
-hl.bind("SUPER + down", hl.dsp.focus({ direction = "down" }))
-hl.bind("SUPER + h", hl.dsp.focus({ direction = "left" }))      -- vim-style
-hl.bind("SUPER + l", hl.dsp.focus({ direction = "right" }))     -- vim-style
-hl.bind("SUPER + k", hl.dsp.focus({ direction = "up" }))        -- vim-style
-hl.bind("SUPER + j", hl.dsp.focus({ direction = "down" }))      -- vim-style
-hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "left" }))
-hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
-hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
-hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "down" }))
-hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "left" }))   -- vim-style
-hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "right" }))  -- vim-style
-hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "up" }))     -- vim-style
-hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "down" }))   -- vim-style
+-- Show keybinding reference in walker
+hl.bind("SUPER + SHIFT + slash", hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds.sh"), { description = "Show keybindings" })
+
+hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
+hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
+hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
+hl.bind("SUPER + down", hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
+hl.bind("SUPER + h", hl.dsp.focus({ direction = "left" }), { description = "Focus left (vim)" })      -- vim-style
+hl.bind("SUPER + l", hl.dsp.focus({ direction = "right" }), { description = "Focus right (vim)" })     -- vim-style
+hl.bind("SUPER + k", hl.dsp.focus({ direction = "up" }), { description = "Focus up (vim)" })        -- vim-style
+hl.bind("SUPER + j", hl.dsp.focus({ direction = "down" }), { description = "Focus down (vim)" })      -- vim-style
+hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "left" }), { description = "Move window left" })
+hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "right" }), { description = "Move window right" })
+hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "up" }), { description = "Move window up" })
+hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "down" }), { description = "Move window down" })
+hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "left" }), { description = "Move window left (vim)" })   -- vim-style
+hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "right" }), { description = "Move window right (vim)" })  -- vim-style
+hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "up" }), { description = "Move window up (vim)" })     -- vim-style
+hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "down" }), { description = "Move window down (vim)" })   -- vim-style
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
 	local key = i % 10 -- 10 maps to key 0
-	hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = i }))
-	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+	hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = i }), { description = "Focus workspace " .. i })
+	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), { description = "Move to workspace " .. i })
 end
 
 -- Example special workspace (scratchpad)
-hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"), { description = "Toggle special workspace" })
+hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Move to special workspace" })
 
 -- Scroll through existing workspaces with mainMod + scroll
-hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Next workspace", mouse = true })
+hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }), { description = "Previous workspace", mouse = true })
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { description = "Drag window", mouse = true })
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { description = "Resize window", mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness
 hl.bind(
 	"XF86AudioRaiseVolume",
 	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-	{ locked = true, repeating = true }
+	{ description = "Volume up", locked = true, repeating = true }
 )
 hl.bind(
 	"XF86AudioLowerVolume",
 	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-	{ locked = true, repeating = true }
+	{ description = "Volume down", locked = true, repeating = true }
 )
 hl.bind(
 	"XF86AudioMute",
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-	{ locked = true, repeating = true }
+	{ description = "Toggle mute", locked = true, repeating = true }
 )
 hl.bind(
 	"XF86AudioMicMute",
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-	{ locked = true, repeating = true }
+	{ description = "Toggle mic mute", locked = true, repeating = true }
 )
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { description = "Brightness up", locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { description = "Brightness down", locked = true, repeating = true })
 
 -- Requires playerctl
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { description = "Next track", locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { description = "Play/Pause", locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { description = "Play/Pause", locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { description = "Previous track", locked = true })
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----

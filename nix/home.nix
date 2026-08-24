@@ -29,6 +29,8 @@ in
     hyprlock
     lazydocker
     lazygit
+    libxkbcommon  # xkbcli for keybind keycode resolution
+    lua
     mako
     neovim
     nodejs
@@ -178,6 +180,10 @@ in
     "hypr/hyprlock.conf".source = ../hyprlock/.config/hypr/hyprlock.conf;
     "hypr/mocha.conf".source = ../hyprmocha/.config/hypr/mocha.conf;
     "backgrounds".source = ../backgrounds/.config/backgrounds;
+    "hypr/scripts/keybinds.sh" = {
+      source = ../hypr/.config/hypr/scripts/keybinds.sh;
+      executable = true;
+    };
   };
 
   programs.pi-coding-agent = {

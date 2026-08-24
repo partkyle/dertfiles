@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-24.3
+
+- **hyprland**: added `SUPER+SHIFT+?` keybind to show searchable keybinding reference in walker dmenu
+- **hyprland**: keybinds script (`hypr/.config/hypr/scripts/keybinds.sh`) now dynamically extracts bindings from Lua config using omarchy-style Lua scanner
+- **hyprland**: added `description` field to all `hl.bind()` calls in `partkyle.lua` for keybind documentation
+- **nix**: added `lua` and `libxkbcommon` packages for keybind script (Lua config scanner + keycode resolution)
+
 ## 2026-08-24.2
 
 - **hyprland**: added direct layout switches — `SUPER+,` dwindle, `SUPER+.` master, `SUPER+/` scrolling
