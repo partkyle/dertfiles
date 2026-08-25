@@ -68,6 +68,8 @@ in
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
     SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+    NIXOS_OZONE_WL = "1";
   };
 
   # SSH agent socket is set in home.sessionVariables; no per-shell init needed
@@ -122,12 +124,15 @@ in
   home.file.".gitconfig".source = ../git/.gitconfig;
   home.file.".gitignore_global".source = ../git/.gitignore_global;
 
-  xdg.configFile = {
-    "fastfetch".source = ../fastfetch/.config/fastfetch;
-    "nvim".source = ../nvim/.config/nvim;
-    "backgrounds".source = ../backgrounds/.config/backgrounds;
-    "rofi".source = ../rofi/.config/rofi;
-  };
+  xdg.configFile = lib.mkMerge [
+    {
+      "fastfetch".source = ../fastfetch/.config/fastfetch;
+      "nvim".source = ../nvim/.config/nvim;
+      "backgrounds".source = ../backgrounds/.config/backgrounds;
+      "rofi".source = ../rofi/.config/rofi;
+    }
+    webApps.wrapperFiles
+  ];
 
   programs.pi-coding-agent = {
     enable = true;
@@ -182,7 +187,7 @@ in
     package = pkgs.vscode.fhs;
   };
 
-  xdg.desktopEntries = webApps;
+  xdg.desktopEntries = webApps.desktopEntries;
 
   home.stateVersion = "26.05";
 }

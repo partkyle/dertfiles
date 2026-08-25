@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-24.7
+
+- **webapps**: wrap Exec in named scripts (`webapp-gmail` etc.) so rofi drun no longer matches them when searching "brave" — the desktop entries are still searchable by their own name (GMail, Calendar, Gemini)
+
+## 2026-08-24.6
+
+- **wayland**: set `ELECTRON_OZONE_PLATFORM_HINT=auto` and `NIXOS_OZONE_WL=1` in session variables — Electron apps (Obsidian, VS Code, Signal) and nixpkgs-wrapped Chromium/Electron packages now prefer native Wayland over XWayland
+
 ## 2026-08-24.5
 
 - **rofi**: replaced walker with rofi as app launcher — reverted to `rofi -show drun -show-icons` for SUPER+SPACE, rofi dmenu for keybinds search
