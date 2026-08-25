@@ -285,15 +285,6 @@ hl.bind("SUPER + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tile
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }), { description = "Toggle fullscreen (fake)" })
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }), { description = "Toggle fullscreen (real)" })
 
--- Swap between master and dwindle layouts
-hl.bind(
-	"SUPER + SHIFT + M",
-	hl.dsp.exec_cmd(
-		[[hyprctl getoption general:layout | grep -q "dwindle" && TARGET=master || TARGET=dwindle; hyprctl eval "hl.config({ general = { layout = \"$TARGET\" } })"]]
-	),
-	{ description = "Toggle dwindle ↔ master" }
-)
-
 -- Direct layout switches
 hl.bind("SUPER + comma", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "dwindle" } })']]), { description = "Switch to dwindle" })
 hl.bind("SUPER + period", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "master" } })']]), { description = "Switch to master" })
