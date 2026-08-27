@@ -2,6 +2,10 @@
 
 ## 2026-08-27
 
+- **vst-plugins**: added vst plugins to make it more automatic to import reaper
+
+## 2026-08-27
+
 - **vital**: added vital. requires extra setup to get working with reaper, but functional.
 
 ## 2026-08-25

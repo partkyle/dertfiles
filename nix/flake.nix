@@ -30,6 +30,7 @@
         ./modules/reaper.nix
         ./modules/syncthing.nix
         ./modules/vital.nix
+        ./modules/vst-plugins.nix
 
         {
           nixpkgs.overlays = [ pi-nix.overlays.default ];
