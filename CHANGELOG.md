@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-27
+
+- **vital**: added vital. requires extra setup to get working with reaper, but functional.
+
 ## 2026-08-25
 
 - **hyprland**: remove master toggle since we added "," "." "/" hotkeys

@@ -23,6 +23,13 @@ local browser = "brave"
 local fileManager = terminal .. " -e yazi"
 local menu = "rofi -show drun -show-icons"
 
+
+hl.config({
+  misc = {
+    middle_click_paste = true,
+  }
+})
+
 -------------------
 ---- AUTOSTART ----
 -------------------
