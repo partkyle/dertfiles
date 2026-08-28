@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-28
+
+- **hyprland**: add center hotkey replacing copy window class
+
 ## 2026-08-27
 
 - **vst-plugins**: added vst plugins to make it more automatic to import reaper
