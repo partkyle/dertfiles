@@ -2,6 +2,10 @@
 
 ## 2026-08-28
 
+- **reaper**: hide reaper desktop entry and only use the one that we wrap with `pw-jack`
+
+## 2026-08-28
+
 - **hyprland**, **reaper**: center reaper popups so I don't lose them
 
 ## 2026-08-28

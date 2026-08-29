@@ -1,5 +1,9 @@
-{ lib, pkgs, config, ... }:
-
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 {
   options.programs.reaper = {
     enable = lib.mkOption {
@@ -8,16 +12,25 @@
       description = "Whether to install REAPER and create a pw-jack desktop entry.";
     };
   };
-
   config = lib.mkIf config.programs.reaper.enable {
     home-manager.users.partkyle = {
-      home.packages = [ pkgs.reaper pkgs.pipewire.jack ];
-
+      home.packages = [
+        (pkgs.reaper.overrideAttrs (old: {
+          postInstall = (old.postInstall or "") + ''
+            rm -rf $out/share/applications
+          '';
+        }))
+        pkgs.pipewire.jack
+      ];
       xdg.desktopEntries.reaper = {
         name = "REAPER (jack)";
         exec = "${pkgs.pipewire.jack}/bin/pw-jack ${pkgs.reaper}/bin/reaper";
         icon = "cockos-reaper";
-        categories = [ "Audio" "AudioVideo" "Sequencer" ];
+        categories = [
+          "Audio"
+          "AudioVideo"
+          "Sequencer"
+        ];
         terminal = false;
         startupNotify = true;
       };
