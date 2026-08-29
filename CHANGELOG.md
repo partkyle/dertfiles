@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 2026-08-28
+
+- **reaper**: cleanup derivation to ensure only one reaper pacakge (needed?)
+
 ## 2026-08-28
 
 - **reaper**: hide reaper desktop entry and only use the one that we wrap with `pw-jack`

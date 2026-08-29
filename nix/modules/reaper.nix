@@ -4,6 +4,13 @@
   config,
   ...
 }:
+let
+  reaperPkg = pkgs.reaper.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      rm -rf $out/share/applications
+    '';
+  });
+in
 {
   options.programs.reaper = {
     enable = lib.mkOption {
@@ -15,16 +22,12 @@
   config = lib.mkIf config.programs.reaper.enable {
     home-manager.users.partkyle = {
       home.packages = [
-        (pkgs.reaper.overrideAttrs (old: {
-          postInstall = (old.postInstall or "") + ''
-            rm -rf $out/share/applications
-          '';
-        }))
+        reaperPkg
         pkgs.pipewire.jack
       ];
       xdg.desktopEntries.reaper = {
         name = "REAPER (jack)";
-        exec = "${pkgs.pipewire.jack}/bin/pw-jack ${pkgs.reaper}/bin/reaper";
+        exec = "${pkgs.pipewire.jack}/bin/pw-jack ${reaperPkg}/bin/reaper";
         icon = "cockos-reaper";
         categories = [
           "Audio"
