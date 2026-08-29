@@ -2,6 +2,10 @@
 
 ## 2026-08-28
 
+- **hyprland**, **reaper**: center reaper popups so I don't lose them
+
+## 2026-08-28
+
 - **hyprland**: add center hotkey replacing copy window class
 
 ## 2026-08-27

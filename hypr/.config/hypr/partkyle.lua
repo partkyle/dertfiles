@@ -429,3 +429,14 @@ hl.window_rule({
 	move = "20 monitor_h-120",
 	float = true,
 })
+
+-- reaper window rules -- center floating windows
+hl.window_rule({
+    name  = "center-reaper-popups",
+    match = {
+        class = "^(REAPER)$",
+        float = true,
+        title = "negative:^REAPER v.*$",
+    },
+    center = true,
+})
