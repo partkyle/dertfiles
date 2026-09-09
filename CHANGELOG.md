@@ -83,6 +83,10 @@
 
 - **hyprland**: setup monacle keybind and change default exit
 
+## 2026-09-08
+
+- *blender*: install blender
+
 ## 2026-08-28
 
 - **reaper**: cleanup derivation to ensure only one reaper pacakge (needed?)

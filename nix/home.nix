@@ -61,6 +61,7 @@ in
     bibataRainbow.bibata-rainbow-original
 
     godot_4
+    blender
   ];
 
   home.sessionVariables = {
