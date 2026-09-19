@@ -49,6 +49,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbDY+neU1up+zsrz75ZsJGbgdupbYJdcCsLZJ/p+W26 partkyle@theseus"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBL1TBBccA0/KpzcekAUr/peNgc1QTNN4W9UK8ofQR4G partkyle@dionysus"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDKIrpcsEtS1/2aBLQzf/50Lnp8L97ON4U2vmZ9ockxb partkyle@phoneus"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGjd6sMZffPGcrX/zDIQJgDfWzwXMA2OekC0pQ10UNa partkyle@nowhere"
     ];
   };
 

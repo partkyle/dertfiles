@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 {
-  users.groups.git = {};
+  users.groups.git = { };
 
   users.users.git = {
     isNormalUser = true;
