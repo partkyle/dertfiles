@@ -281,7 +281,7 @@ hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal), { description = "Open termi
 local closeWindowBind = hl.bind("SUPER + Q", hl.dsp.window.close(), { description = "Close window" })
 -- closeWindowBind:set_enabled(false)
 hl.bind(
-	"SUPER + M",
+	"SUPER + SHIFT + M",
 	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"),
 	{ description = "Power menu" }
 )
@@ -297,6 +297,7 @@ hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }), 
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }), { description = "Toggle fullscreen (real)" })
 
 -- Direct layout switches
+hl.bind("SUPER + M", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "monocle" } })']]), { description = "Switch to monocle" })
 hl.bind("SUPER + comma", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "dwindle" } })']]), { description = "Switch to dwindle" })
 hl.bind("SUPER + period", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "master" } })']]), { description = "Switch to master" })
 hl.bind("SUPER + slash", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "scrolling" } })']]), { description = "Switch to scrolling" })

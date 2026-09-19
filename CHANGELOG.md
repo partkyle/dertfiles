@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026-09-18
+
+- **hyprland**: setup monacle keybind and change default exit
 
 ## 2026-08-28
 
