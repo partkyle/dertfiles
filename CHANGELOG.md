@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-09-23
+
+- **flakes**: updated flakes to update signal, pulled in the entire world. had to update pi-nix to resolve a package rename error for `typescript-go`.
+
 ## 2026-09-18
 
 - **ssh**: added another ssh public key
