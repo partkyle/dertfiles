@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-09-23
+
+- **home-manager**: update home manager to resolve platform warning about isLinux and isDarwin methods moving.
+
 ## 2026-09-23.1
 
 - **pi**: set default model to `deepseek-v4.1-flash`
