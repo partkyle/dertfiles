@@ -92,6 +92,10 @@
           source = ../../hypr/.config/hypr/scripts/keybinds.sh;
           executable = true;
         };
+        "hypr/scripts/idle-inhibit.sh" = {
+          source = ../../hypr/.config/hypr/scripts/idle-inhibit.sh;
+          executable = true;
+        };
       };
     };
   };

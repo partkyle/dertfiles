@@ -55,6 +55,7 @@ PanelWindow {
     Network {}
     Audio {}
     Battery {}
+    IdleInhibit {}
     Clock {}
   }
 }

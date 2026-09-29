@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-29.1
+
+- **hypridle**: added `hypr/scripts/idle-inhibit.sh` — stores an inhibit-expiry stamp in `$XDG_RUNTIME_DIR` with `toggle` / `status` / `check` subcommands
+- **hypridle**: lock and display-sleep listeners now use `condition_cmd` + `condition_retry`, so both are snoozed together and still fire once the inhibit expires
+- **quickshell**: added `IdleInhibit` bar widget — lock/unlock icon; left click snoozes idle actions for one hour, right click re-enables immediately, and the label counts down the remaining time
+
 ## 2026-09-29
 
 - **pi**: update pi
