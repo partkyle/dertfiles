@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-09-29
+
+- **pi**: update pi
+
 ## 2026-09-23
 
 - **home-manager**: update home manager to resolve platform warning about isLinux and isDarwin methods moving.
