@@ -51,13 +51,7 @@
           modules = [
             ./hosts/${hostName}/default.nix
           ]
-          ++ sharedModules
-          ++ [
-            {
-              # Host-specific hyprland monitor config
-              programs.hyprland.hostLuaFile = ../hypr/.config/hypr/hosts/${hostName}.lua;
-            }
-          ];
+          ++ sharedModules;
         };
     in
     {

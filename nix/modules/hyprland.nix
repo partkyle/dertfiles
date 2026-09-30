@@ -1,10 +1,18 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
+let
+  defaultHostLuaFile = ../../hypr/.config/hypr/hosts/${config.networking.hostName}.lua;
+in
 {
   options.programs.hyprland.hostLuaFile = lib.mkOption {
     type = lib.types.nullOr lib.types.path;
-    default = null;
-    description = "Host-specific Hyprland Lua config file (e.g., monitor setup).";
+    default = if builtins.pathExists defaultHostLuaFile then defaultHostLuaFile else null;
+    description = "Host-specific Hyprland Lua config file (e.g., monitor setup). Defaults to hypr/hosts/<hostname>.lua when present.";
   };
 
   config = {
@@ -24,12 +32,15 @@
     # ── Home Manager-level ───────────────────────────────────────────
 
     home-manager.users.partkyle = {
+      # Hyprland's native cursor format (uses the cursor set in home.nix).
+      home.pointerCursor.hyprcursor.enable = true;
+
       home.packages = with pkgs; [
         hypridle
         hyprlock
         libxkbcommon # xkbcli for keybind keycode resolution
-        lua          # keybinds.sh Lua config scanner
-        mako         # notification daemon (makoctl)
+        lua # keybinds.sh Lua config scanner
+        mako # notification daemon (makoctl)
       ];
 
       wayland.windowManager.hyprland = {

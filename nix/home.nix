@@ -103,7 +103,6 @@ in
     package = bibataRainbow.bibata-rainbow-original;
     size = 24;
     gtk.enable = true;
-    hyprcursor.enable = true;
     x11.enable = true;
   };
 

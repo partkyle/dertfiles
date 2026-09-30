@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-30.1
+
+- **hyprland**: moved the last Hyprland-specific Nix code into `nix/modules/hyprland.nix`
+- **hyprland**: `programs.hyprland.hostLuaFile` now defaults to `hypr/hosts/<hostname>.lua` inside the module, so the inline module in `flake.nix` is gone
+- **hyprland**: moved `home.pointerCursor.hyprcursor.enable` from `home.nix` into the module
+
 ## 2026-09-30
 
 - **hyprland**: fixed slow animations — `speed` is the animation *duration* in 100ms units (lower = faster), so values like `layersIn = 12` meant 1200ms
