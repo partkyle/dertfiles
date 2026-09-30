@@ -27,6 +27,7 @@ in
     go
     lazydocker
     lazygit
+    libnotify # notify-send for testing/scripting notifications
     neovim
     nodejs
     obsidian

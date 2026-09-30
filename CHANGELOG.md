@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-30.3
+
+- **quickshell**: added a notification popup (`NotificationPopup`, `Ui/NotificationCard`) backed by `Quickshell.Services.Notifications` — urgency-coloured cards, app icon and attached images, action buttons, click-to-invoke default action, auto-expiry using the sender's timeout with per-urgency fallbacks, and a scrollable top-right stack
+- **quickshell**: `shell.qml` now runs a `NotificationServer` and tracks incoming notifications so the popup can display them
+- **hyprland**: removed the mako notification daemon (package, systemd service, and `mako/` config) in favour of the quickshell notification server
+- **home-manager**: added `libnotify` for `notify-send`
+
 ## 2026-09-30.2
 
 - **hosts**: removed the `minotaur` NixOS configuration and its host module

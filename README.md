@@ -20,7 +20,7 @@ Partkyle's NixOS dotfiles and system configuration.
 ├── wofi/                   # Wofi launcher config
 ├── rofi/                   # Rofi launcher config
 ├── kitty/                  # Kitty terminal config
-├── mako/                   # Notification daemon config
+├── quickshell/             # Desktop shell (bar + notifications)
 ├── background/             # Wallpapers / background images
 └── fastfetch/              # Fastfetch config
 ```

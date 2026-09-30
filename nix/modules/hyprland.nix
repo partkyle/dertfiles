@@ -40,7 +40,6 @@ in
         hyprlock
         libxkbcommon # xkbcli for keybind keycode resolution
         lua # keybinds.sh Lua config scanner
-        mako # notification daemon (makoctl)
       ];
 
       wayland.windowManager.hyprland = {
@@ -62,22 +61,6 @@ in
         };
       };
 
-      systemd.user.services.mako = {
-        Unit = {
-          Description = "Mako notification daemon";
-          PartOf = [ "hyprland-session.target" ];
-          After = [ "hyprland-session.target" ];
-        };
-        Service = {
-          ExecStart = "${pkgs.mako}/bin/mako";
-          Restart = "on-failure";
-          RestartSec = 3;
-        };
-        Install = {
-          WantedBy = [ "hyprland-session.target" ];
-        };
-      };
-
       systemd.user.services.hypridle = {
         Unit = {
           Description = "Hyprland idle daemon";
@@ -95,7 +78,6 @@ in
       };
 
       xdg.configFile = {
-        "mako".source = ../../mako/.config/mako;
         "hypr/hypridle.conf".source = ../../hypr/.config/hypr/hypridle.conf;
         "hypr/hyprlock.conf".source = ../../hyprlock/.config/hypr/hyprlock.conf;
         "hypr/mocha.conf".source = ../../hyprmocha/.config/hypr/mocha.conf;
