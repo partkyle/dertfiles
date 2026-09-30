@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 {
   options.programs.quickshell = {
@@ -27,6 +32,13 @@
           Description = "Quickshell desktop shell (bar)";
           PartOf = config.programs.quickshell.wantedBy;
           After = config.programs.quickshell.wantedBy;
+          # Restart the shell when its QML/config changes. sd-switch only looks
+          # at the unit file, so without this a config-only change leaves the
+          # old config running until it is restarted by hand.
+          X-Restart-Triggers = [
+            "${config.home-manager.users.partkyle.xdg.configFile."quickshell".source}"
+          ];
+          X-SwitchMethod = "restart";
         };
         Service = {
           ExecStart = "${pkgs.quickshell}/bin/quickshell --no-duplicate";

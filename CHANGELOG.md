@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-09-30.4
+
+- **quickshell**: the user service now restarts itself when its QML/config changes (`X-Restart-Triggers`), so a rebuild no longer leaves the old shell running
+- **hypridle**: the user service now restarts itself when `hypridle.conf` changes
+- **quickshell**: added a notification bell to the bar — unread count badge, left click toggles the history panel and marks everything read, right click clears the history
+- **quickshell**: added an in-memory notification history (`Commons/Notifications`) — `shell.qml` snapshots notifications that expire while unattended (newest first, capped at 50), so missed notifications can be recalled after the live object is destroyed; ones you dismiss or act on are deliberately not recorded
+- **quickshell**: added a `NotificationHistory` overlay panel (top-right, follows the focused monitor) listing missed notifications with per-entry removal and a clear-all control that closes the panel
+- **quickshell**: extracted notification icon resolution into a shared `Commons/IconSource` singleton (theme icon names vs. `file://`/absolute paths), reused by the popup and history rows
+
 ## 2026-09-30.3
 
 - **quickshell**: added a notification popup (`NotificationPopup`, `Ui/NotificationCard`) backed by `Quickshell.Services.Notifications` — urgency-coloured cards, app icon and attached images, action buttons, click-to-invoke default action, auto-expiry using the sender's timeout with per-urgency fallbacks, and a scrollable top-right stack

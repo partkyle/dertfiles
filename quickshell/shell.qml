@@ -27,10 +27,22 @@ ShellRoot {
     id: notificationServer
     actionsSupported: true
     imageSupported: true
-    onNotification: notification => notification.tracked = true
+    onNotification: notification => {
+      notification.tracked = true
+      // Only keep notifications that expire without being touched. Ones the
+      // user dismisses or acts on are deliberately left out of the history,
+      // so the bell is a list of what was missed. The Notification object is
+      // destroyed shortly after the signal, so the fields must be copied here.
+      notification.closed.connect(reason => {
+        if (reason === NotificationCloseReason.Expired)
+          Notifications.record(notification)
+      })
+    }
   }
 
   NotificationPopup {
     server: notificationServer
   }
+
+  NotificationHistory {}
 }

@@ -56,6 +56,7 @@ PanelWindow {
     Audio {}
     Battery {}
     IdleInhibit {}
+    NotificationBell {}
     Clock {}
   }
 }

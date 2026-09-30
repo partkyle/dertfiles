@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell
 import Quickshell.Services.Notifications
 
 import qs.Commons
@@ -30,19 +29,7 @@ Item {
     : notification.urgency === NotificationUrgency.Low ? 3000
     : 5000
 
-  // Icons are either a theme icon name (sender-provided or from the desktop
-  // entry) or, for web notifications from Chromium-based browsers, a file://
-  // URL to the site favicon (passed as app_icon). Theme names go through the
-  // icon provider; file URLs and absolute paths are loaded directly, since
-  // Quickshell.iconPath() only understands theme names.
-  readonly property string iconSource: {
-    const icon = notification.appIcon
-    if (icon === "")
-      return ""
-    if (icon.startsWith("file:") || icon.startsWith("/"))
-      return icon
-    return Quickshell.iconPath(icon, true)
-  }
+  readonly property string iconSource: IconSource.resolve(notification.appIcon)
 
   readonly property var defaultAction: {
     const actions = notification.actions

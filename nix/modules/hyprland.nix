@@ -66,6 +66,11 @@ in
           Description = "Hyprland idle daemon";
           PartOf = [ "hyprland-session.target" ];
           After = [ "hyprland-session.target" ];
+          # Restart when hypridle.conf changes (sd-switch only sees unit files).
+          X-Restart-Triggers = [
+            "${config.home-manager.users.partkyle.xdg.configFile."hypr/hypridle.conf".source}"
+          ];
+          X-SwitchMethod = "restart";
         };
         Service = {
           ExecStart = "${pkgs.hypridle}/bin/hypridle";
