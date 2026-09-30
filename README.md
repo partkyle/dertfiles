@@ -15,13 +15,10 @@ Partkyle's NixOS dotfiles and system configuration.
 │   └── packages/           # Custom package derivations
 ├── nvim/                   # Neovim config (LazyVim-based)
 ├── hypr/                   # Hyprland Lua config (+ clipboards, hosts)
-├── waybar/                 # Waybar config
 ├── foot/                   # Foot terminal config
-├── wofi/                   # Wofi launcher config
 ├── rofi/                   # Rofi launcher config
-├── kitty/                  # Kitty terminal config
 ├── quickshell/             # Desktop shell (bar + notifications)
-├── background/             # Wallpapers / background images
+├── backgrounds/            # Wallpapers / background images
 └── fastfetch/              # Fastfetch config
 ```
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-30.5
+
+- **repo**: removed the dead config trees that were no longer referenced by any Nix code — `waybar/`, `wofi/`, `kitty/`, `picom/`, `i3/`, and `hyprpaper/`
+- **repo**: kept `zsh/` for now (still to be migrated off)
+- **hyprland**: dropped the stale commented `waybar & hyprpaper & firefox` example from `partkyle.lua`
+- **docs**: trimmed the removed trees from the README structure and fixed the `background/` → `backgrounds/` path
+
 ## 2026-09-30.4
 
 - **quickshell**: the user service now restarts itself when its QML/config changes (`X-Restart-Triggers`), so a rebuild no longer leaves the old shell running
