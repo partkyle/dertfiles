@@ -57,6 +57,5 @@
     {
       nixosConfigurations.dionysus = mkHost "dionysus";
       nixosConfigurations.theseus = mkHost "theseus";
-      nixosConfigurations.minotaur = mkHost "minotaur";
     };
 }

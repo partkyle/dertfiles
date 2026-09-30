@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-09-30.2
+
+- **hosts**: removed the `minotaur` NixOS configuration and its host module
+- **hyprland**: removed `hypr/hosts/minotaur.lua`
+
 ## 2026-09-30.1
 
 - **hyprland**: moved the last Hyprland-specific Nix code into `nix/modules/hyprland.nix`
