@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-30
+
+- **hyprland**: fixed slow animations — `speed` is the animation *duration* in 100ms units (lower = faster), so values like `layersIn = 12` meant 1200ms
+- **hyprland**: cut the animation block from ~26 lines to a single `global` baseline (~200ms `quick`) plus 5 deltas; every unset leaf now inherits the baseline
+- **hyprland**: stiffened the `easy` window spring (stiffness 120 → 350) — springs ignore `speed`, so the soft spring was the slow part of window open/close
+
 ## 2026-09-29.1
 
 - **hypridle**: added `hypr/scripts/idle-inhibit.sh` — stores an inhibit-expiry stamp in `$XDG_RUNTIME_DIR` with `toggle` / `status` / `check` subcommands
