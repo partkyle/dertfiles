@@ -52,4 +52,28 @@ return {
       }
     end,
   },
+  -- Local plugin: autosave by default, with a per-buffer manual-save lock
+  {
+    dir = vim.fn.stdpath("config") .. "/local/autosave-lock",
+    name = "autosave-lock",
+    main = "autosave-lock",
+    opts = {
+      keymap = "<leader>zl",
+    },
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = function(_, opts)
+      opts.sections = opts.sections or {}
+      opts.sections.lualine_x = opts.sections.lualine_x or {}
+      table.insert(opts.sections.lualine_x, 1, {
+        function()
+          return require("autosave-lock").statusline()
+        end,
+        cond = function()
+          return require("autosave-lock").locked()
+        end,
+      })
+    end,
+  },
 }

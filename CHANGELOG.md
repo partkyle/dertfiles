@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2026-09-30.10
+
+- **nvim**: new local plugin `autosave-lock` — autosave by default on buffer switch and terminal focus loss, with a per-buffer lock that forces manual saving
+- **nvim**: `autosave-lock` exposes `:AutosaveLock`/`:AutosaveEnable`/`:AutosaveDisable`/`:AutosaveStatus`, an optional persisted lock set, and a lualine lock indicator
+
 ## 2026-09-30.9
 
 - **tmux**: new `nix/modules/tmux.nix` shared module, enabled on all hosts by default (`programs.tmux.enable`, overridable per host)
