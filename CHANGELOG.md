@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 2026-10-01
+
+- **dert**: added registry-driven fish completion — `dert __complete` emits candidates (with descriptions) from the same group/command registries that drive help, so completion cannot drift from the CLI
+- **dert**: `CMD_COMPLETE` registry for per-command argument completion; `nix update` now completes flake inputs parsed from `nix/flake.nix`
+- **fish**: added an `__dert_complete` function and a `complete` binding (inline in `nix/modules/fish.nix`) that call `dert __complete`
+
 ## 2026-09-30.10
 
 - **nvim**: new local plugin `autosave-lock` — autosave by default on buffer switch and terminal focus loss, with a per-buffer lock that forces manual saving

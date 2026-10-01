@@ -36,6 +36,14 @@ declare -A CMD_USAGE=(
   [nix.update]="[input ...]    e.g. dert nix update pi-nix"
 )
 
+# Optional positional-argument completions, keyed like CMD_DESC. Each value is
+# the name of a generator function: the completion engine calls it when the
+# word being completed follows that command. Commands absent here still get
+# group/command completion for free, straight from the registries above.
+declare -A CMD_COMPLETE=(
+  [nix.update]="flake_inputs"
+)
+
 # ── commands ────────────────────────────────────────────────────────────────
 
 cmd_nix_rebuild() {
@@ -63,6 +71,47 @@ cmd_nix_generations() {
 
 cmd_nix_gc() {
   sudo nix-collect-garbage -d "$@"
+}
+
+# ── completion ──────────────────────────────────────────────────────────────
+# Hidden engine behind the fish `__dert_complete` helper in nix/modules/fish.nix.
+# Given the words already typed after `dert`, print the candidates for the next
+# word, one per line as `value<TAB>description`; fish turns the tab-separated
+# tail into the completion description. Intentionally absent from CMD_DESC: it
+# is plumbing, not a user-facing command.
+
+flake_inputs() {
+  awk '
+    /^  inputs = \{/ { inb = 1; next }
+    inb && /^  \};/ { inb = 0; next }
+    inb && /^    [A-Za-z0-9_-]+[[:space:]=.]/ {
+      sub(/^    /, "")
+      sub(/[[:space:]]*[=.].*/, "")
+      print
+    }
+  ' "$FLAKE_DIR/flake.nix" | sort -u
+}
+
+complete_words() {
+  local group="${1:-}" cmd="${2:-}" key
+
+  if [[ -z $group ]]; then
+    printf '%s\t%s\n' help "Show all commands and groups"
+    printf '%s\t%s\n' version "Print the dert version"
+    for group in "${GROUP_ORDER[@]}"; do
+      printf '%s\t%s\n' "$group" "${GROUP_DESC[$group]}"
+    done
+    return 0
+  fi
+
+  if [[ -z $cmd ]]; then
+    while IFS= read -r key; do
+      printf '%s\t%s\n' "${key#*.}" "${CMD_DESC[$key]}"
+    done < <(sorted_keys "$group.")
+    return 0
+  fi
+
+  "${CMD_COMPLETE[$group.$cmd]:-true}"
 }
 
 # ── help ────────────────────────────────────────────────────────────────────
@@ -160,6 +209,11 @@ main() {
       ;;
     version|--version)
       printf 'dert %s\n' "$VERSION"
+      return 0
+      ;;
+    __complete)
+      shift
+      complete_words "$@"
       return 0
       ;;
   esac

@@ -22,12 +22,23 @@
         fish_greeting = {
           body = "";
         };
+
+        # dert emits its completion candidates from its own command
+        # registries (`dert __complete`), so this helper never goes stale.
+        __dert_complete = {
+          body = ''
+            set -l tokens (commandline -opc)
+            set -e tokens[1]
+            command dert __complete $tokens
+          '';
+        };
       };
 
       # Infinite shell history — no size or age limits
       interactiveShellInit = ''
         set -U fish_max_history_file_size 0
         set -U fish_max_history_age 0
+        complete -c dert -f -a '(__dert_complete)'
       '';
 
       # plugins = [
