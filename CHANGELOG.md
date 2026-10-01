@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-09-30.6
+
+- **hyprland**: moved the Hyprland config out of the stow-style `hypr/`/`hyprlock/`/`hyprmocha/` trees into `nix/hypr/` (it is Linux/Nix-only and never stowed)
+- **hyprland**: renamed `partkyle.lua` to `hyprland.lua` and made it the repo-owned entrypoint — it sets `package.path`, requires the host file, and carries the systemd session hooks
+- **hyprland**: stopped Home Manager from generating `hyprland.lua`; the module sets `systemd.enable = false` and defines `hyprland-session.target` itself
+- **hyprland**: `hyprland.lua` and the per-host monitor file are live-linked, so edits reload via Hyprland's own watcher without a rebuild
+- **hyprland**: `hypridle.conf`/`hyprlock.conf`/`mocha.conf`/scripts stay store copies (`hypridle` still restarts on rebuild)
+- **hyprland**: moved the graphical session to UWSM (`programs.hyprland.withUWSM`) — it now owns `graphical-session.target`, environment import, and compositor wrapping
+- **hyprland**: dropped the custom `hyprland-session.target` and the systemd start/shutdown hooks from `hyprland.lua`; quickshell and hypridle now bind to `graphical-session.target`
+- **greetd**: launches `uwsm start -F -- /run/current-system/sw/bin/Hyprland` (tuigreet kept as the front-end)
+- **docs**: removed the stale `KEYBINDS.md`
+- **docs**: codified agent working guardrails in `AGENTS.md` — probe freely, never run a flake build, remove stray `result` symlinks, and no git writes unless asked
+
 ## 2026-09-30.5
 
 - **repo**: removed the dead config trees that were no longer referenced by any Nix code — `waybar/`, `wofi/`, `kitty/`, `picom/`, `i3/`, and `hyprpaper/`

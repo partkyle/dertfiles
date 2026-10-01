@@ -11,16 +11,21 @@ This is a Nix flake-based dotfiles repository managing NixOS configs and user ap
 - `home.nix` — Home Manager config for user packages and services
 - `hosts/<hostname>/default.nix` — Host-specific NixOS configs (dionysus=laptop/Intel, theseus=desktop/NVIDIA)
 - `modules/*.nix` — Shared NixOS modules (hyprland.nix, steam.nix, fish.nix, syncthing.nix, git-server.nix)
+- `hypr/` — Hyprland Lua/config assets (Linux/Nix-only; see below)
 - `greetd.nix` — Display manager/login config
 - `webapps.nix` — Desktop entries for web apps
 
-### Hyprland (`hypr/`)
+### Hyprland (`nix/hypr/`)
 
-- `hyprland.lua` — Main Hyprland config (Lua-based, not hyprland.conf)
-- `partkyle.lua` — User-specific keybinds, window rules, animations
-- `clipboard.lua` — Clipboard manager integration
-- `hosts/<hostname>.lua` — Per-host monitor configs (loaded via flake.nix)
-- `hyprlock.conf`, `hypridle.conf` — Lock and idle configs
+Linux/Nix-only Hyprland config, deployed by `nix/modules/hyprland.nix`:
+
+- `hyprland.lua` — Main config: `package.path`, host require, settings, keybinds, window rules (live-linked; Hyprland reloads on save)
+- `hosts/<hostname>.lua` — Per-host monitor config, required as `host` (live-linked)
+- `hypridle.conf` — Idle daemon config (store copy; restarts on rebuild)
+- `hyprlock.conf`, `mocha.conf` — Lock screen and its color theme
+- `scripts/` — `keybinds.sh` (keybind overlay) and `idle-inhibit.sh` (idle inhibit state)
+
+Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, hypridle) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
 
 ### Other Configs
 
@@ -45,7 +50,7 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 
 - Common settings go in `configuration.nix` or shared modules
 - Host-specific settings go in `hosts/<hostname>/default.nix`
-- Host-specific Hyprland monitor configs go in `hypr/hosts/<hostname>.lua` (loaded via flake.nix)
+- Host-specific Hyprland monitor configs go in `nix/hypr/hosts/<hostname>.lua` (loaded automatically by `nix/modules/hyprland.nix`)
 
 ### Changelog
 
@@ -68,6 +73,13 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 - **Never modify a committed section** unless specifically asked to do so.
 - **Prefer one fact per bullet.** Split into separate bullets when it helps readability.
 
+## Working guardrails
+
+- **Only run git write commands when explicitly asked.** Read-only git (`status`, `diff`, `log`, `show`) is fine; do not `add`, `mv`, `rm`, `commit`, `checkout`, `reset`, `push`, `worktree`, etc. unless the user asks.
+- **Never run a flake build.** Do not run `nix build`, `nixos-rebuild build`, or anything that builds the flake/system. Verify changes with cheap, non-building probes instead.
+- **Probing and tests are fine:** `nix eval`, `nix flake check --no-build`, dry-runs, `hyprctl`, `luac -p`, `systemctl status`, `git`, etc.
+- **Clean up `result` symlinks.** Builds and some tooling leave `result`/`result-*` symlinks lying around. Remove any before finishing (`rm -f result result-*`, in the repo root and `nix/`).
+
 ## Common Tasks
 
 ### Adding a new NixOS module
@@ -89,10 +101,12 @@ programs.<name>.<option> = { ... };
 
 ### Hyprland changes
 
-- Main config: `hypr/hyprland.lua` or `hypr/partkyle.lua`
-- Monitor setup: `hypr/hosts/<hostname>.lua`
-- Keybinds/window rules: `hypr/partkyle.lua`
-- Test with `hyprctl reload` before committing
+- Main config (keybinds, window rules, animations): `nix/hypr/hyprland.lua`
+- Monitor setup: `nix/hypr/hosts/<hostname>.lua`
+- Idle/lock: `nix/hypr/hypridle.conf`, `nix/hypr/hyprlock.conf`
+- `hyprland.lua` and the host file are live-linked into `~/.config/hypr`, so edits reload via Hyprland's watcher — no rebuild needed.
+- Everything else is a store copy; rebuild with `sudo nixos-rebuild switch` to apply it.
+- Session: UWSM owns `graphical-session.target` (`programs.hyprland.withUWSM = true`); services bind to it. There is no custom session target or Hyprland config hook.
 
 ### Rebuilding NixOS
 

@@ -11,10 +11,10 @@ Partkyle's NixOS dotfiles and system configuration.
 │   ├── home.nix            # Home-manager config (packages, services, programs)
 │   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, pi-nix, …)
 │   ├── modules/            # NixOS/home-manager modules
+│   ├── hypr/               # Hyprland Lua config, scripts, hypridle/hyprlock
 │   ├── hosts/              # Per-host configs (dionysus, theseus)
 │   └── packages/           # Custom package derivations
 ├── nvim/                   # Neovim config (LazyVim-based)
-├── hypr/                   # Hyprland Lua config (+ clipboards, hosts)
 ├── foot/                   # Foot terminal config
 ├── rofi/                   # Rofi launcher config
 ├── quickshell/             # Desktop shell (bar + notifications)

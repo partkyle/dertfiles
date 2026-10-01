@@ -1,17 +1,13 @@
--- This is an example Hyprland Lua config file.
--- Refer to the wiki for more information.
--- https://wiki.hypr.land/Configuring/Start/
+-- Hyprland main config (Lua). Live-linked into ~/.config/hypr by
+-- nix/modules/hyprland.nix, so saving this file reloads Hyprland.
 
--- Please note not all available settings / options are set here.
--- For a full list, see the wiki
+-- Let require() find sibling modules in this directory.
+local config_home = os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")
+package.path = config_home .. "/hypr/?.lua;" .. config_home .. "/hypr/?/init.lua;" .. package.path
 
--- You can (and should!!) split this configuration into multiple files
--- Create your files separately and then require them like this:
--- require("myColors")
-
------------------------
---- Default Montior ---
------------------------
+-- Per-machine monitor config. Nix links host.lua at hosts/<hostname>.lua;
+-- absent on machines without one, so a failed require is not fatal.
+pcall(require, "host")
 
 ---------------------
 ---- MY PROGRAMS ----

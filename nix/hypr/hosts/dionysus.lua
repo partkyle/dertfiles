@@ -1,5 +1,5 @@
 -- dionysus-specific monitor config (laptop)
--- Currently using defaults from partkyle.lua — add overrides here as needed.
+-- Currently using defaults from hyprland.lua — add overrides here as needed.
 
 hl.monitor({
 	output = "",

@@ -15,7 +15,7 @@
 
     wantedBy = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "hyprland-session.target" ];
+      default = [ "graphical-session.target" ];
       description = "Systemd user targets that pull in the quickshell service. Also drives PartOf/After.";
     };
   };

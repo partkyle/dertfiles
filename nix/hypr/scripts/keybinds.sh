@@ -134,7 +134,7 @@ hl = setmetatable({
 	__index = function() return noop end,
 })
 
--- Load the main config which requires partkyle.lua
+-- Load the main config (hyprland.lua) to capture its hl.bind() calls
 local config_dir = os.getenv("HOME") .. "/.config/hypr"
 local main_config = config_dir .. "/hyprland.lua"
 local file = io.open(main_config, "r")
