@@ -29,6 +29,7 @@
         ./modules/quickshell.nix
         ./modules/reaper.nix
         ./modules/syncthing.nix
+        ./modules/tmux.nix
         ./modules/vital.nix
         ./modules/vst-plugins.nix
 

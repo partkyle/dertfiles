@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 2026-09-30.9
+
+- **tmux**: new `nix/modules/tmux.nix` shared module, enabled on all hosts by default (`programs.tmux.enable`, overridable per host)
+
 ## 2026-09-30.8
 
 - **hyprland**: fix scaling on dionysus, it sets a default based on dpi and I prefer no scaling, at least at the moment.
