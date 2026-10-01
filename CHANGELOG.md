@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 2026-09-30.8
+
+- **hyprland**: fix scaling on dionysus, it sets a default based on dpi and I prefer no scaling, at least at the moment.
+
 ## 2026-09-30.7
 
 - **dert**: added `bin/dert`, a self-documenting control CLI whose help is generated from a command registry, so dispatch and docs cannot drift
