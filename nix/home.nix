@@ -74,6 +74,13 @@ in
     NIXOS_OZONE_WL = "1";
   };
 
+  # Put ~/.local/bin (where dert is live-linked) on PATH. Use Home Manager's
+  # sessionPath, not NixOS's environment.localBinInPath: that only patches
+  # /etc/set-environment, which the graphical session never sources, so fish
+  # never sees it without a re-login. (xdg.localBinInPath would do this, but
+  # xdg.enable is off, so it is a no-op.)
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   # SSH agent socket is set in home.sessionVariables; no per-shell init needed
 
   # Force global dark preference via dconf
@@ -124,6 +131,13 @@ in
 
   home.file.".gitconfig".source = ../git/.gitconfig;
   home.file.".gitignore_global".source = ../git/.gitignore_global;
+
+  # dert is live-linked from the working tree so the CLI tracks edits without a
+  # rebuild — it is the tool you run to rebuild. Leave `executable` unset: the
+  # source is an out-of-store symlink, and an explicit executable bit makes the
+  # sandboxed home-files build fall back to `cp`, which cannot follow it.
+  home.file.".local/bin/dert".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dertfiles/bin/dert";
 
   xdg.configFile = lib.mkMerge [
     {

@@ -1,0 +1,202 @@
+#!/usr/bin/env bash
+# dert — self-documenting control CLI for ~/.dertfiles.
+#
+# Dispatch is driven by the registries below. A command is reachable (and
+# documented) only when it has both a CMD_DESC entry and a matching
+# cmd_<group>_<name> function, so help and dispatch cannot drift apart.
+
+set -euo pipefail
+
+VERSION="0.1.0"
+
+# Locate the repo even when invoked through the ~/.local/bin symlink.
+self="$(readlink -f -- "${BASH_SOURCE[0]}" 2>/dev/null || true)"
+DERTFILES="${DERTFILES:-$(dirname "$(dirname "$self")")}"
+FLAKE_DIR="$DERTFILES/nix"
+HOST="$(hostname -s)"
+
+# ── registry ────────────────────────────────────────────────────────────────
+
+GROUP_ORDER=(nix)
+
+declare -A GROUP_DESC=(
+  [nix]="NixOS flake, rebuilds, and store management"
+)
+
+declare -A CMD_DESC=(
+  [nix.build]="Build the system toplevel without switching to it"
+  [nix.gc]="Delete old generations and garbage-collect the store"
+  [nix.generations]="List NixOS system generations"
+  [nix.rebuild]="Rebuild this host's NixOS configuration"
+  [nix.rollback]="Switch back to the previous NixOS generation"
+  [nix.update]="Update every flake input, or only the named input(s)"
+)
+
+declare -A CMD_USAGE=(
+  [nix.update]="[input ...]    e.g. dert nix update pi-nix"
+)
+
+# ── commands ────────────────────────────────────────────────────────────────
+
+cmd_nix_rebuild() {
+  cd "$FLAKE_DIR"
+  sudo nixos-rebuild switch --flake ".#$HOST" "$@"
+}
+
+cmd_nix_build() {
+  cd "$FLAKE_DIR"
+  nixos-rebuild build --flake ".#$HOST" "$@"
+}
+
+cmd_nix_rollback() {
+  sudo nixos-rebuild switch --rollback "$@"
+}
+
+cmd_nix_update() {
+  cd "$FLAKE_DIR"
+  nix flake update "$@"
+}
+
+cmd_nix_generations() {
+  nixos-rebuild list-generations "$@"
+}
+
+cmd_nix_gc() {
+  sudo nix-collect-garbage -d "$@"
+}
+
+# ── help ────────────────────────────────────────────────────────────────────
+
+err() { printf 'dert: %s\n' "$*" >&2; }
+
+sorted_keys() {
+  local prefix="$1" key
+  for key in "${!CMD_DESC[@]}"; do
+    [[ $key == "$prefix"* ]] && printf '%s\n' "$key"
+  done | sort
+}
+
+print_groups() {
+  local group
+  printf 'Usage: dert <group> <command> [args]\n\n'
+  printf 'Groups:\n'
+  for group in "${GROUP_ORDER[@]}"; do
+    printf '  %-10s %s\n' "$group" "${GROUP_DESC[$group]}"
+  done
+  printf '\nRun `dert <group>` for its commands, or `dert help` for everything.\n'
+}
+
+print_group() {
+  local group="$1" key
+  printf '%s — %s\n\n' "$group" "${GROUP_DESC[$group]}"
+  printf 'Usage: dert %s <command> [args]\n\n' "$group"
+  printf 'Commands:\n'
+  while IFS= read -r key; do
+    printf '  %-14s %s\n' "${key#*.}" "${CMD_DESC[$key]}"
+  done < <(sorted_keys "$group.")
+  printf '\n'
+}
+
+print_all() {
+  local group
+  printf 'dert %s — manage %s\n\n' "$VERSION" "$DERTFILES"
+  printf 'Usage: dert <group> <command> [args]\n'
+  for group in "${GROUP_ORDER[@]}"; do
+    printf '\n%s — %s\n' "$group" "${GROUP_DESC[$group]}"
+    while IFS= read -r key; do
+      printf '  %-14s %s\n' "${key#*.}" "${CMD_DESC[$key]}"
+    done < <(sorted_keys "$group.")
+  done
+  printf '\n'
+}
+
+print_command_help() {
+  local group="$1" cmd="$2" key="$group.$cmd"
+  printf 'dert %s %s' "$group" "$cmd"
+  if [[ -n "${CMD_USAGE[$key]:-}" ]]; then
+    printf ' %s' "${CMD_USAGE[$key]}"
+  fi
+  printf '\n\n%s\n' "${CMD_DESC[$key]}"
+}
+
+show_help_for() {
+  local group="${1:-}" cmd="${2:-}"
+  if [[ -z $group ]]; then
+    print_all
+    return 0
+  fi
+  if [[ -z "${GROUP_DESC[$group]:-}" ]]; then
+    err "unknown group: $group"
+    printf '\n'
+    print_groups >&2
+    return 2
+  fi
+  if [[ -z $cmd ]]; then
+    print_group "$group"
+    return 0
+  fi
+  if [[ -z "${CMD_DESC[$group.$cmd]:-}" ]]; then
+    err "unknown command: $group $cmd"
+    printf '\n'
+    print_group "$group" >&2
+    return 2
+  fi
+  print_command_help "$group" "$cmd"
+}
+
+# ── dispatch ────────────────────────────────────────────────────────────────
+
+main() {
+  local group="${1:-}"
+  case "$group" in
+    ""|-h|--help)
+      print_groups
+      return 0
+      ;;
+    help)
+      shift
+      show_help_for "${1:-}" "${2:-}"
+      return 0
+      ;;
+    version|--version)
+      printf 'dert %s\n' "$VERSION"
+      return 0
+      ;;
+  esac
+
+  if [[ -z "${GROUP_DESC[$group]:-}" ]]; then
+    err "unknown group: $group"
+    printf '\n'
+    print_groups >&2
+    return 2
+  fi
+
+  if (( $# == 1 )) || [[ "${2:-}" == "-h" || "${2:-}" == "--help" ]]; then
+    print_group "$group"
+    return 0
+  fi
+
+  local cmd="$2" key="$group.$2"
+  if [[ -z "${CMD_DESC[$key]:-}" ]]; then
+    err "unknown command: $group $cmd"
+    printf '\n'
+    print_group "$group" >&2
+    return 2
+  fi
+
+  if [[ "${3:-}" == "-h" || "${3:-}" == "--help" ]]; then
+    print_command_help "$group" "$cmd"
+    return 0
+  fi
+
+  local fn="cmd_${group}_${cmd//-/_}"
+  if ! declare -F "$fn" >/dev/null; then
+    err "internal: no handler $fn for $key"
+    return 70
+  fi
+
+  shift 2
+  "$fn" "$@"
+}
+
+main "$@"

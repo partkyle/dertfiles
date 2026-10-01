@@ -19,12 +19,6 @@
 
       # Fish functions
       functions = {
-        rebuild = {
-          description = "Rebuild NixOS system";
-          body = ''
-            bash -c 'cd ~/.dertfiles/nix && exec sudo nixos-rebuild switch --flake .#${config.networking.hostName} "$@"' -- $argv
-          '';
-        };
         fish_greeting = {
           body = "";
         };

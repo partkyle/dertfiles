@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-09-30.7
+
+- **dert**: added `bin/dert`, a self-documenting control CLI whose help is generated from a command registry, so dispatch and docs cannot drift
+- **dert**: `nix` group — `rebuild`, `build`, `rollback`, `update [input...]`, `generations`, and `gc`
+- **dert**: live-linked `bin/dert` into `~/.local/bin` (like the Hyprland Lua files), so CLI edits need no rebuild
+- **home-manager**: set `home.sessionPath = [ "$HOME/.local/bin" ]` so `~/.local/bin` is on the shell `PATH`; NixOS's `environment.localBinInPath` only patches `/etc/set-environment`, which the graphical session never sources
+- **fish**: removed the `rebuild` function — `dert nix rebuild` replaces it
+- **repo**: removed the `Makefile`; its rebuild and update targets are now `dert nix` commands
+
 ## 2026-09-30.6
 
 - **hyprland**: moved the Hyprland config out of the stow-style `hypr/`/`hyprlock/`/`hyprmocha/` trees into `nix/hypr/` (it is Linux/Nix-only and never stowed)

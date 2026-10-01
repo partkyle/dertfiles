@@ -34,6 +34,7 @@ Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. T
 - `nvim/` — Neovim config (LazyVim-based)
 - `git/` — Git config and global ignore
 - `fish/` — Fish shell config (managed via nix/modules/fish.nix)
+- `bin/dert` — Self-documenting control CLI, live-linked into `~/.local/bin` by `nix/home.nix`
 
 ## Conventions
 
@@ -89,6 +90,12 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 3. Use `options` for host-extensible configuration
 4. Update CHANGELOG.md
 
+### Adding a dert command
+
+1. Add a `cmd_<group>_<name>()` function to `bin/dert`
+2. Register it in `CMD_DESC` (and `CMD_USAGE` if it takes arguments) — dispatch and help both read the registry, so an unregistered handler is unreachable and an unhandled entry errors
+3. Add the group to `GROUP_ORDER` if it is new
+
 ### Extending a shared module from a host
 
 ```nix
@@ -111,8 +118,11 @@ programs.<name>.<option> = { ... };
 ### Rebuilding NixOS
 
 ```bash
-sudo nixos-rebuild switch --flake .#<hostname>
+dert nix rebuild
 ```
+
+Use `dert nix update <input>` to bump a flake input (e.g. `pi-nix`, `nixpkgs`)
+before rebuilding.
 
 ### Testing home-manager changes
 
@@ -129,4 +139,5 @@ home-manager switch --flake .#partkyle@<hostname>
 
 - Steam on Wayland: See `modules/steam.nix` for the `waylandExtraEnv` extension pattern
 - Syncthing: Tailscale-only transport, managed via `modules/syncthing.nix`
-- Fish: Modular config with reload function in `modules/fish.nix`
+- Fish: Modular config with `fish_greeting` cleared in `modules/fish.nix`
+- CLI: `bin/dert` dispatches from registries (`GROUP_ORDER`, `CMD_DESC`, `CMD_USAGE`); help is generated from them, so a command only exists once it has all three
