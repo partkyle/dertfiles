@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-02
+
+- **hyprland**: `SUPER+C`/`SUPER+V` now drive the focused app's own copy/paste (`Ctrl+C`/`Ctrl+V`) instead of `wl-paste --primary | wl-copy` and `Shift+Insert`
+- **hyprland**: copy/paste detects terminal windows by class (`foot`, `Alacritty`, `kitty`, `ghostty`, `wezterm`) and sends `Ctrl+Shift+C`/`Ctrl+Shift+V` there, so `SUPER+C` no longer sends SIGINT in a terminal
+
 ## 2026-10-01.5
 
 * **pi**: update pi to 1.0

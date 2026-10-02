@@ -232,16 +232,36 @@ local function send_shortcut_once(mods, key)
 	end
 end
 
+-- Terminals treat Ctrl+C as SIGINT, so copy/paste there needs Ctrl+Shift+C/V.
+-- Match on the window class rather than a tag: this config has no tag rules.
+local terminal_class = "^(foot|org%.codeberg%.dnkl%.foot|Alacritty|kitty|com%.mitchellh%.ghostty|wezterm)$"
+
+local function active_window_is_terminal()
+	local window = hl.get_active_window()
+	return window ~= nil and (window.class or ""):match(terminal_class) ~= nil
+end
+
+-- Inject the app's native shortcut, choosing the terminal variant when needed.
+local function universal_clipboard_shortcut(default_mods, default_key, terminal_mods, terminal_key)
+	return function()
+		if active_window_is_terminal() then
+			send_shortcut_once(terminal_mods, terminal_key)()
+		else
+			send_shortcut_once(default_mods, default_key)()
+		end
+	end
+end
+
 -- center floating window
 hl.bind("SUPER + SHIFT + C", hl.dsp.window.center(), { description = "Center window" })
 
 -- Copy active window class to clipboard
 -- hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("hyprctl activewindow | wl-copy"), { description = "Copy window class" })
 
--- Copy: capture PRIMARY selection into CLIPBOARD via wl-clipboard
-hl.bind("SUPER + C", hl.dsp.exec_cmd("wl-paste --primary | wl-copy"), { description = "Copy PRIMARY to CLIPBOARD" })
--- Paste: Shift+Insert works in foot, terminals, and many GUI apps
-hl.bind("SUPER + V", send_shortcut_once("SHIFT", "Insert"), { description = "Paste" })
+-- Copy/Paste: drive the focused app's own copy/paste (Ctrl+C/V), switching
+-- to Ctrl+Shift+C/V inside terminals where Ctrl+C is SIGINT.
+hl.bind("SUPER + C", universal_clipboard_shortcut("CTRL", "C", "CTRL SHIFT", "C"), { description = "Copy" })
+hl.bind("SUPER + V", universal_clipboard_shortcut("CTRL", "V", "CTRL SHIFT", "V"), { description = "Paste" })
 -- Select all / Cut
 hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"), { description = "Select all" })
 hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"), { description = "Cut" })
