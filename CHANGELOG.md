@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2026-10-01.2
+
+- **hyprland**: `hypridle.conf` lock listener guards `on-timeout` with `pidof hyprlock || hyprlock`, matching the existing `lock_cmd` guard, so a repeated 120s idle timeout no longer spawns a second lock screen
+- **hyprland**: fixes leaked `hyprlock` processes accumulating in the `hypridle.service` cgroup — only one instance can hold the session lock, so the extras never received an unlock event and hung around at ~165 MB each
+
 ## 2026-10-01.1
 
 - **quickshell**: missed notifications now persist to `~/.local/state/dert/notifications/` (one compact JSON file per entry) and reload at startup instead of dying with the shell
