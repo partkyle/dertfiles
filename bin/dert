@@ -17,10 +17,11 @@ HOST="$(hostname -s)"
 
 # ── registry ────────────────────────────────────────────────────────────────
 
-GROUP_ORDER=(nix)
+GROUP_ORDER=(nix notif)
 
 declare -A GROUP_DESC=(
   [nix]="NixOS flake, rebuilds, and store management"
+  [notif]="Desktop notification history"
 )
 
 declare -A CMD_DESC=(
@@ -30,6 +31,8 @@ declare -A CMD_DESC=(
   [nix.rebuild]="Rebuild this host's NixOS configuration"
   [nix.rollback]="Switch back to the previous NixOS generation"
   [nix.update]="Update every flake input, or only the named input(s)"
+  [notif.clear]="Delete all persisted notification history"
+  [notif.history]="Open the notification history panel"
 )
 
 declare -A CMD_USAGE=(
@@ -71,6 +74,14 @@ cmd_nix_generations() {
 
 cmd_nix_gc() {
   sudo nix-collect-garbage -d "$@"
+}
+
+cmd_notif_history() {
+  qs ipc call notifications showHistory "$@"
+}
+
+cmd_notif_clear() {
+  qs ipc call notifications clear "$@"
 }
 
 # ── completion ──────────────────────────────────────────────────────────────

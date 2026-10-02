@@ -45,4 +45,14 @@ ShellRoot {
   }
 
   NotificationHistory {}
+
+  // Minimal control surface for `qs ipc call notifications …` (wrapped by
+  // `dert notif`). Kept tiny on purpose — persistence is the point, not a
+  // second notification API.
+  IpcHandler {
+    target: "notifications"
+    function ping(): string { return "pong" }
+    function showHistory(): void { Notifications.showHistory() }
+    function clear(): void { Notifications.clear() }
+  }
 }

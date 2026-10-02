@@ -1,6 +1,14 @@
 # Changelog
 
 
+## 2026-10-01.1
+
+- **quickshell**: missed notifications now persist to `~/.local/state/dert/notifications/` (one compact JSON file per entry) and reload at startup instead of dying with the shell
+- **quickshell**: file-backed app icons and attached images are copied into the state dir with a regular-file and 5 MiB guard; history is trimmed to the newest 50 entries and evicted files/images are deleted
+- **quickshell**: `IpcHandler` target `notifications` with `showHistory`, `clear`, and `ping` over `qs ipc`
+- **dert**: new `notif` group — `dert notif history` opens the history panel, `dert notif clear` deletes persisted history
+- **test**: `node test/notification-logic.test.js` covers the pure persistence logic extracted into `quickshell/Commons/NotificationLogic.js`
+
 ## 2026-10-01
 
 - **dert**: added registry-driven fish completion — `dert __complete` emits candidates (with descriptions) from the same group/command registries that drive help, so completion cannot drift from the CLI
