@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-01.5
+
+* **pi**: update pi to 1.0
+
 ## 2026-10-01.4
 
 * **nvim**: remove lazy vim lock as that will break nix.
