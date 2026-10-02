@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-01.4
+
+* **nvim**: remove lazy vim lock as that will break nix.
+* **nvim**: add in render-markdown dependency
 
 ## 2026-10-01.3
 
