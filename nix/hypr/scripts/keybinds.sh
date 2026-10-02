@@ -297,10 +297,9 @@ dynamic_bindings() {
 
 # ── Format with aligned columns ─────────────────────────────────────────
 format_bindings() {
+	# Columns are buffered so the key column can be sized to the widest combo
+	# instead of a fixed width that crowds the description out of the rofi row.
 	awk -F, '
-	BEGIN {
-		column = 30
-	}
 	{
 		# Build key combo
 		key_combo = $1 " + " $2
@@ -335,7 +334,15 @@ format_bindings() {
 			gsub(/^[ \t]+|[ \t]+$/, "", action)
 		}
 
-		printf "%-*s → %s\n", column, key_combo, action
+		row++
+		key_by_row[row] = key_combo
+		action_by_row[row] = action
+		if (length(key_combo) > key_width) key_width = length(key_combo)
+	}
+	END {
+		for (i = 1; i <= row; i++) {
+			printf "%-*s → %s\n", key_width, key_by_row[i], action_by_row[i]
+		}
 	}
 	'
 }
@@ -348,5 +355,7 @@ output_keybindings() {
 if [[ ${1:-} == "--print" || ${1:-} == "-p" ]]; then
 	output_keybindings
 else
-	output_keybindings | rofi -dmenu -p "Keybindings" -l 20
+	# `-i` forces case-insensitive filtering; the wider window keeps the
+	# description visible next to the longest key combos.
+	output_keybindings | rofi -dmenu -i -p "Keybindings" -l 20 -theme-str 'window { width: 600; }'
 fi

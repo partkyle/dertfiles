@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 2026-10-01.3
+
+- **hyprland**: keybind reference (`SUPER+SHIFT+?`) sizes its key column to the widest combo and widens the rofi dmenu to 600px, so descriptions are no longer clipped
+- **hyprland**: keybind reference filters case-insensitively (`rofi -dmenu -i`)
+
 ## 2026-10-01.2
 
 - **hyprland**: `hypridle.conf` lock listener guards `on-timeout` with `pidof hyprlock || hyprlock`, matching the existing `lock_cmd` guard, so a repeated 120s idle timeout no longer spawns a second lock screen
