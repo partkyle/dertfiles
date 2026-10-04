@@ -9,6 +9,12 @@ hl.monitor({
 	scale = "1.5",
 	bitdepth = 10,
 	cm = "hdr",
+	sdrbrightness = 1.3,        -- Boosts the general UI brightness profile so it isn't dim
+	sdrsaturation = 1.05,       -- Fills out standard sRGB colors mapped to the QD-OLED wide color space
+	sdr_min_luminance = 0.0001, -- Tailored to QD-OLED pure black levels
+	sdr_max_luminance = 250,    -- Matches your panel's typical full-screen SDR ceiling
+	min_luminance = 0.0001,     -- True black reference
+	max_luminance = 1000,       -- Use 1000 for Peak 1000 mode, or 460 for True Black 400 mode
 })
 
 hl.monitor({
