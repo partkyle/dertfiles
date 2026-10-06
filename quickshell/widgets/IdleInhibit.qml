@@ -6,10 +6,11 @@ import qs.Commons
 import qs.Ui
 
 // Toggle for hypridle's lock / display-sleep actions. Left click inhibits idle
-// actions for one hour; right click re-enables them immediately. While
-// inhibited the icon is "unlocked" and the label counts down the remaining
-// time. State is shared with hypridle via hypr/scripts/idle-inhibit.sh, so the
-// daemon honours the same stamp.
+// actions for the configured default duration (see `dert idle default`); right
+// click re-enables them immediately. While inhibited the icon is "unlocked"
+// and the label counts down the remaining time. State is shared with hypridle
+// via hypr/scripts/idle-inhibit.sh, so the daemon honours the same stamp and
+// `dert idle` drives the same lock.
 BarWidget {
   id: root
 
@@ -63,9 +64,10 @@ BarWidget {
     onExited: root.refresh()
   }
 
-  // Keeps the countdown current and notices the expiry on its own.
+  // Keeps the countdown current, notices expiry on its own, and picks up
+  // changes made by `dert idle` without waiting for the next click.
   Timer {
-    interval: 30000
+    interval: 10000
     running: true
     repeat: true
     triggeredOnStart: true

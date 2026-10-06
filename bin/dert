@@ -17,12 +17,13 @@ HOST="$(hostname -s)"
 
 # ── registry ────────────────────────────────────────────────────────────────
 
-GROUP_ORDER=(nix hypr notif)
+GROUP_ORDER=(nix hypr notif idle)
 
 declare -A GROUP_DESC=(
   [nix]="NixOS flake, rebuilds, and store management"
   [hypr]="Hyprland session controls"
   [notif]="Desktop notification history"
+  [idle]="Keep-awake lock (inhibit idle) shared with the bar's lock icon"
 )
 
 declare -A CMD_DESC=(
@@ -35,11 +36,19 @@ declare -A CMD_DESC=(
   [hypr.layout]="Set the Hyprland tiling layout"
   [notif.clear]="Delete all persisted notification history"
   [notif.history]="Open the notification history panel"
+  [idle.default]="Show or set the keep-awake lock's default duration"
+  [idle.off]="Release the keep-awake lock and let idle actions run"
+  [idle.on]="Engage the keep-awake lock so the screen stays on"
+  [idle.status]="Show the keep-awake lock state and remaining time"
+  [idle.toggle]="Toggle the keep-awake lock"
 )
 
 declare -A CMD_USAGE=(
   [nix.update]="[input ...]    e.g. dert nix update pi-nix"
   [hypr.layout]="<dwindle|master|monocle|scrolling>"
+  [idle.default]="[duration]    e.g. dert idle default 45m"
+  [idle.on]="[duration]    e.g. dert idle on 2h (default: configured, else 1h)"
+  [idle.toggle]="[duration]    e.g. dert idle toggle 30m"
 )
 
 # Optional positional-argument completions, keyed like CMD_DESC. Each value is
@@ -49,6 +58,9 @@ declare -A CMD_USAGE=(
 declare -A CMD_COMPLETE=(
   [nix.update]="flake_inputs"
   [hypr.layout]="hypr_layouts"
+  [idle.default]="duration_choices"
+  [idle.on]="duration_choices"
+  [idle.toggle]="duration_choices"
 )
 
 # ── commands ────────────────────────────────────────────────────────────────
@@ -108,6 +120,73 @@ cmd_hypr_layout() {
   printf '%s\n' "$mode" >"${XDG_RUNTIME_DIR:-/tmp}/hypr-layout"
 }
 
+# ── keep-awake lock ─────────────────────────────────────────────────────────
+# The bar's lock icon and `dert idle` share nix/hypr/scripts/idle-inhibit.sh.
+# The script owns the state file and the configurable default; dert only
+# formats the status it prints.
+
+IDLE_SCRIPT="$DERTFILES/nix/hypr/scripts/idle-inhibit.sh"
+
+idle_script() { bash "$IDLE_SCRIPT" "$@"; }
+
+# Seconds as a compact human string ("1h 30m").
+format_duration() {
+  local total=$1 days hours minutes seconds out=""
+  days=$((total / 86400))
+  hours=$(((total % 86400) / 3600))
+  minutes=$(((total % 3600) / 60))
+  seconds=$((total % 60))
+  if ((days > 0)); then out+="${days}d "; fi
+  if ((hours > 0)); then out+="${hours}h "; fi
+  if ((minutes > 0)); then out+="${minutes}m "; fi
+  if ((seconds > 0)); then out+="${seconds}s "; fi
+  printf '%s\n' "${out% }"
+}
+
+# "on" or "off <seconds>" -> a readable lock description.
+idle_lock_text() {
+  local state="${1%% *}" remaining="${1#* }"
+  if [[ $state == off ]]; then
+    printf 'engaged — %s remaining' "$(format_duration "$remaining")"
+  else
+    printf 'released'
+  fi
+}
+
+cmd_idle_status() {
+  local out
+  out="$(idle_script status)"
+  printf 'Keep-awake lock: %s.\n' "$(idle_lock_text "$out")"
+}
+
+cmd_idle_on() {
+  local out
+  out="$(idle_script inhibit "$@")"
+  printf 'Keep-awake lock: %s.\n' "$(idle_lock_text "$out")"
+}
+
+cmd_idle_off() {
+  idle_script release >/dev/null
+  printf 'Keep-awake lock: released.\n'
+}
+
+cmd_idle_toggle() {
+  local out
+  out="$(idle_script toggle "$@")"
+  printf 'Keep-awake lock: %s.\n' "$(idle_lock_text "$out")"
+}
+
+cmd_idle_default() {
+  local seconds
+  if (($# > 0)); then
+    seconds="$(idle_script default "$1")"
+    printf 'Default keep-awake duration set to %s.\n' "$(format_duration "$seconds")"
+  else
+    seconds="$(idle_script default)"
+    printf 'Default keep-awake duration: %s.\n' "$(format_duration "$seconds")"
+  fi
+}
+
 # ── completion ──────────────────────────────────────────────────────────────
 # Hidden engine behind the fish `__dert_complete` helper in nix/modules/fish.nix.
 # Given the words already typed after `dert`, print the candidates for the next
@@ -132,6 +211,16 @@ hypr_layouts() {
   printf 'master\tMaster pane plus stack\n'
   printf 'monocle\tSingle fullscreen window\n'
   printf 'scrolling\tHorizontally scrolling columns\n'
+}
+
+# Values offered when completing `dert idle on|toggle|default`.
+duration_choices() {
+  printf '%s\t%s\n' 15m "15 minutes"
+  printf '%s\t%s\n' 30m "30 minutes"
+  printf '%s\t%s\n' 1h "1 hour"
+  printf '%s\t%s\n' 2h "2 hours"
+  printf '%s\t%s\n' 4h "4 hours"
+  printf '%s\t%s\n' 8h "8 hours"
 }
 
 complete_words() {

@@ -56,10 +56,22 @@ dert nix build            # build the toplevel without switching
 dert nix rollback         # switch to the previous generation
 dert nix generations      # list system generations
 dert nix gc               # delete old generations and collect garbage
+dert idle status          # show the keep-awake lock state
+dert idle on 2h           # keep the screen on for two hours
+dert idle off             # release the keep-awake lock
+dert idle default 45m     # set the default duration
 ```
 
 `dert <group> <command> --help` (or `dert help <group> <command>`) prints a
 command's usage.
+
+### Keep-awake lock
+
+The bar's lock icon and `dert idle` drive the same hypridle inhibit, so either
+can release what the other engaged. Durations accept seconds or a suffix:
+`90`, `45m`, `2h`, `1h30m`. The default used when no duration is given (the
+bar's left click, or a bare `dert idle on`) is stored in
+`~/.config/dert/idle-inhibit` and changed with `dert idle default <duration>`.
 
 ### Upgrade one input
 
@@ -98,3 +110,10 @@ dert nix rollback
 - `dert nix build` builds without switching, for a dry run.
 - On NixOS unstable, packages are tested against each other; isolated breakage
   of a single package is uncommon.
+
+## Tests
+
+```bash
+node test/notification-logic.test.js   # notification persistence logic
+bash test/idle-inhibit.test.sh         # keep-awake lock duration parsing
+```

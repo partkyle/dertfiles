@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-06.2
+
+- **dert**: new `idle` group — `on`, `off`, `toggle`, `status`, and `default [duration]` control the bar's keep-awake (idle-inhibit) lock, sharing its state with the lock icon
+- **hypridle**: `idle-inhibit.sh` takes human durations (`45m`, `2h`, `1h30m`) and reads the default inhibit length from `~/.config/dert/idle-inhibit`, so the bar's left click follows `dert idle default`
+- **quickshell**: the bar's lock icon left click uses the configured default duration and polls every 10s to pick up `dert idle` changes
+- **test**: `bash test/idle-inhibit.test.sh` covers duration parsing plus the inhibit/release/status lifecycle
+
 ## 2026-10-06.1
 
 - **quickshell**: the bar now shows the active Hyprland tiling layout on the far left, before the workspaces, with a distinct icon for dwindle, master, monocle and scrolling
