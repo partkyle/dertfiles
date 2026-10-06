@@ -38,6 +38,7 @@ PanelWindow {
   }
 
   Row {
+    id: leftRow
     anchors.left: parent.left
     anchors.leftMargin: Style.moduleHSpacing / 2
     spacing: Style.moduleHSpacing
@@ -51,6 +52,7 @@ PanelWindow {
   }
 
   Row {
+    id: rightRow
     anchors.right: parent.right
     anchors.rightMargin: Style.moduleHSpacing / 2
     spacing: Style.moduleHSpacing
@@ -65,5 +67,20 @@ PanelWindow {
     IdleInhibit {}
     NotificationBell {}
     Clock {}
+  }
+
+  // Title sits in the gap the two clusters leave, centered, and is capped to
+  // that gap so a long title elides rather than running under the right side.
+  Item {
+    id: titleArea
+    anchors.left: leftRow.right
+    anchors.right: rightRow.left
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+
+    Title {
+      anchors.horizontalCenter: parent.horizontalCenter
+      maximumTextWidth: Math.max(1, titleArea.width - Style.moduleHSpacing * 2)
+    }
   }
 }

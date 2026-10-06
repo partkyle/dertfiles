@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-06.4
+
+- **quickshell**: the bar shows the focused Hyprland window as `[N/M] title` in the gap between the left and right clusters, with N its position in the workspace and M the window count; it binds to Quickshell's Hyprland IPC models so focus, title and window-list changes land instantly with no polling
+- **quickshell**: `BarWidget` gained an optional `maximumTextWidth` that elides instead of letting a label grow without bound, used to keep long window titles clear of the right-side modules
+- **quickshell**: the title falls back to the lowest `focusHistoryID` window while `activeToplevel` is still null, so a shell restart shows the current title before the first focus change
+
 ## 2026-10-06.3
 
 - **quickshell**: the bar's keep-awake lock watches the idle-inhibit stamp and updates the instant `dert idle` changes it, instead of waiting up to 10s for the poll

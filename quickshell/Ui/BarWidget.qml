@@ -13,8 +13,14 @@ Rectangle {
   property color accent: Color.barText
   property color labelColor: accent
   property bool underlineVisible: true
+  // Optional cap for long labels (e.g. window titles). When > 0 the text is
+  // elided instead of growing the module without bound. -1 means no cap.
+  property real maximumTextWidth: -1
   // Collapsed widgets (e.g. battery on a desktop) take no space.
   readonly property bool hasLabel: label.length > 0
+  readonly property real textWidth: maximumTextWidth > 0
+    ? Math.min(textItem.implicitWidth, maximumTextWidth)
+    : textItem.implicitWidth
 
   signal clicked()
   signal rightClicked()
@@ -32,7 +38,7 @@ Rectangle {
 
   anchors.verticalCenter: parent ? parent.verticalCenter : undefined
   height: parent ? parent.height - Style.moduleVMargin * 2 : Style.barHeight
-  implicitWidth: hasLabel ? textItem.implicitWidth + Style.moduleHPadding * 2 : 0
+  implicitWidth: hasLabel ? textWidth + Style.moduleHPadding * 2 : 0
   visible: hasLabel
   color: mouseArea.containsMouse ? Color.surface0 : "transparent"
 
@@ -58,6 +64,8 @@ Rectangle {
     id: textItem
     anchors.centerIn: parent
     text: root.label
+    width: root.maximumTextWidth > 0 ? Math.min(implicitWidth, root.maximumTextWidth) : implicitWidth
+    elide: root.maximumTextWidth > 0 ? Text.ElideRight : Text.ElideNone
     color: mouseArea.containsMouse ? Color.hoverText : root.labelColor
     font.family: Style.fontFamily
     font.pixelSize: Style.fontSize
