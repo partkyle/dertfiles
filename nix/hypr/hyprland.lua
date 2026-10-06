@@ -303,22 +303,60 @@ hl.bind("SUPER + slash", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = {
 -- Show keybinding reference in rofi
 hl.bind("SUPER + SHIFT + slash", hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds.sh"), { description = "Show keybindings" })
 
-hl.bind("SUPER + left", hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
-hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
-hl.bind("SUPER + up", hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
-hl.bind("SUPER + down", hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
-hl.bind("SUPER + h", hl.dsp.focus({ direction = "left" }), { description = "Focus left (vim)" })      -- vim-style
-hl.bind("SUPER + l", hl.dsp.focus({ direction = "right" }), { description = "Focus right (vim)" })     -- vim-style
-hl.bind("SUPER + k", hl.dsp.focus({ direction = "up" }), { description = "Focus up (vim)" })        -- vim-style
-hl.bind("SUPER + j", hl.dsp.focus({ direction = "down" }), { description = "Focus down (vim)" })      -- vim-style
-hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "left" }), { description = "Move window left" })
-hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "right" }), { description = "Move window right" })
-hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "up" }), { description = "Move window up" })
-hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "down" }), { description = "Move window down" })
-hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "left" }), { description = "Move window left (vim)" })   -- vim-style
-hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "right" }), { description = "Move window right (vim)" })  -- vim-style
-hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "up" }), { description = "Move window up (vim)" })     -- vim-style
-hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "down" }), { description = "Move window down (vim)" })   -- vim-style
+-- Directional focus/move. Monocle is a single stack, so spatial direction has
+-- no meaning there; map left/up to the previous stack entry and right/down to
+-- the next so SUPER+[SHIFT]+h/j/k/l and the arrow keys keep working.
+local function monocle_active()
+	return hl.get_config("general.layout") == "monocle"
+end
+
+local function focus_dir(direction)
+	local prev = direction == "left" or direction == "up"
+	return function()
+		if monocle_active() then
+			-- Monocle exposes cyclenext/cycleprev layout messages; note that
+			-- hl.dsp.window.cycle_next() is a no-op under this layout.
+			hl.dispatch(hl.dsp.layout(prev and "cycleprev" or "cyclenext"))
+		else
+			hl.dispatch(hl.dsp.focus({ direction = direction }))
+		end
+	end
+end
+
+local function move_dir(direction)
+	return function()
+		if monocle_active() then
+			-- Reordering the monocle stack is really hard / not reliably possible:
+			-- * hl.dsp.window.swap({ next/prev }) finds no target, because monocle
+			--   input-blocks every hidden window, so it filters them all out.
+			-- * hl.dsp.window.swap({ target }) does work, but there is no API to
+			--   read the monocle stack order, so the neighbour can't be found
+			--   without peeking via cyclenext, which is racy and flicks focus.
+			-- * hl.dsp.window.move({ direction }) would fall back to moving the
+			--   window to the adjacent monitor (see window_direction_monitor_fallback).
+			-- So do nothing in monocle rather than shove windows around.
+			return
+		end
+		hl.dispatch(hl.dsp.window.move({ direction = direction }))
+	end
+end
+
+hl.bind("SUPER + left", focus_dir("left"), { description = "Focus left" })
+hl.bind("SUPER + right", focus_dir("right"), { description = "Focus right" })
+hl.bind("SUPER + up", focus_dir("up"), { description = "Focus up" })
+hl.bind("SUPER + down", focus_dir("down"), { description = "Focus down" })
+hl.bind("SUPER + h", focus_dir("left"), { description = "Focus left (vim)" })      -- vim-style
+hl.bind("SUPER + l", focus_dir("right"), { description = "Focus right (vim)" })     -- vim-style
+hl.bind("SUPER + k", focus_dir("up"), { description = "Focus up (vim)" })        -- vim-style
+hl.bind("SUPER + j", focus_dir("down"), { description = "Focus down (vim)" })      -- vim-style
+hl.bind("SUPER + SHIFT + left", move_dir("left"), { description = "Move window left" })
+hl.bind("SUPER + SHIFT + right", move_dir("right"), { description = "Move window right" })
+hl.bind("SUPER + SHIFT + up", move_dir("up"), { description = "Move window up" })
+hl.bind("SUPER + SHIFT + down", move_dir("down"), { description = "Move window down" })
+hl.bind("SUPER + SHIFT + h", move_dir("left"), { description = "Move window left (vim)" })   -- vim-style
+hl.bind("SUPER + SHIFT + l", move_dir("right"), { description = "Move window right (vim)" })  -- vim-style
+hl.bind("SUPER + SHIFT + k", move_dir("up"), { description = "Move window up (vim)" })     -- vim-style
+hl.bind("SUPER + SHIFT + j", move_dir("down"), { description = "Move window down (vim)" })   -- vim-style
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]

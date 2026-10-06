@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-06
+
+- **hyprland**: directional focus (`SUPER`+arrows/hjkl) now cycles the window stack while monocle is active, via the `cyclenext`/`cycleprev` layout messages (plain `cycle_next()` is a no-op in monocle)
+- **hyprland**: directional move (`SUPER+SHIFT`+arrows/hjkl) is a no-op in monocle instead of moving the window to the adjacent monitor; reordering the monocle stack is not reliably possible, since the global swap dispatchers filter out monocle's input-blocked hidden windows and no API exposes the stack order
+
 ## 2026-10-05
 
 - **hyprland**: Godot game windows now open floating while the Godot editor stays tiled, distinguishing them by window class and `initialTitle`
