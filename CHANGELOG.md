@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-06.3
+
+- **quickshell**: the bar's keep-awake lock watches the idle-inhibit stamp and updates the instant `dert idle` changes it, instead of waiting up to 10s for the poll
+
 ## 2026-10-06.2
 
 - **dert**: new `idle` group — `on`, `off`, `toggle`, `status`, and `default [duration]` control the bar's keep-awake (idle-inhibit) lock, sharing its state with the lock icon

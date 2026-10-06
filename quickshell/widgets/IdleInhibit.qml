@@ -17,6 +17,9 @@ BarWidget {
   property bool inhibited: false
   property int remaining: 0 // seconds until idle actions resume
 
+  // Mirror of the stamp written by idle-inhibit.sh (and `dert idle`).
+  readonly property string statePath: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/hypridle-inhibit"
+
   // Expanded by the shell that runs it, so no dependency on the home dir.
   readonly property string script: "$HOME/.config/hypr/scripts/idle-inhibit.sh"
 
@@ -64,8 +67,17 @@ BarWidget {
     onExited: root.refresh()
   }
 
-  // Keeps the countdown current, notices expiry on its own, and picks up
-  // changes made by `dert idle` without waiting for the next click.
+  // Instant updates whenever the stamp changes — including when `dert idle`
+  // writes or removes it, since FileView reports deletion and recreation too.
+  // printErrors is off because the stamp is legitimately absent while released.
+  FileView {
+    path: root.statePath
+    watchChanges: true
+    printErrors: false
+    onFileChanged: root.refresh()
+  }
+
+  // Ticks the countdown and catches expiry, which changes no file on its own.
   Timer {
     interval: 10000
     running: true
