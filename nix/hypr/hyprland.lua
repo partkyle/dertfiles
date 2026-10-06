@@ -399,6 +399,30 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	-- Float Godot game windows, but not the editor.
+	-- The editor maps with initialTitle "Godot"; a game maps with the game
+	-- title, while still sharing the editor's window class.
+	name = "float-godot-games",
+	match = {
+		class = "^(Godot)$",
+		initial_title = "negative:^Godot$",
+	},
+	float = true,
+})
+
+hl.window_rule({
+	-- Float Godot games launched as their own process (class is the project
+	-- name). These map with initialTitle "Godot" and a class that is not the
+	-- editor's "Godot".
+	name = "float-godot-game-processes",
+	match = {
+		class = "negative:^(Godot)$",
+		initial_title = "^(Godot)$",
+	},
+	float = true,
+})
+
+hl.window_rule({
 	-- Fix some dragging issues with XWayland
 	name = "fix-xwayland-drags",
 	match = {

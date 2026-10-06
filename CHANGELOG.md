@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-05
+
+- **hyprland**: Godot game windows now open floating while the Godot editor stays tiled, distinguishing them by window class and `initialTitle`
+
 ## 2026-10-02
 
 - **hyprland**: `SUPER+C`/`SUPER+V` now drive the focused app's own copy/paste (`Ctrl+C`/`Ctrl+V`) instead of `wl-paste --primary | wl-copy` and `Shift+Insert`
