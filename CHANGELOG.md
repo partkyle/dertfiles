@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-06.5
+
+- **quickshell**: the bar's window title is left-aligned just after the workspaces instead of centered in the gap, so it stays put as the focused title changes
+
 ## 2026-10-06.4
 
 - **quickshell**: the bar shows the focused Hyprland window as `[N/M] title` in the gap between the left and right clusters, with N its position in the workspace and M the window count; it binds to Quickshell's Hyprland IPC models so focus, title and window-list changes land instantly with no polling

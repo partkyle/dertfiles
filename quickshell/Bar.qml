@@ -69,8 +69,10 @@ PanelWindow {
     Clock {}
   }
 
-  // Title sits in the gap the two clusters leave, centered, and is capped to
-  // that gap so a long title elides rather than running under the right side.
+  // Title is pinned to the left edge of the gap the two clusters leave, so it
+  // sits just after the workspaces instead of re-centering as the title text
+  // changes. It is still capped to the gap so a long title elides rather than
+  // running under the right side.
   Item {
     id: titleArea
     anchors.left: leftRow.right
@@ -79,7 +81,8 @@ PanelWindow {
     anchors.bottom: parent.bottom
 
     Title {
-      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.left: parent.left
+      anchors.leftMargin: Style.moduleHSpacing
       maximumTextWidth: Math.max(1, titleArea.width - Style.moduleHSpacing * 2)
     }
   }
