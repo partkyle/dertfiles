@@ -19,6 +19,10 @@ local browser = "brave"
 local fileManager = terminal .. " -e yazi"
 local menu = "rofi -show drun -show-icons"
 
+-- dert is live-linked into ~/.local/bin, which is not on Hyprland's PATH, so
+-- call it by absolute path (same reason the keybindings keybind below does).
+local dert = (os.getenv("HOME") or "") .. "/.local/bin/dert"
+
 
 hl.config({
   misc = {
@@ -294,11 +298,11 @@ hl.bind("SUPER + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tile
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }), { description = "Toggle fullscreen (fake)" })
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }), { description = "Toggle fullscreen (real)" })
 
--- Direct layout switches
-hl.bind("SUPER + M", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "monocle" } })']]), { description = "Switch to monocle" })
-hl.bind("SUPER + comma", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "dwindle" } })']]), { description = "Switch to dwindle" })
-hl.bind("SUPER + period", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "master" } })']]), { description = "Switch to master" })
-hl.bind("SUPER + slash", hl.dsp.exec_cmd([[hyprctl eval 'hl.config({ general = { layout = "scrolling" } })']]), { description = "Switch to scrolling" })
+-- Direct layout switches (dert records the mode for the quickshell bar)
+hl.bind("SUPER + M", hl.dsp.exec_cmd(dert .. " hypr layout monocle"), { description = "Switch to monocle" })
+hl.bind("SUPER + comma", hl.dsp.exec_cmd(dert .. " hypr layout dwindle"), { description = "Switch to dwindle" })
+hl.bind("SUPER + period", hl.dsp.exec_cmd(dert .. " hypr layout master"), { description = "Switch to master" })
+hl.bind("SUPER + slash", hl.dsp.exec_cmd(dert .. " hypr layout scrolling"), { description = "Switch to scrolling" })
 
 -- Show keybinding reference in rofi
 hl.bind("SUPER + SHIFT + slash", hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds.sh"), { description = "Show keybindings" })

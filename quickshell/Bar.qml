@@ -37,10 +37,17 @@ PanelWindow {
     color: Color.barBorder
   }
 
-  Workspaces {
+  Row {
     anchors.left: parent.left
     anchors.leftMargin: Style.moduleHSpacing / 2
+    spacing: Style.moduleHSpacing
     height: parent.height
+
+    Layout {}
+
+    Workspaces {
+      height: parent.height
+    }
   }
 
   Row {

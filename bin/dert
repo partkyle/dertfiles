@@ -17,10 +17,11 @@ HOST="$(hostname -s)"
 
 # ── registry ────────────────────────────────────────────────────────────────
 
-GROUP_ORDER=(nix notif)
+GROUP_ORDER=(nix hypr notif)
 
 declare -A GROUP_DESC=(
   [nix]="NixOS flake, rebuilds, and store management"
+  [hypr]="Hyprland session controls"
   [notif]="Desktop notification history"
 )
 
@@ -31,12 +32,14 @@ declare -A CMD_DESC=(
   [nix.rebuild]="Rebuild this host's NixOS configuration"
   [nix.rollback]="Switch back to the previous NixOS generation"
   [nix.update]="Update every flake input, or only the named input(s)"
+  [hypr.layout]="Set the Hyprland tiling layout"
   [notif.clear]="Delete all persisted notification history"
   [notif.history]="Open the notification history panel"
 )
 
 declare -A CMD_USAGE=(
   [nix.update]="[input ...]    e.g. dert nix update pi-nix"
+  [hypr.layout]="<dwindle|master|monocle|scrolling>"
 )
 
 # Optional positional-argument completions, keyed like CMD_DESC. Each value is
@@ -45,6 +48,7 @@ declare -A CMD_USAGE=(
 # group/command completion for free, straight from the registries above.
 declare -A CMD_COMPLETE=(
   [nix.update]="flake_inputs"
+  [hypr.layout]="hypr_layouts"
 )
 
 # ── commands ────────────────────────────────────────────────────────────────
@@ -84,6 +88,26 @@ cmd_notif_clear() {
   qs ipc call notifications clear "$@"
 }
 
+cmd_hypr_layout() {
+  local mode="${1:-}"
+  case "$mode" in
+    dwindle|master|monocle|scrolling) ;;
+    "")
+      err "usage: dert hypr layout <dwindle|master|monocle|scrolling>"
+      return 2
+      ;;
+    *)
+      err "unknown layout: $mode (expected dwindle, master, monocle or scrolling)"
+      return 2
+      ;;
+  esac
+  hyprctl eval "hl.config({ general = { layout = \"$mode\" } })" >/dev/null
+  # The running shell watches this file for the current mode, so dert owns
+  # both the switch and the record of it. Path is mirrored in
+  # quickshell/widgets/Layout.qml.
+  printf '%s\n' "$mode" >"${XDG_RUNTIME_DIR:-/tmp}/hypr-layout"
+}
+
 # ── completion ──────────────────────────────────────────────────────────────
 # Hidden engine behind the fish `__dert_complete` helper in nix/modules/fish.nix.
 # Given the words already typed after `dert`, print the candidates for the next
@@ -101,6 +125,13 @@ flake_inputs() {
       print
     }
   ' "$FLAKE_DIR/flake.nix" | sort -u
+}
+
+hypr_layouts() {
+  printf 'dwindle\tRecursive split tiling\n'
+  printf 'master\tMaster pane plus stack\n'
+  printf 'monocle\tSingle fullscreen window\n'
+  printf 'scrolling\tHorizontally scrolling columns\n'
 }
 
 complete_words() {

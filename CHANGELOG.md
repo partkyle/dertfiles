@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-06.1
+
+- **quickshell**: the bar now shows the active Hyprland tiling layout on the far left, before the workspaces, with a distinct icon for dwindle, master, monocle and scrolling
+- **dert**: new `dert hypr layout <dwindle|master|monocle|scrolling>` command sets the layout and records it to a runtime state file
+- **hyprland**: layout keybinds (`SUPER+M`/`,`/`.`/`/`) now call `dert hypr layout`, so keybind and CLI switches share one path
+- **quickshell**: the layout icon watches dert's state file for instant updates, with a slow `hyprctl` poll as a backstop; left-clicking it cycles the modes
+
 ## 2026-10-06
 
 - **hyprland**: directional focus (`SUPER`+arrows/hjkl) now cycles the window stack while monocle is active, via the `cyclenext`/`cycleprev` layout messages (plain `cycle_next()` is a no-op in monocle)
