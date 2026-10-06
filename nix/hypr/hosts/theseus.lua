@@ -6,7 +6,7 @@ hl.monitor({
 	output = "DP-1",
 	mode = "3840x2160@240",
 	position = "0x0",
-	scale = "1.5",
+	scale = "1",
 	bitdepth = 10,
 	cm = "hdr",
 	sdrbrightness = 1.3,        -- Boosts the general UI brightness profile so it isn't dim
@@ -20,7 +20,7 @@ hl.monitor({
 hl.monitor({
 	output = "DP-2",
 	mode = "2560x1440@143.91",
-	position = "2560x0",
+	position = "auto",
 	scale = "1",
 	transform = 3,
 })
