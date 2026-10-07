@@ -24,7 +24,12 @@ in
     fzf
     git
     gnumake
+    delve
     go
+    gofumpt
+    golangci-lint
+    gopls
+    gotools
     lazydocker
     lazygit
     libnotify # notify-send for testing/scripting notifications

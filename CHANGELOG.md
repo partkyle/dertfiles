@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-07.1
+
+- **nvim**: Go debugging works out of the box — importing the LazyVim `dap.core` and `lang.go` extras brings in nvim-dap, nvim-dap-ui, nvim-dap-go, gopls and the Go linters/formatters
+- **nvim**: Go tooling is provided by Nix (`gopls`, `gotools`, `gofumpt`, `golangci-lint`, `delve`) and filtered out of Mason's `ensure_installed`; `mason-nvim-dap` no longer auto-installs debuggers, so nvim-dap-go uses `dlv` from PATH
+
 ## 2026-10-07
 
 - **keyd**: new shared module remaps Ctrl+A/Ctrl+E to Home/End and Super+A/X/C/V to the focused app's own select-all/cut/copy/paste at the evdev layer, so Ctrl stays held across chords; it also creates the `keyd` group and adds the user to it for the application-mapper socket

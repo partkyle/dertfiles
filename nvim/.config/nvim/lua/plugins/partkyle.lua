@@ -25,7 +25,7 @@ return {
       },
     },
   },
-  -- nil_ls is installed via Nix, skip Mason
+  -- nil_ls and gopls are installed via Nix, skip Mason
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -33,7 +33,28 @@ return {
         nil_ls = {
           mason = false,
         },
+        gopls = {
+          mason = false,
+        },
       },
+    },
+  },
+  -- Go tooling (gopls, goimports, gofumpt, golangci-lint, delve) comes from
+  -- Nix. Keep Mason from trying to reinstall it and let nvim-dap-go pick up
+  -- `dlv` from PATH.
+  {
+    "mason-org/mason.nvim",
+    opts = function(_, opts)
+      local from_nix = { "delve", "gofumpt", "goimports", "golangci-lint" }
+      opts.ensure_installed = vim.tbl_filter(function(tool)
+        return not vim.tbl_contains(from_nix, tool)
+      end, opts.ensure_installed or {})
+    end,
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    opts = {
+      automatic_installation = false,
     },
   },
   -- update position of command thingy
