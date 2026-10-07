@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-07.2
+
+- **pi**: update pi
+
 ## 2026-10-07.1
 
 - **nvim**: Go debugging works out of the box — importing the LazyVim `dap.core` and `lang.go` extras brings in nvim-dap, nvim-dap-ui, nvim-dap-go, gopls and the Go linters/formatters
