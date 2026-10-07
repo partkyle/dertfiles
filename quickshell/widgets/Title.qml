@@ -13,17 +13,21 @@ import qs.Ui
 BarWidget {
   id: root
 
-  // Prefer Quickshell's activeToplevel, but it stays null until the first
-  // `activewindow` event after the shell starts. On a restart (e.g. a config
-  // change) that leaves the title blank until focus moves, so fall back to
-  // the window with the lowest focusHistoryID — the initial `hyprctl clients`
-  // query that populates the models already carries it.
+  // activeToplevel is authoritative while it points at a window on the focused
+  // workspace, but Quickshell 0.3.1 never clears it when focus moves to an
+  // empty workspace (its activewindowv2 handler bails on the empty address),
+  // so trusting it blindly leaves the last workspace's title up. It also stays
+  // null until the first `activewindow` event after the shell starts. On a
+  // restart (e.g. a config change) that leaves the title blank until focus
+  // moves, so fall back to the window with the lowest focusHistoryID — the
+  // initial `hyprctl clients` query that populates the models already carries it.
   readonly property var focusedToplevel: {
-    if (Hyprland.activeToplevel)
-      return Hyprland.activeToplevel
+    const active = Hyprland.activeToplevel
     const ws = Hyprland.focusedWorkspace
+    if (active && active.workspace && ws && active.workspace.id === ws.id)
+      return active
     if (!ws)
-      return null
+      return active
     const toplevels = ws.toplevels.values
     let best = null
     let bestId = Infinity

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-07.3
+
+- **quickshell**: the bar's window title only trusts `activeToplevel` while it is on the focused workspace, so switching to an empty workspace clears the title instead of leaving the last window's title up
+
 ## 2026-10-07.2
 
 - **pi**: update pi
