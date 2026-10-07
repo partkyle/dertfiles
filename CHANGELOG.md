@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-07
+
+- **keyd**: new shared module remaps Ctrl+A/Ctrl+E to Home/End and Super+A/X/C/V to the focused app's own select-all/cut/copy/paste at the evdev layer, so Ctrl stays held across chords; it also creates the `keyd` group and adds the user to it for the application-mapper socket
+- **keyd**: the service runs with primary group `keyd` so its startup `setgid()` is a no-op — the NixOS unit drops `CAP_SETGID`, so once the group exists the daemon was exiting with `setgid: Operation not permitted`
+- **keyd**: Super+Shift+C passes through via a composite `meta+shift` layer so Hyprland still gets the center-window chord, and the old Super+T/W browser-tab workaround moved into the `meta` layer
+- **keyd**: home-manager writes `~/.config/keyd/app.conf` keeping native Ctrl+A/Ctrl+E and mapping Super+C/V to Ctrl+Shift+C/V inside terminals (foot, alacritty, kitty, ghostty, wezterm)
+- **hyprland**: dropped the `send_shortcut_once`/clipboard Lua workarounds and start `keyd-application-mapper` on session start
+
 ## 2026-10-06.5
 
 - **quickshell**: the bar's window title is left-aligned just after the workspaces instead of centered in the gap, so it stays put as the focused title changes

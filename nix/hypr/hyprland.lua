@@ -36,6 +36,13 @@ hl.config({
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
+-- keyd remaps keys at the evdev layer (see nix/modules/keyd.nix). The
+-- application mapper must run inside the session so it can watch focus
+-- changes and swap in terminal-specific bindings.
+hl.on("hyprland.start", function()
+	hl.exec_cmd("keyd-application-mapper -d")
+end)
+
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
@@ -224,59 +231,16 @@ hl.device({
 ---- KEYBINDINGS ----
 ---------------------
 
--- [[ Clipboard helper — synthetic key state workaround              ]]
--- https://github.com/hyprwm/Hyprland/discussions/14099
-local function send_shortcut_once(mods, key)
-	return function()
-		hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down", window = "activewindow" }))
-
-		hl.timer(function()
-			hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up", window = "activewindow" }))
-		end, { timeout = 50, type = "oneshot" })
-	end
-end
-
--- Terminals treat Ctrl+C as SIGINT, so copy/paste there needs Ctrl+Shift+C/V.
--- Match on the window class rather than a tag: this config has no tag rules.
-local terminal_class = "^(foot|org%.codeberg%.dnkl%.foot|Alacritty|kitty|com%.mitchellh%.ghostty|wezterm)$"
-
-local function active_window_is_terminal()
-	local window = hl.get_active_window()
-	return window ~= nil and (window.class or ""):match(terminal_class) ~= nil
-end
-
--- Inject the app's native shortcut, choosing the terminal variant when needed.
-local function universal_clipboard_shortcut(default_mods, default_key, terminal_mods, terminal_key)
-	return function()
-		if active_window_is_terminal() then
-			send_shortcut_once(terminal_mods, terminal_key)()
-		else
-			send_shortcut_once(default_mods, default_key)()
-		end
-	end
-end
-
 -- center floating window
 hl.bind("SUPER + SHIFT + C", hl.dsp.window.center(), { description = "Center window" })
 
 -- Copy active window class to clipboard
 -- hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("hyprctl activewindow | wl-copy"), { description = "Copy window class" })
 
--- Copy/Paste: drive the focused app's own copy/paste (Ctrl+C/V), switching
--- to Ctrl+Shift+C/V inside terminals where Ctrl+C is SIGINT.
-hl.bind("SUPER + C", universal_clipboard_shortcut("CTRL", "C", "CTRL SHIFT", "C"), { description = "Copy" })
-hl.bind("SUPER + V", universal_clipboard_shortcut("CTRL", "V", "CTRL SHIFT", "V"), { description = "Paste" })
--- Select all / Cut
-hl.bind("SUPER + A", send_shortcut_once("CTRL", "A"), { description = "Select all" })
-hl.bind("SUPER + X", send_shortcut_once("CTRL", "X"), { description = "Cut" })
--- Browser convenience
-hl.bind("SUPER + T", send_shortcut_once("CTRL", "T"), { description = "New browser tab" })
-hl.bind("SUPER + W", send_shortcut_once("CTRL", "W"), { description = "Close browser tab" })
--- Line navigation in text fields
-hl.bind("CTRL + A", send_shortcut_once("", "HOME"), { description = "Jump to line start" })
-hl.bind("CTRL + SHIFT + A", send_shortcut_once("SHIFT", "HOME"), { description = "Select to line start" })
-hl.bind("CTRL + E", send_shortcut_once("", "END"), { description = "Jump to line end" })
-hl.bind("CTRL + SHIFT + E", send_shortcut_once("SHIFT", "END"), { description = "Select to line end" })
+-- Copy/paste, select all/cut, Ctrl+A/E line navigation, and the Super+T/W
+-- browser shortcuts now live in keyd (see nix/modules/keyd.nix). Doing it there
+-- keeps Ctrl logically held across chords and lets the application mapper hand
+-- terminals their native Ctrl+A/Ctrl+E and Ctrl+Shift+C/V.
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd(terminal), { description = "Open terminal" })
