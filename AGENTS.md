@@ -23,7 +23,7 @@ Linux/Nix-only Hyprland config, deployed by `nix/modules/hyprland.nix`:
 - `hosts/<hostname>.lua` — Per-host monitor config, required as `host` (live-linked)
 - `hypridle.conf` — Idle daemon config (store copy; restarts on rebuild)
 - `hyprlock.conf`, `mocha.conf` — Lock screen and its color theme
-- `scripts/` — `keybinds.sh` (keybind overlay) and `idle-inhibit.sh` (idle inhibit state)
+- `scripts/` — `keybinds.sh` (keybind overlay), `idle-inhibit.sh` (idle inhibit state) and `screenshot.sh` (grim/slurp/satty screenshots)
 
 Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, hypridle) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
 
@@ -115,6 +115,26 @@ programs.<name>.<option> = { ... };
 - Everything else is a store copy; rebuild with `sudo nixos-rebuild switch` to apply it.
 - Session: UWSM owns `graphical-session.target` (`programs.hyprland.withUWSM = true`); services bind to it. There is no custom session target or Hyprland config hook.
 
+### Keybinds
+
+A key can be rewritten before Hyprland ever sees it, so trace the whole path
+when adding or moving a bind:
+
+1. **keyd** (`nix/modules/keyd.nix`) remaps at the evdev layer — requires a
+   rebuild. The `meta` layer takes `Super+A/X/C/V/T/W` for the focused app's own
+   clipboard/select-all (`Super+C` becomes `Ctrl+C`), so those letters are no
+   longer available as raw Hyprland chords. `meta+shift` re-asserts specific
+   shifted chords that keyd would otherwise swallow (currently only `c`, so
+   `Super+Shift+C` still reaches Hyprland for center-window).
+2. **keyd-application-mapper** swaps in `~/.config/keyd/app.conf` per focused
+   app (terminals keep native `Ctrl+A`/`Ctrl+E` and get `Ctrl+Shift+C/V`).
+3. **Hyprland** (`nix/hypr/hyprland.lua`) receives whatever survives the above;
+   `hyprctl binds` is the source of truth for the final result.
+
+Reusing a keyd-remapped key in a new chord needs a matching `meta+shift` entry
+so the full chord still reaches Hyprland; unremapped keys pass through
+untouched. Confirm with `hyprctl binds` and `hypr/scripts/keybinds.sh --print`.
+
 ### Rebuilding NixOS
 
 ```bash
@@ -141,3 +161,4 @@ home-manager switch --flake .#partkyle@<hostname>
 - Syncthing: Tailscale-only transport, managed via `modules/syncthing.nix`
 - Fish: Modular config with `fish_greeting` cleared in `modules/fish.nix`
 - CLI: `bin/dert` dispatches from registries (`GROUP_ORDER`, `CMD_DESC`, `CMD_USAGE`); help is generated from them, so a command only exists once it has all three
+- Keybinds: keyd rewrites keys at the evdev layer before Hyprland sees them, so a chord can silently disappear — see `### Keybinds`

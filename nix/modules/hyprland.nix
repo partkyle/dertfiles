@@ -53,10 +53,13 @@ in
       home.pointerCursor.hyprcursor.enable = true;
 
       home.packages = with pkgs; [
+        grim # screen capture backing hypr/scripts/screenshot.sh
         hypridle
         hyprlock
         libxkbcommon # xkbcli for keybind resolution in keybinds.sh
         lua # keybinds.sh Lua config scanner
+        satty # screenshot annotation editor
+        slurp # region selection for screenshot.sh
       ];
 
       # We own hyprland.lua (live-linked below). Keep configType = "lua" so
@@ -104,6 +107,10 @@ in
         };
         "hypr/scripts/idle-inhibit.sh" = {
           source = ../hypr/scripts/idle-inhibit.sh;
+          executable = true;
+        };
+        "hypr/scripts/screenshot.sh" = {
+          source = ../hypr/scripts/screenshot.sh;
           executable = true;
         };
       }

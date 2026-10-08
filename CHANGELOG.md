@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-07.4
+
+- **hyprland**: new `hypr/scripts/screenshot.sh` captures with grim — an interactive slurp region, the focused window or monitor via hyprctl, or every monitor — then saves under `~/Pictures/Screenshots` and copies to the clipboard
+- **hyprland**: `Print` captures every monitor, `Super+Shift+S` selects a region and opens it in satty to annotate, and `Super+Shift+Print` captures the focused window
+- **hyprland**: the special ("secret") workspace moved from `Super+S`/`Super+Shift+S` to `Super+grave`/`Super+Shift+grave`, freeing the Windows-style `Super+Shift+S` chord for the region screenshot
+- **hyprland**: successful captures notify through the quickshell shell with the image attached
+- **dert**: new `shot` group — `dert shot <region|window|output|full>` runs the screenshot script, forwarding extra flags such as `--edit`, `--no-clipboard` and `--dir`
+- **screenshot**: `test/screenshot.test.sh` covers argument parsing, window/monitor geometry parsing against a fake hyprctl, and collision-safe output paths
+
 ## 2026-10-07.3
 
 - **quickshell**: the bar's window title only trusts `activeToplevel` while it is on the focused workspace, so switching to an empty workspace clears the title instead of leaving the last window's title up

@@ -17,13 +17,14 @@ HOST="$(hostname -s)"
 
 # ── registry ────────────────────────────────────────────────────────────────
 
-GROUP_ORDER=(nix hypr notif idle)
+GROUP_ORDER=(nix hypr notif idle shot)
 
 declare -A GROUP_DESC=(
   [nix]="NixOS flake, rebuilds, and store management"
   [hypr]="Hyprland session controls"
   [notif]="Desktop notification history"
   [idle]="Keep-awake lock (inhibit idle) shared with the bar's lock icon"
+  [shot]="Screen capture via grim/slurp (saves under ~/Pictures/Screenshots)"
 )
 
 declare -A CMD_DESC=(
@@ -41,6 +42,10 @@ declare -A CMD_DESC=(
   [idle.on]="Engage the keep-awake lock so the screen stays on"
   [idle.status]="Show the keep-awake lock state and remaining time"
   [idle.toggle]="Toggle the keep-awake lock"
+  [shot.region]="Select an area and screenshot it"
+  [shot.window]="Screenshot the focused window"
+  [shot.output]="Screenshot the focused monitor"
+  [shot.full]="Screenshot every monitor"
 )
 
 declare -A CMD_USAGE=(
@@ -49,6 +54,10 @@ declare -A CMD_USAGE=(
   [idle.default]="[duration]    e.g. dert idle default 45m"
   [idle.on]="[duration]    e.g. dert idle on 2h (default: configured, else 1h)"
   [idle.toggle]="[duration]    e.g. dert idle toggle 30m"
+  [shot.region]="[options]    screenshot.sh flags pass through, e.g. --edit"
+  [shot.window]="[options]"
+  [shot.output]="[options]"
+  [shot.full]="[options]"
 )
 
 # Optional positional-argument completions, keyed like CMD_DESC. Each value is
@@ -186,6 +195,19 @@ cmd_idle_default() {
     printf 'Default keep-awake duration: %s.\n' "$(format_duration "$seconds")"
   fi
 }
+
+# ── screenshots ─────────────────────────────────────────────────────────────
+# Modes mirror nix/hypr/scripts/screenshot.sh; remaining arguments are passed
+# through, so `dert shot region --edit` annotates in satty before saving.
+
+SCREENSHOT_SCRIPT="$DERTFILES/nix/hypr/scripts/screenshot.sh"
+
+shot_script() { bash "$SCREENSHOT_SCRIPT" "$@"; }
+
+cmd_shot_region() { shot_script region "$@"; }
+cmd_shot_window() { shot_script window "$@"; }
+cmd_shot_output() { shot_script output "$@"; }
+cmd_shot_full() { shot_script full "$@"; }
 
 # ── completion ──────────────────────────────────────────────────────────────
 # Hidden engine behind the fish `__dert_complete` helper in nix/modules/fish.nix.

@@ -271,6 +271,15 @@ hl.bind("SUPER + slash", hl.dsp.exec_cmd(dert .. " hypr layout scrolling"), { de
 -- Show keybinding reference in rofi
 hl.bind("SUPER + SHIFT + slash", hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds.sh"), { description = "Show keybindings" })
 
+-- Screenshots (grim/slurp; the region flow opens satty to annotate). Saves to
+-- ~/Pictures/Screenshots and copies to the clipboard. See scripts/screenshot.sh.
+-- Super+Shift+S mirrors the Windows Snipping Tool chord; the special
+-- ("secret") workspace lives on grave so it stops colliding with it.
+local screenshot = config_home .. "/hypr/scripts/screenshot.sh"
+hl.bind("PRINT", hl.dsp.exec_cmd(screenshot .. " full"), { description = "Screenshot: full screen" })
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd(screenshot .. " region --edit"), { description = "Screenshot: region (annotate)" })
+hl.bind("SUPER + SHIFT + PRINT", hl.dsp.exec_cmd(screenshot .. " window"), { description = "Screenshot: window" })
+
 -- Directional focus/move. Monocle is a single stack, so spatial direction has
 -- no meaning there; map left/up to the previous stack entry and right/down to
 -- the next so SUPER+[SHIFT]+h/j/k/l and the arrow keys keep working.
@@ -334,9 +343,10 @@ for i = 1, 10 do
 	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), { description = "Move to workspace " .. i })
 end
 
--- Example special workspace (scratchpad)
-hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"), { description = "Toggle special workspace" })
-hl.bind("SUPER + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Move to special workspace" })
+-- Special workspace ("secret layer") on grave, keeping it clear of the
+-- Super+Shift+S screenshot chord.
+hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("magic"), { description = "Toggle special workspace" })
+hl.bind("SUPER + SHIFT + grave", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Move to special workspace" })
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Next workspace", mouse = true })
