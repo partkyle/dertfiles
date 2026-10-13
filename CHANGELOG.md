@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-13.1
+
+- **hyprland**: the Godot float rules now match the Wayland app_id (`org.godotengine.Editor`), so a game started from the editor floats — it shares the editor's app_id and is told apart by its window title — while the editor itself stays tiled
+- **hyprland**: standalone Godot game processes (app_id is the project name, initial title `Godot`) keep floating
+
 ## 2026-10-13
 
 - **godot**: the launcher's desktop entry now starts the editor with `--display-driver wayland`, so Godot uses its native Wayland backend instead of XWayland — fixing blur and resize artifacts under fractional monitor scaling

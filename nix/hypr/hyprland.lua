@@ -415,24 +415,28 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	-- Float Godot game windows, but not the editor.
-	-- The editor maps with initialTitle "Godot"; a game maps with the game
-	-- title, while still sharing the editor's window class.
+	-- Float a game run from the editor. It shares the editor's identity — the
+	-- X11 class ("Godot") or the Wayland app_id ("org.godotengine.Editor") — but
+	-- maps with the game's own title (e.g. "3d-bounce (DEBUG)"), whereas the
+	-- editor itself maps with initialTitle "Godot".
 	name = "float-godot-games",
 	match = {
-		class = "^(Godot)$",
+		class = "^(Godot|org.godotengine.Editor)$",
 		initial_title = "negative:^Godot$",
 	},
 	float = true,
 })
 
 hl.window_rule({
-	-- Float Godot games launched as their own process (class is the project
-	-- name). These map with initialTitle "Godot" and a class that is not the
-	-- editor's "Godot".
+	-- Float Godot games started as their own process. They map with
+	-- initialTitle "Godot", so exclude both editor identities from the class
+	-- match — the X11 class ("Godot") and the Wayland app_id
+	-- ("org.godotengine.Editor"). Anything else mapping with initialTitle
+	-- "Godot" is a game whose app_id/class is the project name, e.g.
+	-- "3d-bounce".
 	name = "float-godot-game-processes",
 	match = {
-		class = "negative:^(Godot)$",
+		class = "negative:^(Godot|org.godotengine.Editor)$",
 		initial_title = "^(Godot)$",
 	},
 	float = true,
