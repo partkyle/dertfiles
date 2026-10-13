@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-13
+
+- **godot**: the launcher's desktop entry now starts the editor with `--display-driver wayland`, so Godot uses its native Wayland backend instead of XWayland — fixing blur and resize artifacts under fractional monitor scaling
+- **godot**: the entry shadows the packaged `org.godotengine.Godot4.<minor>.desktop` (via `xdg.desktopEntries` hiPrio) and keeps the `application/x-godot-project` MIME association
+
 ## 2026-10-07.4
 
 - **hyprland**: new `hypr/scripts/screenshot.sh` captures with grim — an interactive slurp region, the focused window or monitor via hyprctl, or every monitor — then saves under `~/Pictures/Screenshots` and copies to the clipboard

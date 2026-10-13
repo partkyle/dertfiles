@@ -207,7 +207,29 @@ in
     package = pkgs.vscode.fhs;
   };
 
-  xdg.desktopEntries = webApps.desktopEntries;
+  # The Godot package's desktop entry runs the editor with no display-driver
+  # flag, so Godot picks its X11 backend and lands on XWayland. That blurs
+  # under fractional monitor scaling and leaves resize artifacts, because the
+  # compositor rescales a 1x buffer instead of Godot rendering at the native
+  # fractional scale. Shadow the packaged entry with the same filename (which
+  # is versioned upstream) — xdg.desktopEntries installs with hiPrio, so the
+  # collision resolves in our favour — and force the Wayland backend.
+  xdg.desktopEntries = webApps.desktopEntries // {
+    "org.godotengine.Godot${lib.versions.majorMinor pkgs.godot_4.version}" = {
+      name = "Godot Engine";
+      genericName = "Game engine";
+      comment = "Multi-platform 2D and 3D game engine with a feature-rich editor";
+      exec = "${pkgs.godot_4}/bin/godot --display-driver wayland %f";
+      icon = "godot";
+      terminal = false;
+      categories = [ "Development" "IDE" ];
+      mimeType = [ "application/x-godot-project" ];
+      settings = {
+        StartupWMClass = "Godot";
+        Keywords = "game development;development;IDE;game engine;";
+      };
+    };
+  };
 
   home.stateVersion = "26.05";
 }
