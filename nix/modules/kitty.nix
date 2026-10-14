@@ -18,6 +18,12 @@
 
     settings = {
       font_features = "Maple Mono NF +cv05 +cv38";
+
+      tab_bar_style = "powerline";
+
+      cursor_blink_interval = -1;
+      cursor_trail = 1;
+      custom_shaders = "cursor-trail-motion-blur";
     };
   };
 }

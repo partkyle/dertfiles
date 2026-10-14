@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-13.3
+
+- **kitty**: enabled the built-in cursor trail (`cursor_trail`) so the cursor leaves a fading motion-blur trail on large jumps, with a tuned decay and a two-cell start threshold to keep small moves quiet
+
 ## 2026-10-13.2
 
 - **kitty**: new `nix/modules/kitty.nix` installs and configures the kitty terminal through Home Manager, enabled on every host by default so a host can opt out
