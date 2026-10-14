@@ -113,6 +113,10 @@ in
           source = ../hypr/scripts/screenshot.sh;
           executable = true;
         };
+        "hypr/scripts/dpms.sh" = {
+          source = ../hypr/scripts/dpms.sh;
+          executable = true;
+        };
       }
       // lib.optionalAttrs hasHostLuaFile {
         "hypr/host.lua".source = live "hosts/${config.networking.hostName}.lua";

@@ -36,12 +36,9 @@ hl.config({
 
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
--- keyd remaps keys at the evdev layer (see nix/modules/keyd.nix). The
--- application mapper must run inside the session so it can watch focus
--- changes and swap in terminal-specific bindings.
-hl.on("hyprland.start", function()
-	hl.exec_cmd("keyd-application-mapper -d")
-end)
+-- keyd's application mapper is a systemd user service bound to
+-- graphical-session.target (see nix/modules/keyd.nix), so it runs for both
+-- the Hyprland and mango sessions. Nothing to start here.
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----

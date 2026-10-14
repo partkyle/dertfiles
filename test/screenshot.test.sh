@@ -28,6 +28,19 @@ monitors)
 esac
 HYPRCTL
 
+cat >"$tmp/bin/mmsg" <<'MMSG'
+#!/usr/bin/env bash
+case "${1:-} ${2:-}" in
+"get focusing-client")
+  if [[ ${FAKE_WINDOW:-yes} == yes ]]; then
+    printf '{"id":123,"monitor":"DP-2","title":"foot","x":3844,"y":1301,"width":712,"height":1255}\n'
+  else
+    printf '{"error":"no focused client"}\n'
+  fi
+  ;;
+esac
+MMSG
+
 cat >"$tmp/bin/slurp" <<'SLURP'
 #!/usr/bin/env bash
 printf '10,20 100x50\n'
@@ -125,14 +138,24 @@ case "$usage_text" in
 esac
 
 # ── geometry helpers ────────────────────────────────────────────────────────
+# Hyprland path: the signature is set and hyprctl answers.
+export HYPRLAND_INSTANCE_SIGNATURE=test
 export FAKE_WINDOW=yes
-check "focused window geometry" "3844,1301 712x1255" "$(focused_window_geometry)"
+check "focused window geometry (hyprland)" "3844,1301 712x1255" "$(focused_window_geometry)"
+check "focused output (hyprland)" "DP-2" "$(focused_output)"
 
 FAKE_WINDOW=no
-check "no focused window fails" "1" "$(focused_window_geometry >/dev/null 2>&1; echo $?)"
-export FAKE_WINDOW=yes
+check "no focused window fails (hyprland)" "1" "$(focused_window_geometry >/dev/null 2>&1; echo $?)"
 
-check "focused output" "DP-2" "$(focused_output)"
+# mango path: no signature, mmsg answers.
+unset HYPRLAND_INSTANCE_SIGNATURE
+export FAKE_WINDOW=yes
+check "focused window geometry (mango)" "3844,1301 712x1255" "$(focused_window_geometry)"
+check "focused output (mango)" "DP-2" "$(focused_output)"
+
+FAKE_WINDOW=no
+check "no focused window fails (mango)" "1" "$(focused_window_geometry >/dev/null 2>&1; echo $?)"
+export FAKE_WINDOW=yes
 
 # ── output paths ────────────────────────────────────────────────────────────
 SCREENSHOT_DIR="$tmp/shots"

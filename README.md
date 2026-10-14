@@ -12,6 +12,7 @@ Partkyle's NixOS dotfiles and system configuration.
 │   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, pi-nix, …)
 │   ├── modules/            # NixOS/home-manager modules
 │   ├── hypr/               # Hyprland Lua config, scripts, hypridle/hyprlock
+│   ├── mango/              # Mango (mangowc) config and host monitor rules
 │   ├── hosts/              # Per-host configs (dionysus, theseus)
 │   └── packages/           # Custom package derivations
 ├── bin/dert                # Control CLI, live-linked into ~/.local/bin
@@ -61,6 +62,10 @@ dert idle on 2h           # keep the screen on for two hours
 dert idle off             # release the keep-awake lock
 dert idle default 45m     # set the default duration
 ```
+
+`dert hypr layout <dwindle|master|monocle|scrolling>` and
+`dert mango layout <dwindle|tile|monocle|scroller>` switch the focused
+Hyprland/mango layout; the bar's layout icon reflects the change.
 
 `dert <group> <command> --help` (or `dert help <group> <command>`) prints a
 command's usage.
@@ -116,4 +121,5 @@ dert nix rollback
 ```bash
 node test/notification-logic.test.js   # notification persistence logic
 bash test/idle-inhibit.test.sh         # keep-awake lock duration parsing
+bash test/screenshot.test.sh           # screenshot parsing (hyprctl and mmsg)
 ```

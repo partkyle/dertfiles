@@ -47,6 +47,7 @@ PanelWindow {
     Layout {}
 
     Workspaces {
+      screen: root.screen
       height: parent.height
     }
   }

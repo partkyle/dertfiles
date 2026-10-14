@@ -5,28 +5,37 @@ import Quickshell.Io
 import qs.Commons
 import qs.Ui
 
-// Current Hyprland tiling layout, shown as an icon: dwindle (binary splits),
-// master (master pane + stack), monocle (one fullscreen window) and scrolling
-// (horizontally scrolling columns). `dert hypr layout` sets the mode and writes
-// it to a file this widget watches, so keybind and CLI switches are instant; a
-// slow hyprctl poll reconciles changes made outside dert. Left click cycles.
+// Current tiling layout, shown as an icon: dwindle (binary splits),
+// tile/master (master pane + stack), monocle (one fullscreen window) and
+// scroller/scrolling (horizontally scrolling columns). `dert <wm> layout` sets
+// the mode and writes it to a runtime file this widget watches, so keybind and
+// CLI switches are instant. Under Hyprland a slow hyprctl poll reconciles
+// changes made outside dert; mango's file is authoritative. Left click cycles.
 BarWidget {
   id: root
 
-  readonly property var layouts: ["dwindle", "master", "monocle", "scrolling"]
-  property string layout: "dwindle"
+  // Hyprland exports HYPRLAND_INSTANCE_SIGNATURE; mango does not.
+  readonly property bool isHyprland: (Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE") || "") !== ""
+  readonly property string wmGroup: isHyprland ? "hypr" : "mango"
 
-  // Mirror of the path written by `dert hypr layout` (bin/dert).
-  readonly property string statePath: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/hypr-layout"
+  readonly property var layouts: isHyprland
+    ? ["dwindle", "master", "monocle", "scrolling"]
+    : ["dwindle", "tile", "monocle", "scroller"]
+
+  property string layout: isHyprland ? "dwindle" : "tile"
+
+  // Mirror of the path written by `dert <wm> layout` (bin/dert).
+  readonly property string statePath: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp")
+    + (isHyprland ? "/hypr-layout" : "/mango-layout")
   // ~/.local/bin is not on the shell service's PATH, so call dert absolutely.
   readonly property string dertBin: (Quickshell.env("HOME") || "") + "/.local/bin/dert"
 
   function iconFor(name) {
-    if (name === "master")
+    if (name === "master" || name === "tile")
       return "󰆥"
     if (name === "monocle")
       return ""
-    if (name === "scrolling")
+    if (name === "scrolling" || name === "scroller")
       return ""
     return "󰕰"
   }
@@ -34,7 +43,7 @@ BarWidget {
   function cycle() {
     const next = layouts[(layouts.indexOf(layout) + 1) % layouts.length]
     layout = next
-    evalProc.command = [root.dertBin, "hypr", "layout", next]
+    evalProc.command = [root.dertBin, root.wmGroup, "layout", next]
     evalProc.running = true
   }
 
@@ -43,9 +52,8 @@ BarWidget {
 
   onClicked: cycle()
 
-  // Instant updates from `dert hypr layout`; the poll below is only a backstop.
-  // watchChanges emits fileChanged but does not reload on its own, hence the
-  // explicit reload().
+  // Instant updates from `dert <wm> layout`. watchChanges emits fileChanged
+  // but does not reload on its own, hence the explicit reload().
   FileView {
     id: stateFile
     path: root.statePath
@@ -58,6 +66,7 @@ BarWidget {
     }
   }
 
+  // Hyprland-only backstop: reconcile a layout set outside dert.
   Process {
     id: layoutProc
     command: ["hyprctl", "-j", "activeworkspace"]
@@ -80,7 +89,7 @@ BarWidget {
 
   Timer {
     interval: 5000
-    running: true
+    running: root.isHyprland
     repeat: true
     triggeredOnStart: true
     onTriggered: {

@@ -1,21 +1,18 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
 let
-  # UWSM wraps the compositor in the systemd graphical session. greetd/tuigreet
-  # are just the launcher for now; swapping them out later only changes this
-  # command, not the UWSM setup.
-  hyprlandSession = "/run/current-system/sw/bin/uwsm start -F -- /run/current-system/sw/bin/Hyprland";
+  # Let tuigreet list the sessions installed under /run/current-system/sw
+  # (Hyprland and mango, each with a plain and a UWSM variant). Pick Hyprland's
+  # "(UWSM)" entry, or the plain "mango" entry: mango starts its own session
+  # target, while plain Hyprland would skip it.
+  sessionsDir = "/run/current-system/sw/share/wayland-sessions";
 in
 {
   services.greetd = {
     enable = true;
     settings = {
-      initial_session = {
-        command = hyprlandSession;
-        user = "partkyle";
-      };
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd '${hyprlandSession}' --remember --theme 'text=green;input=cyan;action=yellow'";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --sessions ${sessionsDir} --remember --remember-session --theme 'text=green;input=cyan;action=yellow'";
       };
     };
   };

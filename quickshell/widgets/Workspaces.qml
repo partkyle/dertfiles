@@ -1,36 +1,49 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
+import Quickshell.WindowManager
 
 import qs.Commons
 
-// Hyprland workspaces: digits with the focused one highlighted, click to
-// activate. Mirrors the waybar hyprland/workspaces module.
+// Workspaces (mango tags) on this screen: digits with the focused one
+// highlighted, click to activate. Driven by the generic ext-workspace
+// protocol through Quickshell.WindowManager, so it is compositor-agnostic.
 Row {
   id: root
 
+  // The screen this bar belongs to, used to pick the right ext-workspace
+  // projection. Falls back to the global list when unset.
+  property var screen: null
+
   spacing: 2
 
-  // Sorted workspace ids, rebuilt whenever Hyprland's workspace list
-  // changes (same approach as omarchy quatro's Workspaces widget).
-  readonly property var workspaceIds: {
-    const ids = Hyprland.workspaces.values
-      .map(ws => ws.id)
-      .filter(id => id > 0)
-    ids.sort((a, b) => a - b)
-    return ids
+  // Windowset = one ext-workspace (a mango tag). Sort by the workspace
+  // coordinate, falling back to the numeric name.
+  readonly property var windowsets: {
+    const projection = root.screen ? WindowManager.screenProjection(root.screen) : null
+    const source = projection && projection.windowsets.length
+      ? projection.windowsets
+      : WindowManager.windowsets
+    const list = []
+    for (let i = 0; i < source.length; i++)
+      list.push(source[i])
+    list.sort((a, b) => {
+      const ac = a.coordinates && a.coordinates.length ? a.coordinates[0] : parseInt(a.name)
+      const bc = b.coordinates && b.coordinates.length ? b.coordinates[0] : parseInt(b.name)
+      return ac - bc
+    })
+    return list
   }
 
   Repeater {
-    model: root.workspaceIds
+    model: root.windowsets
 
     delegate: Rectangle {
       id: wsButton
 
-      required property int modelData
+      required property var modelData
 
-      readonly property bool focused: Hyprland.focusedWorkspace !== null
-        && Hyprland.focusedWorkspace.id === wsButton.modelData
+      readonly property bool focused: modelData.active
+      readonly property bool urgent: modelData.urgent
 
       anchors.verticalCenter: parent ? parent.verticalCenter : undefined
       height: parent ? parent.height - Style.moduleVMargin * 2 : Style.barHeight
@@ -49,9 +62,10 @@ Row {
       Text {
         id: wsLabel
         anchors.centerIn: parent
-        text: String(wsButton.modelData)
+        text: wsButton.modelData.name
         color: wsButton.focused
           ? Color.mauve
+          : wsButton.urgent ? Color.peach
           : wsMouse.containsMouse ? Color.hoverText : Color.barText
         font.family: Style.fontFamily
         font.pixelSize: Style.fontSize
@@ -63,7 +77,7 @@ Row {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = "${wsButton.modelData}" })`)
+        onClicked: wsButton.modelData.activate()
       }
     }
   }

@@ -76,10 +76,30 @@ in
     systemd.services.keyd.serviceConfig.Group = "keyd";
 
     home-manager.users.partkyle = {
-      # Provides keyd-application-mapper, started from hyprland.lua.
+      # Provides keyd-application-mapper.
       home.packages = [ pkgs.keyd ];
 
       xdg.configFile."keyd/app.conf".text = appConf;
+
+      # The application mapper watches the focused toplevel through
+      # zwlr_foreign_toplevel_manager_v1 (implemented by both Hyprland and
+      # mango) and swaps in app-specific bindings. A session service keeps it
+      # running for either compositor.
+      systemd.user.services.keyd-application-mapper = {
+        Unit = {
+          Description = "keyd application-aware remapping";
+          PartOf = [ "graphical-session.target" ];
+          After = [ "graphical-session.target" ];
+        };
+        Service = {
+          ExecStart = "${pkgs.keyd}/bin/keyd-application-mapper";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
+      };
     };
   };
 }

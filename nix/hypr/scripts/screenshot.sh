@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# screenshot.sh — screenshot support for Hyprland.
+# screenshot.sh — screenshot support for Wayland (Hyprland or mango).
 #
-# Captures the screen with grim, picking the area with slurp (region) or
-# hyprctl (window / output), then saves the PNG under ~/Pictures/Screenshots
-# and copies it to the clipboard. `--edit` opens the capture in satty to
-# annotate it first. Images are attached to the notification, which the
-# quickshell shell renders and persists.
+# Captures the screen with grim, picking the area with slurp (region) or the
+# compositor's focused window/monitor (window / output), then saves the PNG
+# under ~/Pictures/Screenshots and copies it to the clipboard. `--edit` opens
+# the capture in satty to annotate it first. Images are attached to the
+# notification, which the quickshell shell renders and persists.
 #
 # Cancelling slurp, or quitting satty without saving, exits 1 and does nothing.
 
@@ -13,7 +13,7 @@ set -euo pipefail
 
 usage() {
 	cat <<'EOF'
-screenshot.sh — screenshot support for Hyprland (grim + slurp + satty).
+screenshot.sh — screenshot support for Wayland (grim + slurp + satty).
 
 Usage: screenshot.sh [mode] [options]
 
@@ -100,26 +100,64 @@ parse_args() {
 
 # ── geometry helpers ────────────────────────────────────────────────────────
 
-# Parse `hyprctl activewindow` into grim's "x,y WxH". Fails when no window is
-# focused, or the window is not on screen.
-focused_window_geometry() {
-	hyprctl activewindow 2>/dev/null | awk '
-		/^\tat: /   { split($2, a, ","); x = a[1]; y = a[2] }
-		/^\tsize: / { split($2, s, ","); w = s[1]; h = s[2] }
-		END {
-			if (x == "" || y == "" || w == "" || h == "") exit 1
-			printf "%s,%s %sx%s\n", x, y, w, h
+# Hyprland sets HYPRLAND_INSTANCE_SIGNATURE; mango does not. The two expose
+# the focused window and monitor differently, so branch on it.
+on_hyprland() { [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]]; }
+
+# Pull a scalar field out of mmsg's compact JSON. Enough for the numeric
+# geometry and the monitor name; avoids a jq dependency.
+json_field() {
+	awk -v key="$1" '
+		{
+			if (match($0, "\"" key "\":\"?[^\",}]*")) {
+				v = substr($0, RSTART, RLENGTH)
+				sub("\"" key "\":\"?", "", v)
+				gsub(/"$/, "", v)
+				print v
+				exit
+			}
 		}
 	'
 }
 
+# Parse the focused window into grim's "x,y WxH". Fails when no window is
+# focused, or the window is not on screen.
+focused_window_geometry() {
+	if on_hyprland; then
+		hyprctl activewindow 2>/dev/null | awk '
+			/^\tat: /   { split($2, a, ","); x = a[1]; y = a[2] }
+			/^\tsize: / { split($2, s, ","); w = s[1]; h = s[2] }
+			END {
+				if (x == "" || y == "" || w == "" || h == "") exit 1
+				printf "%s,%s %sx%s\n", x, y, w, h
+			}
+		'
+	else
+		local json x y w h
+		json="$(mmsg get focusing-client 2>/dev/null || true)"
+		x="$(json_field x <<<"$json")"
+		y="$(json_field y <<<"$json")"
+		w="$(json_field width <<<"$json")"
+		h="$(json_field height <<<"$json")"
+		[[ -n $x && -n $y && -n $w && -n $h ]] || return 1
+		printf '%s,%s %sx%s\n' "$x" "$y" "$w" "$h"
+	fi
+}
+
 # Name of the focused monitor (for grim -o).
 focused_output() {
-	hyprctl monitors 2>/dev/null | awk '
-		/^Monitor / { name = $2 }
-		/^\tfocused: yes/ { print name; found = 1; exit }
-		END { if (!found) exit 1 }
-	'
+	if on_hyprland; then
+		hyprctl monitors 2>/dev/null | awk '
+			/^Monitor / { name = $2 }
+			/^\tfocused: yes/ { print name; found = 1; exit }
+			END { if (!found) exit 1 }
+		'
+	else
+		local name
+		name="$(mmsg get focusing-client 2>/dev/null | json_field monitor)"
+		[[ -n $name ]] || return 1
+		printf '%s\n' "$name"
+	fi
 }
 
 # ── capture ─────────────────────────────────────────────────────────────────

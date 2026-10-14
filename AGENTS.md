@@ -10,9 +10,10 @@ This is a Nix flake-based dotfiles repository managing NixOS configs and user ap
 - `configuration.nix` — Shared system-wide NixOS config (imports greetd.nix)
 - `home.nix` — Home Manager config for user packages and services
 - `hosts/<hostname>/default.nix` — Host-specific NixOS configs (dionysus=laptop/Intel, theseus=desktop/NVIDIA)
-- `modules/*.nix` — Shared NixOS modules (hyprland.nix, steam.nix, fish.nix, syncthing.nix, git-server.nix)
+- `modules/*.nix` — Shared NixOS modules (hyprland.nix, mango.nix, steam.nix, fish.nix, syncthing.nix, git-server.nix)
 - `hypr/` — Hyprland Lua/config assets (Linux/Nix-only; see below)
-- `greetd.nix` — Display manager/login config
+- `mango/` — Mango (mangowc) config assets (Linux/Nix-only; see below)
+- `greetd.nix` — Display manager/login config (tuigreet session picker)
 - `webapps.nix` — Desktop entries for web apps
 
 ### Hyprland (`nix/hypr/`)
@@ -25,7 +26,26 @@ Linux/Nix-only Hyprland config, deployed by `nix/modules/hyprland.nix`:
 - `hyprlock.conf`, `mocha.conf` — Lock screen and its color theme
 - `scripts/` — `keybinds.sh` (keybind overlay), `idle-inhibit.sh` (idle inhibit state) and `screenshot.sh` (grim/slurp/satty screenshots)
 
-Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, hypridle) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
+Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, hypridle, keyd-application-mapper) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
+
+### Mango (`nix/mango/`)
+
+Linux/Nix-only mango (mangowc) config, deployed by `nix/modules/mango.nix`. It
+coexists with Hyprland; the session picker chooses between them.
+
+- `config.conf` — Main config: appearance, keybinds, tags, input, window/layer rules (live-linked; mango hot-reloads on save)
+- `hosts/<hostname>.conf` — Per-host monitor rules, live-linked as `host.conf` and pulled in with `source-optional`
+- `scripts/` — `screenshot.sh` (shared with Hyprland) and `dpms.sh` (hyprctl vs wlopm)
+
+**Option names target the nixpkgs package (0.17.2).** The upstream docs describe
+a newer release with different spellings (`tagrule` vs `tag_rule`, `shadowscolor`,
+no `var=`, `source-optional` with a hyphen). Validate any change with
+`mango -c nix/mango/config.conf -p` before committing.
+
+Mango has native systemd integration: it imports the session environment into
+systemd/D-Bus and starts `mango-session.target`, which `BindsTo`
+`graphical-session.target`. No UWSM wrapper is needed; `nix/modules/mango.nix`
+registers the package's user units via `systemd.packages`.
 
 ### Other Configs
 
@@ -52,6 +72,7 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 - Common settings go in `configuration.nix` or shared modules
 - Host-specific settings go in `hosts/<hostname>/default.nix`
 - Host-specific Hyprland monitor configs go in `nix/hypr/hosts/<hostname>.lua` (loaded automatically by `nix/modules/hyprland.nix`)
+- Host-specific mango monitor rules go in `nix/mango/hosts/<hostname>.conf` (sourced by `nix/mango/config.conf` via `source-optional`)
 
 ### Changelog
 
@@ -115,6 +136,15 @@ programs.<name>.<option> = { ... };
 - Everything else is a store copy; rebuild with `sudo nixos-rebuild switch` to apply it.
 - Session: UWSM owns `graphical-session.target` (`programs.hyprland.withUWSM = true`); services bind to it. There is no custom session target or Hyprland config hook.
 
+### Mango changes
+
+- Main config (keybinds, tags, appearance, window rules): `nix/mango/config.conf`
+- Monitor rules: `nix/mango/hosts/<hostname>.conf`
+- Both are live-linked into `~/.config/mango`, so edits hot-reload — no rebuild needed.
+- Validate without starting it: `mango -c nix/mango/config.conf -p` (or point it at a concatenation of `config.conf` + the host file to check the monitor rules too).
+- Layout switching is `dert mango layout <dwindle|tile|monocle|scroller>`; the bar's Layout widget watches the runtime file it writes.
+- Mango owns its session target (see above), so pick the plain `mango` entry in tuigreet; Hyprland still uses its `(UWSM)` entry.
+
 ### Keybinds
 
 A key can be rewritten before Hyprland ever sees it, so trace the whole path
@@ -123,16 +153,20 @@ when adding or moving a bind:
 1. **keyd** (`nix/modules/keyd.nix`) remaps at the evdev layer — requires a
    rebuild. The `meta` layer takes `Super+A/X/C/V/T/W` for the focused app's own
    clipboard/select-all (`Super+C` becomes `Ctrl+C`), so those letters are no
-   longer available as raw Hyprland chords. `meta+shift` re-asserts specific
+   longer available as raw compositor chords. `meta+shift` re-asserts specific
    shifted chords that keyd would otherwise swallow (currently only `c`, so
-   `Super+Shift+C` still reaches Hyprland for center-window).
-2. **keyd-application-mapper** swaps in `~/.config/keyd/app.conf` per focused
-   app (terminals keep native `Ctrl+A`/`Ctrl+E` and get `Ctrl+Shift+C/V`).
-3. **Hyprland** (`nix/hypr/hyprland.lua`) receives whatever survives the above;
-   `hyprctl binds` is the source of truth for the final result.
+   `Super+Shift+C` still reaches the compositor for center-window).
+2. **keyd-application-mapper** (a systemd user service bound to
+   `graphical-session.target`) swaps in `~/.config/keyd/app.conf` per focused
+   app (terminals keep native `Ctrl+A`/`Ctrl+E` and get `Ctrl+Shift+C/V`). It
+   watches `zwlr_foreign_toplevel_manager_v1`, which both Hyprland and mango
+   implement, so one service covers both sessions.
+3. **Hyprland** (`nix/hypr/hyprland.lua`) and **mango** (`nix/mango/config.conf`)
+   receive whatever survives the above; `hyprctl binds` / `mango -c … -p` are the
+   source of truth for the final result.
 
 Reusing a keyd-remapped key in a new chord needs a matching `meta+shift` entry
-so the full chord still reaches Hyprland; unremapped keys pass through
+so the full chord still reaches the compositor; unremapped keys pass through
 untouched. Confirm with `hyprctl binds` and `hypr/scripts/keybinds.sh --print`.
 
 ### Rebuilding NixOS
@@ -161,4 +195,5 @@ home-manager switch --flake .#partkyle@<hostname>
 - Syncthing: Tailscale-only transport, managed via `modules/syncthing.nix`
 - Fish: Modular config with `fish_greeting` cleared in `modules/fish.nix`
 - CLI: `bin/dert` dispatches from registries (`GROUP_ORDER`, `CMD_DESC`, `CMD_USAGE`); help is generated from them, so a command only exists once it has all three
-- Keybinds: keyd rewrites keys at the evdev layer before Hyprland sees them, so a chord can silently disappear — see `### Keybinds`
+- Mango: the nixpkgs package is 0.17.2, but upstream docs track a newer release with different option spellings — check `mango -c … -p`, not the website, when in doubt
+- Keybinds: keyd rewrites keys at the evdev layer before the compositor sees them, so a chord can silently disappear — see `### Keybinds`

@@ -28,6 +28,7 @@
         ./modules/hyprland.nix
         ./modules/keyd.nix
         ./modules/kitty.nix
+        ./modules/mango.nix
         ./modules/pipewire.nix
         ./modules/quickshell.nix
         ./modules/reaper.nix

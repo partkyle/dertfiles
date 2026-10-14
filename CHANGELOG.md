@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-14.1
+
+- **mango**: new shared module installs the nixpkgs `mangowc` compositor as a second session alongside Hyprland, with `nix/mango/config.conf` live-linked and hot-reloading
+- **mango**: uses mango's native systemd integration (`mango-session.target` bound to `graphical-session.target`) instead of UWSM, and registers the package's user units so the bar, idle and mapper services start
+- **mango**: keybinds mirror the Hyprland set on Super — tags 1–9, quick layout switches, scratchpad, screenshots and media keys — plus a Super+Shift+R resize keymode
+- **mango**: per-host monitor rules in `nix/mango/hosts/<host>.conf`; theseus keeps the 4K HDR main display and the portrait secondary
+- **mango**: window/layer rules float the Steam Settings dialog and disable rofi's animation; the Godot float rules stay Hyprland-only because mango has no negated title match
+- **keyd**: `keyd-application-mapper` is now a systemd user service bound to `graphical-session.target`, so it runs for both compositors instead of being started from `hyprland.lua`
+- **hypridle**: display sleep goes through a `dpms.sh` helper that uses `hyprctl` under Hyprland and `wlopm` under mango
+- **greetd**: tuigreet shows a session picker (Hyprland and mango) instead of auto-starting Hyprland
+- **quickshell**: the workspaces widget is driven by the generic ext-workspace protocol (`Quickshell.WindowManager`), so it shows mango tags and Hyprland workspaces from one implementation
+- **quickshell**: the title widget uses the generic foreign-toplevel protocol (`ToplevelManager`); the Hyprland-only `[N/M]` position/count is gone
+- **quickshell**: the layout widget tracks `dert hypr|mango layout` and only runs its hyprctl backstop under Hyprland
+- **dert**: new `mango` group with `dert mango layout <dwindle|tile|monocle|scroller>`
+- **screenshot**: `screenshot.sh` gets window/monitor geometry from `hyprctl` or `mmsg` depending on the session, and `test/screenshot.test.sh` covers both
+- **docs**: AGENTS.md and README describe the mango config, its 0.17.2 option vocabulary, and the shared keyd mapper
+
 ## 2026-10-14
 
 - **ghostty**: new `nix/modules/ghostty.nix` installs the `ghostty` terminal through Home Manager on every host and links its repo-owned config tree
