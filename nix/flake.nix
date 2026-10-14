@@ -26,6 +26,7 @@
         ./modules/fish.nix
         ./modules/hyprland.nix
         ./modules/keyd.nix
+        ./modules/kitty.nix
         ./modules/pipewire.nix
         ./modules/quickshell.nix
         ./modules/reaper.nix

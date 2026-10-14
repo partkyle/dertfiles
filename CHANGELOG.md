@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-13.2
+
+- **kitty**: new `nix/modules/kitty.nix` installs and configures the kitty terminal through Home Manager, enabled on every host by default so a host can opt out
+- **kitty**: the font mirrors the foot config (Maple Mono NF at size 12 with the cv05/cv38 character variants)
+
 ## 2026-10-13.1
 
 - **hyprland**: the Godot float rules now match the Wayland app_id (`org.godotengine.Editor`), so a game started from the editor floats — it shares the editor's app_id and is told apart by its window title — while the editor itself stays tiled
