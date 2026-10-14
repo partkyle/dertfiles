@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-14
+
+- **ghostty**: new `nix/modules/ghostty.nix` installs the `ghostty` terminal through Home Manager on every host and links its repo-owned config tree
+- **ghostty**: the config lives in stow layout at `ghostty/.config/ghostty/` — Maple Mono NF at size 12 with the cv05/cv38 features, the bundled `Catppuccin Mocha` theme, a steady cursor, and foot's `pad = 17x7`
+- **ghostty**: vendored two MIT cursor shaders (ripple rectangle + cursor sweep) from `sahaj-b/cursor-shaders` under `shaders/` and enabled them with `custom-shader`
+
 ## 2026-10-13.3
 
 - **kitty**: enabled the built-in cursor trail (`cursor_trail`) so the cursor leaves a fading motion-blur trail on large jumps, with a tuned decay and a two-cell start threshold to keep small moves quiet

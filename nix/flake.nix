@@ -24,6 +24,7 @@
       sharedModules = [
         ./modules/claude.nix
         ./modules/fish.nix
+        ./modules/ghostty.nix
         ./modules/hyprland.nix
         ./modules/keyd.nix
         ./modules/kitty.nix

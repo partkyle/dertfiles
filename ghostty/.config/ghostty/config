@@ -1,0 +1,24 @@
+# Ghostty terminal configuration.
+#
+# Repo-owned, stow-style tree: ghostty/.config/ghostty -> ~/.config/ghostty
+# Linked through nix/modules/ghostty.nix.
+
+theme = Catppuccin Mocha
+
+font-family = Maple Mono NF
+font-size = 12
+font-feature = cv05
+font-feature = cv38
+
+# kitty and foot keep the cursor steady; match them here.
+cursor-style-blink = false
+
+# Match foot's `pad = 17x7`.
+window-padding-x = 7
+window-padding-y = 7
+
+# Cursor animation shaders, vendored from
+# https://github.com/sahaj-b/cursor-shaders (MIT). Paths are relative to this
+# file's directory.
+custom-shader = shaders/ripple_rectangle_cursor.glsl
+custom-shader = shaders/cursor_sweep.glsl
