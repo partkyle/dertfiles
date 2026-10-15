@@ -127,10 +127,6 @@ cmd_hypr_layout() {
       ;;
   esac
   hyprctl eval "hl.config({ general = { layout = \"$mode\" } })" >/dev/null
-  # The running shell watches this file for the current mode, so dert owns
-  # both the switch and the record of it. Path is mirrored in
-  # quickshell/widgets/Layout.qml.
-  printf '%s\n' "$mode" >"${XDG_RUNTIME_DIR:-/tmp}/hypr-layout"
 }
 
 cmd_mango_layout() {
@@ -147,10 +143,6 @@ cmd_mango_layout() {
       ;;
   esac
   mmsg dispatch "setlayout,$mode" >/dev/null
-  # The running shell watches this file for the current mode, so dert owns
-  # both the switch and the record of it. Path is mirrored in
-  # quickshell/widgets/Layout.qml.
-  printf '%s\n' "$mode" >"${XDG_RUNTIME_DIR:-/tmp}/mango-layout"
 }
 
 # ── keep-awake lock ─────────────────────────────────────────────────────────

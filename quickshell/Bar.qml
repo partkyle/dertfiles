@@ -44,7 +44,9 @@ PanelWindow {
     spacing: Style.moduleHSpacing
     height: parent.height
 
-    Layout {}
+    Layout {
+      screen: root.screen
+    }
 
     Workspaces {
       screen: root.screen

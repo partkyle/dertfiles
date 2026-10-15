@@ -259,7 +259,7 @@ hl.bind("SUPER + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tile
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }), { description = "Toggle fullscreen (fake)" })
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }), { description = "Toggle fullscreen (real)" })
 
--- Direct layout switches (dert records the mode for the quickshell bar)
+-- Direct layout switches (the bar reads the mode back from the compositor)
 hl.bind("SUPER + M", hl.dsp.exec_cmd(dert .. " hypr layout monocle"), { description = "Switch to monocle" })
 hl.bind("SUPER + comma", hl.dsp.exec_cmd(dert .. " hypr layout dwindle"), { description = "Switch to dwindle" })
 hl.bind("SUPER + period", hl.dsp.exec_cmd(dert .. " hypr layout master"), { description = "Switch to master" })

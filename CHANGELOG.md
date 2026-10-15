@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-14.4
+
+- **quickshell**: the layout widget now reads the tiling mode from the compositor instead of dert's runtime file — `mmsg watch all-tags` under mango (per active tag, per monitor) and a faster `hyprctl` poll under Hyprland — so the icon stays correct after `SUPER+N`, a restart or any other switch
+- **quickshell**: the layout widget is per-screen, so each bar shows its own monitor's layout instead of one global value
+- **dert**: `dert hypr|mango layout` no longer writes a runtime state file; it only dispatches the switch
+
 ## 2026-10-14.3
 
 - **mango**: `background.sh` sets the session background with `swaybg`, picking a random image from `~/.config/backgrounds` on each start
