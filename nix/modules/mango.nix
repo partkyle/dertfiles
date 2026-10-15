@@ -44,8 +44,28 @@ in
 
     home-manager.users.partkyle = {
       home.packages = with pkgs; [
+        swaybg # draws the session background via background.sh
         wlopm # DPMS for hypridle's display-sleep listener
       ];
+
+      # Random background, picked once per session start. Bound to
+      # mango-session.target rather than graphical-session.target so it does
+      # not also run under Hyprland. Restart the unit to roll a new image.
+      systemd.user.services.mango-background = {
+        Unit = {
+          Description = "Mango background (swaybg)";
+          PartOf = [ "mango-session.target" ];
+          After = [ "mango-session.target" ];
+        };
+        Service = {
+          ExecStart = "${config.home-manager.users.partkyle.home.homeDirectory}/.config/mango/scripts/background.sh";
+          Restart = "on-failure";
+          RestartSec = 3;
+        };
+        Install = {
+          WantedBy = [ "mango-session.target" ];
+        };
+      };
 
       xdg.configFile = {
         # Live link: mango watches this and reloads on save.
@@ -58,6 +78,10 @@ in
         };
         "mango/scripts/wm-dir.sh" = {
           source = ../mango/scripts/wm-dir.sh;
+          executable = true;
+        };
+        "mango/scripts/background.sh" = {
+          source = ../mango/scripts/background.sh;
           executable = true;
         };
       }

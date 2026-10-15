@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-14.3
+
+- **mango**: `background.sh` sets the session background with `swaybg`, picking a random image from `~/.config/backgrounds` on each start
+- **mango**: `mango-background` systemd user service runs `background.sh` bound to `mango-session.target`, so the background is mango-only and restarting the unit rolls a new image
+
 ## 2026-10-14.2
 
 - **greetd**: tuigreet now defaults to the mango session via `--cmd`, since the picker preselects the alphabetically first entry (`Hyprland` sorts before `Mango`) and cannot express a preference on its own
