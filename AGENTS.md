@@ -31,7 +31,8 @@ Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. T
 ### Mango (`nix/mango/`)
 
 Linux/Nix-only mango (mangowc) config, deployed by `nix/modules/mango.nix`. It
-coexists with Hyprland; the session picker chooses between them.
+coexists with Hyprland; the session picker chooses between them and defaults to
+mango.
 
 - `config.conf` — Main config: appearance, keybinds, tags, input, window/layer rules (live-linked; mango hot-reloads on save)
 - `hosts/<hostname>.conf` — Per-host monitor rules, live-linked as `host.conf` and pulled in with `source-optional`
@@ -143,7 +144,7 @@ programs.<name>.<option> = { ... };
 - Both are live-linked into `~/.config/mango`, so edits hot-reload — no rebuild needed.
 - Validate without starting it: `mango -c nix/mango/config.conf -p` (or point it at a concatenation of `config.conf` + the host file to check the monitor rules too).
 - Layout switching is `dert mango layout <dwindle|tile|monocle|scroller>`; the bar's Layout widget watches the runtime file it writes.
-- Mango owns its session target (see above), so pick the plain `mango` entry in tuigreet; Hyprland still uses its `(UWSM)` entry.
+- Mango owns its session target (see above), so use the plain `mango` entry in tuigreet (the default); Hyprland still uses its `(UWSM)` entry.
 
 ### Keybinds
 

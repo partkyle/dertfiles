@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-14.2
+
+- **greetd**: tuigreet now defaults to the mango session via `--cmd`, since the picker preselects the alphabetically first entry (`Hyprland` sorts before `Mango`) and cannot express a preference on its own
+- **greetd**: `--cmd` bypasses the desktop file, so the mango session's `XDG_SESSION_DESKTOP`, `XDG_SESSION_TYPE` and `XDG_CURRENT_DESKTOP` are passed explicitly with `--env`, keeping portals and session detection working on a fresh cache
+- **greetd**: a manual F3 selection still overrides the default and, with `--remember-session`, is remembered
+
 ## 2026-10-14.1
 
 - **mango**: new shared module installs the nixpkgs `mangowc` compositor as a second session alongside Hyprland, with `nix/mango/config.conf` live-linked and hot-reloading
