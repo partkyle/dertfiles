@@ -50,10 +50,36 @@ declare -A CMD_DESC=(
   [shot.full]="Screenshot every monitor"
 )
 
+# Mango's tiling layouts, in `mmsg get layouts` order. This registry drives
+# validation, completion, and the usage string below, so they cannot drift.
+MANGO_LAYOUTS=(tile scroller grid monocle deck center_tile right_tile
+  vertical_scroller vertical_tile vertical_grid vertical_deck dwindle fair
+  vertical_fair)
+
+# Joined form for the CMD_USAGE string below.
+MANGO_LAYOUT_LIST="$(IFS='|'; printf '%s' "${MANGO_LAYOUTS[*]}")"
+
+declare -A MANGO_LAYOUT_DESC=(
+  [tile]="Master pane plus stack"
+  [scroller]="Horizontally scrolling strip (PaperWM-style)"
+  [grid]="Uniform grid of tiles"
+  [monocle]="One window at a time, others stacked behind"
+  [deck]="Master area plus a deck of stacked cards"
+  [center_tile]="Master centered with stack around it"
+  [right_tile]="Master pane on the right"
+  [vertical_scroller]="Vertically scrolling rows"
+  [vertical_tile]="Master on top, stack below"
+  [vertical_grid]="Vertical grid of tiles"
+  [vertical_deck]="Master area plus a vertical deck"
+  [dwindle]="Recursive binary splits"
+  [fair]="Near-square grid sized to the window count"
+  [vertical_fair]="Vertical near-square grid"
+)
+
 declare -A CMD_USAGE=(
   [nix.update]="[input ...]    e.g. dert nix update pi-nix"
   [hypr.layout]="<dwindle|master|monocle|scrolling>"
-  [mango.layout]="<dwindle|tile|monocle|scroller>"
+  [mango.layout]="<${MANGO_LAYOUT_LIST}>"
   [idle.default]="[duration]    e.g. dert idle default 45m"
   [idle.on]="[duration]    e.g. dert idle on 2h (default: configured, else 1h)"
   [idle.toggle]="[duration]    e.g. dert idle toggle 30m"
@@ -131,17 +157,15 @@ cmd_hypr_layout() {
 
 cmd_mango_layout() {
   local mode="${1:-}"
-  case "$mode" in
-    dwindle|tile|monocle|scroller) ;;
-    "")
-      err "usage: dert mango layout <dwindle|tile|monocle|scroller>"
-      return 2
-      ;;
-    *)
-      err "unknown layout: $mode (expected dwindle, tile, monocle or scroller)"
-      return 2
-      ;;
-  esac
+  if [[ -z $mode ]]; then
+    err "usage: dert mango layout <layout>"
+    return 2
+  fi
+  if [[ ! -v MANGO_LAYOUT_DESC[$mode] ]]; then
+    err "unknown layout: $mode"
+    err "layouts: ${MANGO_LAYOUTS[*]}"
+    return 2
+  fi
   mmsg dispatch "setlayout,$mode" >/dev/null
 }
 
@@ -252,10 +276,10 @@ hypr_layouts() {
 }
 
 mango_layouts() {
-  printf 'dwindle\tRecursive split tiling\n'
-  printf 'tile\tMaster pane plus stack\n'
-  printf 'monocle\tSingle fullscreen window\n'
-  printf 'scroller\tHorizontally scrolling columns\n'
+  local name
+  for name in "${MANGO_LAYOUTS[@]}"; do
+    printf '%s\t%s\n' "$name" "${MANGO_LAYOUT_DESC[$name]}"
+  done
 }
 
 # Values offered when completing `dert idle on|toggle|default`.

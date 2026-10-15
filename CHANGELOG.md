@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-15
+
+- **dert**: `dert mango layout` now accepts and tab-completes every layout mango provides (tile, scroller, grid, monocle, deck, center_tile, right_tile, vertical_scroller, vertical_tile, vertical_grid, vertical_deck, dwindle, fair, vertical_fair) instead of only dwindle/tile/monocle/scroller, driven by one registry that also builds the help usage string
+
 ## 2026-10-14.4
 
 - **quickshell**: the layout widget now reads the tiling mode from the compositor instead of dert's runtime file — `mmsg watch all-tags` under mango (per active tag, per monitor) and a faster `hyprctl` poll under Hyprland — so the icon stays correct after `SUPER+N`, a restart or any other switch
