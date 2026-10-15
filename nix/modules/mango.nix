@@ -56,6 +56,10 @@ in
           source = ../hypr/scripts/screenshot.sh;
           executable = true;
         };
+        "mango/scripts/wm-dir.sh" = {
+          source = ../mango/scripts/wm-dir.sh;
+          executable = true;
+        };
       }
       // lib.optionalAttrs hasHostConf {
         "mango/host.conf".source = live "hosts/${config.networking.hostName}.conf";

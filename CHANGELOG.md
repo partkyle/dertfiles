@@ -5,12 +5,17 @@
 - **mango**: new shared module installs the nixpkgs `mangowc` compositor as a second session alongside Hyprland, with `nix/mango/config.conf` live-linked and hot-reloading
 - **mango**: uses mango's native systemd integration (`mango-session.target` bound to `graphical-session.target`) instead of UWSM, and registers the package's user units so the bar, idle and mapper services start
 - **mango**: keybinds mirror the Hyprland set on Super — tags 1–9, quick layout switches, scratchpad, screenshots and media keys — plus a Super+Shift+R resize keymode
+- **mango**: `exchange_cross_monitor` lets Super+Shift+h/j/k/l move a window onto the adjacent monitor, and `focus_cross_monitor` makes Super+h/j/k/l focus the adjacent monitor at the edge
+- **mango**: directional focus/move run through `wm-dir.sh`, which cycles the monocle stack (as Hyprland did) and makes move a no-op there instead of shoving the window onto another monitor
 - **mango**: per-host monitor rules in `nix/mango/hosts/<host>.conf`; theseus keeps the 4K HDR main display and the portrait secondary
+- **mango**: the window border uses Hyprland's colors — active `0x33ccffee` (teal), inactive `0x45475aff`
+- **mango**: window animations tuned to a snappy zoom-open/fade-close (150–200 ms, ease-out) instead of the shipped 400/800 ms slides
+- **mango**: rofi's layer animation is disabled with `noanim`, so it no longer slides in or re-animates on every keystroke
 - **mango**: window/layer rules float the Steam Settings dialog and disable rofi's animation; the Godot float rules stay Hyprland-only because mango has no negated title match
 - **keyd**: `keyd-application-mapper` is now a systemd user service bound to `graphical-session.target`, so it runs for both compositors instead of being started from `hyprland.lua`
 - **hypridle**: display sleep goes through a `dpms.sh` helper that uses `hyprctl` under Hyprland and `wlopm` under mango
-- **greetd**: tuigreet shows a session picker (Hyprland and mango) instead of auto-starting Hyprland
-- **quickshell**: the workspaces widget is driven by the generic ext-workspace protocol (`Quickshell.WindowManager`), so it shows mango tags and Hyprland workspaces from one implementation
+- **greetd**: tuigreet shows a session picker (Hyprland, Hyprland (UWSM), Mango) instead of auto-starting Hyprland, pinned to the canonical `sessionPackages` list with `XDG_DATA_DIRS` scoped to the greeter so NixOS's duplicate session directories do not list each session twice
+- **quickshell**: the workspaces widget is driven by the generic ext-workspace protocol (`Quickshell.WindowManager`), so it shows mango tags and Hyprland workspaces from one implementation, filtered to the ones the compositor marks visible (occupied tags plus the active one)
 - **quickshell**: the title widget uses the generic foreign-toplevel protocol (`ToplevelManager`); the Hyprland-only `[N/M]` position/count is gone
 - **quickshell**: the layout widget tracks `dert hypr|mango layout` and only runs its hyprctl backstop under Hyprland
 - **dert**: new `mango` group with `dert mango layout <dwindle|tile|monocle|scroller>`
