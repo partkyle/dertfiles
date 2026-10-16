@@ -34,7 +34,7 @@ Linux/Nix-only mango (mangowc) config, deployed by `nix/modules/mango.nix`. It
 coexists with Hyprland; the session picker chooses between them and defaults to
 mango.
 
-- `config.conf` — Main config: appearance, keybinds, tags, input, window/layer rules (live-linked; mango hot-reloads on save)
+- `config.conf` — Main config: appearance, keybinds, tags, input, window/layer rules (live-linked; reload with Super+r — mango 0.17.2 does not watch the file)
 - `hosts/<hostname>.conf` — Per-host monitor rules, live-linked as `host.conf` and pulled in with `source-optional`
 - `scripts/` — `screenshot.sh` (shared with Hyprland) and `dpms.sh` (hyprctl vs wlopm)
 
@@ -141,7 +141,7 @@ programs.<name>.<option> = { ... };
 
 - Main config (keybinds, tags, appearance, window rules): `nix/mango/config.conf`
 - Monitor rules: `nix/mango/hosts/<hostname>.conf`
-- Both are live-linked into `~/.config/mango`, so edits hot-reload — no rebuild needed.
+- Both are live-linked into `~/.config/mango`, so no rebuild is needed. Mango 0.17.2 does not watch the file: reload with `Super+r` (or `mmsg dispatch reload_config`) for edits to apply.
 - Validate without starting it: `mango -c nix/mango/config.conf -p` (or point it at a concatenation of `config.conf` + the host file to check the monitor rules too).
 - Layout switching is `dert mango layout <dwindle|tile|monocle|scroller>`; the bar's Layout widget reads the active tag's layout from `mmsg watch all-tags`, so it stays correct for any switch (keybind, CLI, startup).
 - The background is `swaybg` via the `mango-background` user service (`nix/mango/scripts/background.sh`), bound to `mango-session.target` so it only runs under mango; it picks a random image from `~/.config/backgrounds` and `systemctl --user restart mango-background` rolls a new one.

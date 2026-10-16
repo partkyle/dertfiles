@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-15.1
+
+- **mango**: terminal swallowing now works — added `isterm:1` window rules for the configured terminals (foot, ghostty, kitty, alacritty, wezterm); without them mango never classifies a client as a terminal, so `swallow` never fired
+- **mango**: corrected the reload documentation in `AGENTS.md`, the module comments and the config header — mango 0.17.2 has no config watcher, so edits apply only after `Super+r` (`reload_config`), not on save
+
 ## 2026-10-15
 
 - **dert**: `dert mango layout` now accepts and tab-completes every layout mango provides (tile, scroller, grid, monocle, deck, center_tile, right_tile, vertical_scroller, vertical_tile, vertical_grid, vertical_deck, dwindle, fair, vertical_fair) instead of only dwindle/tile/monocle/scroller, driven by one registry that also builds the help usage string

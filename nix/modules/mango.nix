@@ -12,8 +12,9 @@ let
   hasHostConf = builtins.pathExists hostConf;
 
   # Link the config straight at the working tree instead of a store copy so
-  # mango's config watcher reloads on save (the stow behaviour). This is
-  # intentionally impure: the repo must live at ~/.dertfiles.
+  # the repo is the single source of truth (no rebuild to pick up an edit).
+  # Mango 0.17.2 does not watch the file, so reload with Super+r after a
+  # change. This is intentionally impure: the repo must live at ~/.dertfiles.
   dotfilesDir = "${config.home-manager.users.partkyle.home.homeDirectory}/.dertfiles";
   live =
     subpath:
@@ -68,7 +69,7 @@ in
       };
 
       xdg.configFile = {
-        # Live link: mango watches this and reloads on save.
+        # Live link: no rebuild needed to edit; reload with Super+r.
         "mango/config.conf".source = live "config.conf";
 
         # Store copies: shared with the Hyprland module.
