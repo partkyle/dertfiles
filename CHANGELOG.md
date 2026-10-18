@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-17
+
+- **pi**: update pi
+
 ## 2026-10-15.1
 
 - **mango**: terminal swallowing now works — added `isterm:1` window rules for the configured terminals (foot, ghostty, kitty, alacritty, wezterm); without them mango never classifies a client as a terminal, so `swallow` never fired
