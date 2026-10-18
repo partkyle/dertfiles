@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-18.3
+
+- **repo**: enabled `programs.direnv` (with nix-direnv) in `home.nix`, so the repo's tooling loads on `cd` in and unloads on `cd` out
+- **repo**: added `devShells.x86_64-linux.default` to `nix/flake.nix` — shellcheck, `lua5_4` (for `luac -p`), `mangowc` (for `mango -c … -p`), `nixfmt`, `statix`, `nil` and `nodejs`
+- **repo**: added a root `.envrc` that points direnv at `./nix`, since the flake does not live at the repo root; `.direnv/` is now gitignored
+- **repo**: direnv keys trust to the `.envrc` *contents*, so any edit re-blocks the environment until it is reviewed against `git diff .envrc` and re-allowed — hence `.envrc` is committed rather than ignored
+- **repo**: `.envrc` declares `nix/flake.nix` and `nix/flake.lock` with `require_allowed`, so flake edits have to be re-allowed instead of silently reloaded
+- **repo**: `nix/flake.nix` takes direnv from the direnv repo's own flake (`github:direnv/direnv/v2.38.2`, with `nixpkgs.follows`) because `require_allowed` needs >= 2.38 and nixos-unstable still ships 2.37.1; the pin can be dropped once the channel catches up
+
 ## 2026-10-18.2
 
 - **terminal**: ghostty is now the default terminal — Hyprland and mango spawn it on `SUPER+RETURN`/`SUPER+E`, and the quickshell CPU, memory, network and audio modules open it too (all of which previously used foot)

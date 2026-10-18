@@ -154,6 +154,16 @@ in
     webApps.wrapperFiles
   ];
 
+  # direnv keys the repo's ./.envrc by content hash: every edit re-blocks it
+  # until it is reviewed and `direnv allow`ed again. The shell `use flake`
+  # loads comes from nix/flake.nix; nix-direnv caches it between reloads.
+  # Fish integration is on by default (programs.fish.enable is set true).
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    silent = true;
+  };
+
   programs.pi-coding-agent = {
     enable = true;
 
