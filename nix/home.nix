@@ -167,6 +167,9 @@ in
     settings = {
       defaultProvider = "opencode-go";
       defaultModel = "deepseek-v4.1-flash";
+      packages = [
+        "npm:pi-powerline"
+      ];
     };
   };
 
