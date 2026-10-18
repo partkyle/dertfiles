@@ -65,7 +65,9 @@ PanelWindow {
     Cpu {}
     Memory {}
     Network {}
-    Audio {}
+    Audio {
+      screen: root.screen
+    }
     Brightness {
       screen: root.screen
     }

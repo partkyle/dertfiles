@@ -1,5 +1,6 @@
 singleton Style 1.0 Style.qml
 singleton Color 1.0 Color.qml
 singleton Brightness 1.0 Brightness.qml
+singleton Volume 1.0 Volume.qml
 singleton IconSource 1.0 IconSource.qml
 singleton Notifications 1.0 Notifications.qml

@@ -48,6 +48,8 @@ ShellRoot {
 
   BrightnessPopup {}
 
+  VolumePopup {}
+
   // Minimal control surface for `qs ipc call notifications …` (wrapped by
   // `dert notif`). Kept tiny on purpose — persistence is the point, not a
   // second notification API.

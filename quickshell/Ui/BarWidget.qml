@@ -24,6 +24,7 @@ Rectangle {
 
   signal clicked()
   signal rightClicked()
+  signal middleClicked()
   signal scrollUp()
   signal scrollDown()
 
@@ -82,6 +83,8 @@ Rectangle {
     onClicked: mouse => {
       if (mouse.button === Qt.RightButton)
         root.rightClicked();
+      else if (mouse.button === Qt.MiddleButton)
+        root.middleClicked();
       else
         root.clicked();
     }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-18.1
+
+- **quickshell**: clicking the bar's audio module now opens a volume slider popup under it, the same control the brightness module got — drag the slider or click the percentage to type an exact value; the popup dismisses on any outside click or Escape
+- **quickshell**: moving the slider or scrolling the module now unmutes, so an explicit volume change always makes sound
+- **quickshell**: the volume popup carries a mute toggle, and middle-clicking the module still opens wiremix (right click still mutes)
+- **quickshell**: `Commons/Volume.qml` now owns the shared PipeWire sink state for the audio widget and popup, and `Ui/BarWidget.qml` gained a `middleClicked` signal
+- **quickshell**: the brightness and volume popups now share one `Ui/SliderPopup.qml`; `BrightnessPopup.qml` and `VolumePopup.qml` are thin wrappers, so the slider, typeable percentage and dismiss behavior live in a single place
+- **quickshell**: fixed the volume popup opening flush against the screen edge — `Bar.qml` now passes the screen to the audio module, so the popup aligns under it like the brightness one
+
 ## 2026-10-18
 
 - **quickshell**: added a brightness module to the bar (right of audio) — a lightbulb label showing the real backlight percentage, updated instantly when the brightness keys or `dert bright` change it
