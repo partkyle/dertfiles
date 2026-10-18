@@ -17,12 +17,13 @@ HOST="$(hostname -s)"
 
 # ── registry ────────────────────────────────────────────────────────────────
 
-GROUP_ORDER=(nix hypr mango notif idle shot)
+GROUP_ORDER=(nix hypr mango bright notif idle shot)
 
 declare -A GROUP_DESC=(
   [nix]="NixOS flake, rebuilds, and store management"
   [hypr]="Hyprland session controls"
   [mango]="Mango (mangowc) session controls"
+  [bright]="Backlight brightness (shared with the bar's slider)"
   [notif]="Desktop notification history"
   [idle]="Keep-awake lock (inhibit idle) shared with the bar's lock icon"
   [shot]="Screen capture via grim/slurp (saves under ~/Pictures/Screenshots)"
@@ -37,6 +38,10 @@ declare -A CMD_DESC=(
   [nix.update]="Update every flake input, or only the named input(s)"
   [hypr.layout]="Set the Hyprland tiling layout"
   [mango.layout]="Set the Mango tiling layout"
+  [bright.status]="Show the current backlight brightness"
+  [bright.set]="Set brightness to a percentage, or nudge it with a signed value"
+  [bright.up]="Raise the brightness by a step (default 5%)"
+  [bright.down]="Lower the brightness by a step (default 5%)"
   [notif.clear]="Delete all persisted notification history"
   [notif.history]="Open the notification history panel"
   [idle.default]="Show or set the keep-awake lock's default duration"
@@ -80,6 +85,9 @@ declare -A CMD_USAGE=(
   [nix.update]="[input ...]    e.g. dert nix update pi-nix"
   [hypr.layout]="<dwindle|master|monocle|scrolling>"
   [mango.layout]="<${MANGO_LAYOUT_LIST}>"
+  [bright.set]="<0-100[%]|+N|-N>    e.g. dert bright set 40 or dert bright set +10"
+  [bright.up]="[step]    default 5, e.g. dert bright up 10"
+  [bright.down]="[step]    default 5"
   [idle.default]="[duration]    e.g. dert idle default 45m"
   [idle.on]="[duration]    e.g. dert idle on 2h (default: configured, else 1h)"
   [idle.toggle]="[duration]    e.g. dert idle toggle 30m"
@@ -97,6 +105,7 @@ declare -A CMD_COMPLETE=(
   [nix.update]="flake_inputs"
   [hypr.layout]="hypr_layouts"
   [mango.layout]="mango_layouts"
+  [bright.set]="brightness_choices"
   [idle.default]="duration_choices"
   [idle.on]="duration_choices"
   [idle.toggle]="duration_choices"
@@ -167,6 +176,69 @@ cmd_mango_layout() {
     return 2
   fi
   mmsg dispatch "setlayout,$mode" >/dev/null
+}
+
+# ── brightness ──────────────────────────────────────────────────────────────
+# The bar's brightness module writes through the same brightnessctl call (see
+# quickshell/Commons/Brightness.qml), so the CLI and the slider always agree.
+
+cmd_bright_status() {
+  local device class current percent max
+  IFS=, read -r device class current percent max < <(brightnessctl -m info)
+  if [[ -z ${device:-} ]]; then
+    err "no backlight device found"
+    return 1
+  fi
+  printf 'Brightness: %s (%s/%s on %s).\n' "$percent" "$current" "$max" "$device"
+}
+
+# Absolute percent (0-100), or a signed delta (+N / -N) relative to the
+# current level.
+cmd_bright_set() {
+  local value="${1:-}" number
+  if [[ -z $value ]]; then
+    err "usage: dert bright set <0-100[%]|+N|-N>"
+    return 2
+  fi
+  number="${value%\%}"
+  if [[ ! $number =~ ^[+-]?[0-9]+$ ]]; then
+    err "invalid brightness: $value"
+    return 2
+  fi
+  if [[ $number == -* ]]; then
+    brightnessctl -q set "${number#-}%-" || return 1
+  elif [[ $number == +* ]]; then
+    brightnessctl -q set "${number#+}%+" || return 1
+  else
+    # 10# avoids bash reading a leading zero as octal.
+    number=$((10#$number))
+    if ((number > 100)); then
+      err "brightness must be between 0 and 100: $value"
+      return 2
+    fi
+    brightnessctl -q set "${number}%" || return 1
+  fi
+  cmd_bright_status
+}
+
+cmd_bright_up() {
+  local step="${1:-5}"
+  if [[ ! $step =~ ^[0-9]+$ ]]; then
+    err "invalid step: $step"
+    return 2
+  fi
+  brightnessctl -q set "${step}%+" || return 1
+  cmd_bright_status
+}
+
+cmd_bright_down() {
+  local step="${1:-5}"
+  if [[ ! $step =~ ^[0-9]+$ ]]; then
+    err "invalid step: $step"
+    return 2
+  fi
+  brightnessctl -q set "${step}%-" || return 1
+  cmd_bright_status
 }
 
 # ── keep-awake lock ─────────────────────────────────────────────────────────
@@ -280,6 +352,17 @@ mango_layouts() {
   for name in "${MANGO_LAYOUTS[@]}"; do
     printf '%s\t%s\n' "$name" "${MANGO_LAYOUT_DESC[$name]}"
   done
+}
+
+# Values offered when completing `dert bright set`.
+brightness_choices() {
+  printf '%s\t%s\n' 10 "10 percent"
+  printf '%s\t%s\n' 25 "25 percent"
+  printf '%s\t%s\n' 50 "50 percent"
+  printf '%s\t%s\n' 75 "75 percent"
+  printf '%s\t%s\n' 100 "100 percent"
+  printf '%s\t%s\n' +5 "raise by 5 percent"
+  printf '%s\t%s\n' -5 "lower by 5 percent"
 }
 
 # Values offered when completing `dert idle on|toggle|default`.

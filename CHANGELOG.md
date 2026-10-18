@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-18
+
+- **quickshell**: added a brightness module to the bar (right of audio) — a lightbulb label showing the real backlight percentage, updated instantly when the brightness keys or `dert bright` change it
+- **quickshell**: clicking the brightness module opens a small slider popup under it, with a percentage on the right that becomes an editable number field when clicked; the popup dismisses on any outside click or Escape
+- **quickshell**: the brightness popup is a full-screen `PanelWindow` overlay rather than a `PopupWindow` — a `PopupWindow` cannot attach an xdg_popup to the layer-shell bar and so will not position below it
+- **dert**: added a `bright` command group (`status`, `set`, `up`, `down`) driving the same `brightnessctl` backlight as the bar, with tab completion
+
 ## 2026-10-17.2
 
 - **mango**: all nine tags now default to the `right_tile` (master-on-the-right) layout instead of `tile`

@@ -66,6 +66,9 @@ PanelWindow {
     Memory {}
     Network {}
     Audio {}
+    Brightness {
+      screen: root.screen
+    }
     Battery {}
     IdleInhibit {}
     NotificationBell {}
