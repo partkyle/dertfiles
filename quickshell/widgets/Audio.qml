@@ -28,7 +28,7 @@ BarWidget {
   }
 
   onClicked: Volume.openPanel(screen, rightInset())
-  onMiddleClicked: run(["foot", "-e", "wiremix", "-v", "output"])
+  onMiddleClicked: run(["ghostty", "-e", "wiremix", "-v", "output"])
   onRightClicked: Volume.toggleMute()
   onScrollUp: Volume.setVolume(Volume.volume + 0.05)
   onScrollDown: Volume.setVolume(Volume.volume - 0.05)

@@ -16,7 +16,7 @@ BarWidget {
   label: " " + usedGib.toFixed(1) + "G/" + totalGib.toFixed(1) + "G"
   accent: Color.sky
 
-  onClicked: run(["foot", "-e", "btop"])
+  onClicked: run(["ghostty", "-e", "btop"])
 
   Timer {
     interval: 10000

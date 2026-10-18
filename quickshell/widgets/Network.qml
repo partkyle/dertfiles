@@ -8,7 +8,7 @@ import qs.Ui
 // Network state from systemd-networkd + iwd (this system doesn't run
 // NetworkManager), polled every 5 seconds via scripts/network-status.sh.
 // Shows the wifi SSID, "Connected" for ethernet, or "Disconnected".
-// Left click opens iwctl in foot, like the waybar config.
+// Left click opens iwctl in ghostty, like the waybar config.
 BarWidget {
   id: root
 
@@ -20,7 +20,7 @@ BarWidget {
     : "󰤮 Disconnected"
   accent: Color.yellow
 
-  onClicked: run(["foot", "-e", "iwctl"])
+  onClicked: run(["ghostty", "-e", "iwctl"])
 
   function parseLine(line) {
     const trimmed = line.trim()

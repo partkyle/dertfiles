@@ -16,7 +16,7 @@ BarWidget {
   label: " " + Math.round(usage) + "%"
   accent: Color.peach
 
-  onClicked: run(["foot", "-e", "btop"])
+  onClicked: run(["ghostty", "-e", "btop"])
 
   Timer {
     interval: 5000

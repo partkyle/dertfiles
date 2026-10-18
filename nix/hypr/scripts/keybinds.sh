@@ -322,11 +322,11 @@ format_bindings() {
 		gsub(/^hyprctl dispatch exec /, "", cmd)
 
 		# Shorten well-known commands
-		if (cmd == "foot") cmd = ""
+		if (cmd == "ghostty") cmd = ""
 		else if (cmd == "brave") cmd = ""
 		else if (cmd == "rofi -show drun") cmd = ""
 		else if (cmd == "hyprlock") cmd = ""
-		else if (cmd ~ /^foot -e yazi$/) cmd = ""
+		else if (cmd ~ /^ghostty -e yazi$/) cmd = ""
 
 		# If we have a description, just show it; otherwise show the command
 		if (action == "") {

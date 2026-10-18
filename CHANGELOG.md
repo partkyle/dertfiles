@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-18.2
+
+- **terminal**: ghostty is now the default terminal — Hyprland and mango spawn it on `SUPER+RETURN`/`SUPER+E`, and the quickshell CPU, memory, network and audio modules open it too (all of which previously used foot)
+
 ## 2026-10-18.1
 
 - **quickshell**: clicking the bar's audio module now opens a volume slider popup under it, the same control the brightness module got — drag the slider or click the percentage to type an exact value; the popup dismisses on any outside click or Escape
