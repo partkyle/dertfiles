@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-17.2
+
+- **mango**: all nine tags now default to the `right_tile` (master-on-the-right) layout instead of `tile`
+- **mango**: `SUPER+period` now switches to `right_tile` instead of `tile`, matching the new default
+- **quickshell**: the layout widget's mango fallback and icon map recognise `right_tile`
+
 ## 2026-10-17.1
 
 - **pi**: add pi-powerline - IF WE LISTEN TO EACH OTHER'S HEARTS, WE FIND THAT WE'RE NOT TOO FAR APART. AND MAYBE LOVE IS THE REASON WHY, FOR THE FIRST TIME EVER, SEEING IT EYE TO EYE.

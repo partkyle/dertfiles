@@ -29,7 +29,7 @@ BarWidget {
     ? ["dwindle", "master", "monocle", "scrolling"]
     : ["dwindle", "tile", "monocle", "scroller"]
 
-  property string layout: isHyprland ? "dwindle" : "tile"
+  property string layout: isHyprland ? "dwindle" : "right_tile"
 
   // `mmsg` reports a layout symbol; map it to the name the icon and cycle list
   // use (mirrors `mmsg get layouts`).
@@ -54,7 +54,7 @@ BarWidget {
   readonly property string dertBin: (Quickshell.env("HOME") || "") + "/.local/bin/dert"
 
   function iconFor(name) {
-    if (name === "master" || name === "tile")
+    if (name === "master" || name === "tile" || name === "right_tile")
       return "󰆥"
     if (name === "monocle")
       return ""
