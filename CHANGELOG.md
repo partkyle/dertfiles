@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-18.4
+
+- **mango**: added `SUPER+Escape` → `hyprlock`, so the lock-screen chord works under mango too (it existed only in the Hyprland config)
+- **mango**: reverted the `isterm:1` terminal rule that enabled terminal swallowing — swallow is opt-in (mango only treats a client as a terminal when a window rule sets `isterm:1`), so dropping the rule restores upstream default and no `noswallow` override is needed
+- **mango**: documented that `reload_config` does not re-apply rules to running clients, so an already-open terminal keeps `isterm` until it exits
+
 ## 2026-10-18.3
 
 - **repo**: enabled `programs.direnv` (with nix-direnv) in `home.nix`, so the repo's tooling loads on `cd` in and unloads on `cd` out
