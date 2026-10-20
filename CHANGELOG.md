@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-19
+
+- **mango**: swapped the three-finger tag swipes — swiping left now moves to the tag on the right (and vice versa), so the finger direction matches the workspace change
+
 ## 2026-10-18.4
 
 - **mango**: added `SUPER+Escape` → `hyprlock`, so the lock-screen chord works under mango too (it existed only in the Hyprland config)
