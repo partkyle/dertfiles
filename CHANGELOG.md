@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-22
+
+- **tmux**: `nix/modules/tmux.nix` only set the *NixOS* `programs.tmux.enable` (the file is in `sharedModules`, so both namespaces exist), which writes just `/etc/tmux.conf` and left home-manager's config ungenerated — `~/.config/tmux/tmux.conf` never existed on either host
+- **tmux**: the NixOS module now stays off and the config comes from home-manager, with `terminal = "tmux-256color"` — `/etc/tmux.conf` pins `default-terminal "screen"`, the 8-colour terminfo entry, so panes ran as `TERM=screen` and lost 256 colours and italics (this is why colours looked wrong under tmux while pi's own truecolor output was unaffected)
+- **tmux**: restored the intended user settings through home-manager (base-index 1, vi mode keys, mouse, 56k history) instead of the NixOS defaults (`base-index 0`, emacs keys, 2000 history)
+- **tmux**: declared `xterm-ghostty:RGB` in `terminal-features` so truecolor survives the outer terminal, and enabled `extended-keys` with the `csi-u` format so pi can tell Shift+Enter and Ctrl+Enter apart from Enter inside tmux
+
 ## 2026-10-19
 
 - **mango**: swapped the three-finger tag swipes — swiping left now moves to the tag on the right (and vice versa), so the finger direction matches the workspace change
