@@ -11,12 +11,6 @@
       url = "github:lukasl-dev/pi.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # oh-my-pi (OMP): pi fork buildable from source through its own flake.
-    # Follows our nixpkgs so its bun2nix/rust-overlay inputs follow too.
-    omp = {
-      url = "github:can1357/oh-my-pi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     direnv-src = {
       url = "github:direnv/direnv/v2.38.2";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +22,6 @@
       nixpkgs,
       home-manager,
       pi-nix,
-      omp,
       direnv-src,
       ...
     }:
@@ -41,7 +34,6 @@
         ./modules/keyd.nix
         ./modules/kitty.nix
         ./modules/mango.nix
-        ./modules/omp.nix
         ./modules/pipewire.nix
         ./modules/quickshell.nix
         ./modules/reaper.nix
@@ -53,7 +45,6 @@
         {
           nixpkgs.overlays = [
             pi-nix.overlays.default
-            omp.overlays.default
 
             # `require_allowed` in ./.envrc needs direnv >= 2.38, which
             # nixos-unstable does not carry yet (2.37.1) even though nixpkgs
@@ -70,9 +61,6 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          # `programs.omp` (installs pkgs.omp and can own
-          # ~/.omp/agent/config.yml declaratively) lives in OMP's flake.
-          home-manager.sharedModules = [ omp.homeManagerModules.default ];
           home-manager.users.partkyle = import ./home.nix;
         }
       ];
