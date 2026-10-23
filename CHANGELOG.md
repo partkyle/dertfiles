@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-23
+
+- **oh-my-pi**: added the `omp` flake input (`github:can1357/oh-my-pi`) with `inputs.nixpkgs.follows = "nixpkgs"`, so its `bun2nix`, `nix-bun` and `rust-overlay` inputs all follow ours
+- **oh-my-pi**: new `nix/modules/omp.nix` sets `home-manager.users.partkyle.programs.omp.enable`, using the flake's own home-manager module (imported via `home-manager.sharedModules`) and its `overlays.default` for `pkgs.omp`; deleting the module's `sharedModules` entry removes OMP again
+- **oh-my-pi**: declared no `settings` — OMP rewrites `~/.omp/agent/config.yml` itself (`/settings`, onboarding), and declared values would be re-copied over those runtime changes on every switch
+- **oh-my-pi**: the package builds from source, since nothing publishes its build to the configured binary caches — the first rebuild compiles the Rust native addon and the bun bundle
+
 ## 2026-10-22.2
 
 - **pi**: update pi
