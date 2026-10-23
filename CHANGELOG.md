@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-23.3
+
+- **mango**: `SUPER+Shift+grave` now uses `tag_special_tag`, so moving a window to the special ("secret") workspace also opens the overlay like the numbered tag moves; `tag_special_silent` had made this one chord stay put
+
 ## 2026-10-23.2
 
 - **mango**: `tag_num` is now 10, with tag 10 on `SUPER+0` / `SUPER+Shift+0` and its `right_tile` tag rule, so mango mirrors the Hyprland workspace set
