@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-22.1
+
+- **tmux**: `C-b C-o` / `C-b C-i` now work like Vim's jump list — back and forward through the panes you have visited, across windows; a new `nix/tmux/scripts/jump.sh` keeps the list in a per-server state file under `$XDG_RUNTIME_DIR/tmux-jump`, seeded by `session-created` and kept current by `after-select-pane` / `after-select-window` hooks
+- **tmux**: the jump list saves its position before moving, so the hooks the jump itself fires do not record it as a fresh entry; entries for panes that were killed are dropped when a jump reaches them, and moving somewhere new discards the forward entries like Vim does
+- **tmux**: `Tab` is bound to forward as well as `C-i`, because a terminal normally reports Ctrl-i as Tab (both key names exist in tmux's prefix table)
+- **tmux**: prefix chords no longer require letting go of Control — the plain prefix keys now have `C-` mirrors, so `C-b C-c` creates a window and `C-b C-n` goes to the next one just like `C-b c` / `C-b n`
+- **tmux**: only keys whose Ctrl form is a control byte of its own can be mirrored (letters, digits, `[`, `]`), because tmux never asks the terminal for extended keys for its own prefix table — verified by capturing the attach stream, which contains no `modifyOtherKeys` or kitty-keyboard request
+- **tmux**: Ctrl+/ arrives as the `0x1f` byte, which tmux names `C-_`, so `C-b C-/` is bound as `bind-key 'C-_' list-keys -N`; likewise Ctrl+[ is the Escape byte and is bound as `bind-key 'Escape' swap-pane -U`, while `C-]` (0x1d) works under its own name
+- **tmux**: dropped the `C-,`, `C-.`, `C-'`, `C-;` and `C-:` mirrors — those chords have no distinct control byte, so they could never fire and would instead resolve to whatever the byte does name
+- **tmux**: `s` is left without a mirror because `C-s` splits the pane horizontally and `C-v` splits it vertically, so `choose-tree -Zs` keeps only its plain `C-b s` chord; `i`/`m` are unmapped because `C-i`/`C-m` arrive as Tab/Enter
+- **tmux**: `C-z` takes over the stock `suspend-client` chord to match `z`, `C-o` is the jump list instead of the stock `rotate-window` (still on `C-b M-o`), and `C-]` replaces the stock `paste-buffer` chord (plain `C-b ]` still pastes)
+- **tmux**: declared `extkeys` for `xterm-ghostty` so tmux knows ghostty can report extended keys; that serves programs inside a pane (pi's Shift+Enter, nvim), not tmux's own chords
+- **tmux**: every key is quoted (`bind-key 'C-_' …`, `bind-key 'Escape' …`), because a bare `bind-key C-"` makes tmux's config parser swallow the rest of the file
+
 ## 2026-10-22
 
 - **tmux**: `nix/modules/tmux.nix` only set the *NixOS* `programs.tmux.enable` (the file is in `sharedModules`, so both namespaces exist), which writes just `/etc/tmux.conf` and left home-manager's config ungenerated — `~/.config/tmux/tmux.conf` never existed on either host
