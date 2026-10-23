@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-23.1
+
+- **bun**: add `~/.bun/bin` (where `bun add -g` installs binaries) to `home.sessionPath` alongside `~/.local/bin`, so globally installed bun packages are runnable from every fish shell, not just interactive ones
+
 ## 2026-10-23
 
 - **bun**: added `nix/modules/bun.nix`, a NixOS module that installs the Bun runtime via `environment.systemPackages`, on by default and exposed as `programs.bun.{enable,package,extraPackages}` so a host can opt out or pin its own build

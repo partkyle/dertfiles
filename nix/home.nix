@@ -79,12 +79,16 @@ in
     NIXOS_OZONE_WL = "1";
   };
 
-  # Put ~/.local/bin (where dert is live-linked) on PATH. Use Home Manager's
-  # sessionPath, not NixOS's environment.localBinInPath: that only patches
-  # /etc/set-environment, which the graphical session never sources, so fish
-  # never sees it without a re-login. (xdg.localBinInPath would do this, but
-  # xdg.enable is off, so it is a no-op.)
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  # Put ~/.local/bin (where dert is live-linked) and ~/.bun/bin (where
+  # `bun add -g` puts its binaries) on PATH. Use Home Manager's sessionPath, not
+  # NixOS's environment.localBinInPath: that only patches /etc/set-environment,
+  # which the graphical session never sources, so fish never sees it without a
+  # re-login. (xdg.localBinInPath would do this, but xdg.enable is off, so it is
+  # a no-op.)
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.bun/bin"
+  ];
 
   # SSH agent socket is set in home.sessionVariables; no per-shell init needed
 
