@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-23.4
+
+- **mango**: the special workspace now covers the whole monitor — `special_gappih/iv/oh/ov` are 0 instead of upstream's 10/10/20/20, so its windows meet the screen edges (and each other) instead of exposing the dimmed tag underneath
+
 ## 2026-10-23.3
 
 - **mango**: `SUPER+Shift+grave` now uses `tag_special_tag`, so moving a window to the special ("secret") workspace also opens the overlay like the numbered tag moves; `tag_special_silent` had made this one chord stay put
