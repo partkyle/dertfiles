@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-23
+
+- **bun**: added `nix/modules/bun.nix`, a NixOS module that installs the Bun runtime via `environment.systemPackages`, on by default and exposed as `programs.bun.{enable,package,extraPackages}` so a host can opt out or pin its own build
+
 ## 2026-10-22.2
 
 - **pi**: update pi

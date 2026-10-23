@@ -27,6 +27,7 @@
     }:
     let
       sharedModules = [
+        ./modules/bun.nix
         ./modules/claude.nix
         ./modules/fish.nix
         ./modules/ghostty.nix
