@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-22.2
+
+- **pi**: update pi
+
 ## 2026-10-22.1
 
 - **tmux**: `C-b C-o` / `C-b C-i` now work like Vim's jump list — back and forward through the panes you have visited, across windows; a new `nix/tmux/scripts/jump.sh` keeps the list in a per-server state file under `$XDG_RUNTIME_DIR/tmux-jump`, seeded by `session-created` and kept current by `after-select-pane` / `after-select-window` hooks
