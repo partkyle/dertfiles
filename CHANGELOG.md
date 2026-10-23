@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-23.2
+
+- **mango**: `tag_num` is now 10, with tag 10 on `SUPER+0` / `SUPER+Shift+0` and its `right_tile` tag rule, so mango mirrors the Hyprland workspace set
+- **mango**: grave is now the special workspace overlay (`toggle_special_tag`) instead of the Sway scratchpad pool; `SUPER+Shift+grave` moves a window to/from it without switching (`tag_special_silent`), matching Hyprland's `moveworkspace special`
+- **mango**: the special workspace is a reserved bit (`TAG0_MASK`, bit 31), not one of the numbered tags, so ten numbered tags and the hidden overlay coexist
+- **mango**: windows already in the scratchpad pool are not lost — `SUPER+Shift+i` (`restore_minimized`) still pulls them onto the focused tag
+
 ## 2026-10-23.1
 
 - **bun**: add `~/.bun/bin` (where `bun add -g` installs binaries) to `home.sessionPath` alongside `~/.local/bin`, so globally installed bun packages are runnable from every fish shell, not just interactive ones
