@@ -55,8 +55,8 @@ in
       home.packages = with pkgs; [
         grim # screen capture backing hypr/scripts/screenshot.sh
         hypridle
-        hyprlock
         libxkbcommon # xkbcli for keybind resolution in keybinds.sh
+        swaylock-effects # shared with mango via hypridle/SUPER+Escape
         lua # keybinds.sh Lua config scanner
         satty # screenshot annotation editor
         slurp # region selection for screenshot.sh
@@ -99,8 +99,7 @@ in
         # Store copies: content is captured in the generation and applied on
         # rebuild (hypridle restarts via X-Restart-Triggers above).
         "hypr/hypridle.conf".source = ../hypr/hypridle.conf;
-        "hypr/hyprlock.conf".source = ../hypr/hyprlock.conf;
-        "hypr/mocha.conf".source = ../hypr/mocha.conf;
+        "swaylock/config".source = ../hypr/swaylock.conf;
         "hypr/scripts/keybinds.sh" = {
           source = ../hypr/scripts/keybinds.sh;
           executable = true;

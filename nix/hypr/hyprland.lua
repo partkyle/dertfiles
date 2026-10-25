@@ -254,7 +254,7 @@ hl.bind("SUPER + semicolon", hl.dsp.layout("togglesplit"), { description = "Togg
 hl.bind("SUPER + R", hl.dsp.window.swap({ next = true }), { description = "Swap with next window" })  -- rotate / swap with next window
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd(menu), { description = "Open launcher" })
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser), { description = "Open browser" })
-hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("hyprlock"), { description = "Lock screen" })
+hl.bind("SUPER + ESCAPE", hl.dsp.exec_cmd("swaylock"), { description = "Lock screen" })
 hl.bind("SUPER + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tile" })
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle", mode = 1 }), { description = "Toggle fullscreen (fake)" })
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }), { description = "Toggle fullscreen (real)" })

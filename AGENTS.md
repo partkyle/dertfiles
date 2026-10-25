@@ -23,7 +23,7 @@ Linux/Nix-only Hyprland config, deployed by `nix/modules/hyprland.nix`:
 - `hyprland.lua` — Main config: `package.path`, host require, settings, keybinds, window rules (live-linked; Hyprland reloads on save)
 - `hosts/<hostname>.lua` — Per-host monitor config, required as `host` (live-linked)
 - `hypridle.conf` — Idle daemon config (store copy; restarts on rebuild)
-- `hyprlock.conf`, `mocha.conf` — Lock screen and its color theme
+- `swaylock.conf` — Lock screen (swaylock-effects config, deployed as `~/.config/swaylock/config`)
 - `scripts/` — `keybinds.sh` (keybind overlay), `idle-inhibit.sh` (idle inhibit state) and `screenshot.sh` (grim/slurp/satty screenshots)
 
 Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, hypridle, keyd-application-mapper) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
@@ -132,7 +132,9 @@ programs.<name>.<option> = { ... };
 
 - Main config (keybinds, window rules, animations): `nix/hypr/hyprland.lua`
 - Monitor setup: `nix/hypr/hosts/<hostname>.lua`
-- Idle/lock: `nix/hypr/hypridle.conf`, `nix/hypr/hyprlock.conf`
+- Idle/lock: `nix/hypr/hypridle.conf`, `nix/hypr/swaylock.conf`
+- `swaylock.conf` is a store copy deployed as `~/.config/swaylock/config`; its colours follow Catppuccin's official swaylock Mocha port (`catppuccin/swaylock`), with geometry/clock options layered on top
+- swaylock has no password field or dots, so typing feedback is the `key-hl-color`/`bs-hl-color` arcs and those must contrast with `ring-color`
 - `hyprland.lua` and the host file are live-linked into `~/.config/hypr`, so edits reload via Hyprland's watcher — no rebuild needed.
 - Everything else is a store copy; rebuild with `sudo nixos-rebuild switch` to apply it.
 - Session: UWSM owns `graphical-session.target` (`programs.hyprland.withUWSM = true`); services bind to it. There is no custom session target or Hyprland config hook.

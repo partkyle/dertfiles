@@ -11,7 +11,7 @@ Partkyle's NixOS dotfiles and system configuration.
 │   ├── home.nix            # Home-manager config (packages, services, programs)
 │   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, pi-nix, …)
 │   ├── modules/            # NixOS/home-manager modules
-│   ├── hypr/               # Hyprland Lua config, scripts, hypridle/hyprlock
+│   ├── hypr/               # Hyprland Lua config, scripts, hypridle/swaylock
 │   ├── mango/              # Mango (mangowc) config and host monitor rules
 │   ├── hosts/              # Per-host configs (dionysus, theseus)
 │   └── packages/           # Custom package derivations

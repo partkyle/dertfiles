@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-25
+
+- **lock**: replaced hyprlock with swaylock-effects; `nix/hypr/swaylock.conf` deploys to `~/.config/swaylock/config` and keeps the Mocha colours, blurred background and clock/date
+- **lock**: the 312 px indicator has a 6 px ring and 48 px text, with the colours taken from Catppuccin's official swaylock Mocha port — green/rosewater keypress arcs and blue/maroon/rosewater submit/failure/clear states
+- **lock**: `SUPER+Escape` in Hyprland and mango, plus hypridle's `lock_cmd` and 120s timeout, now launch `swaylock`
+- **lock**: removed `hyprlock.conf` and `mocha.conf`; swaylock has no include directive, so the Mocha colours are inlined in its config
+
 ## 2026-10-23.4
 
 - **mango**: the special workspace now covers the whole monitor — `special_gappih/iv/oh/ov` are 0 instead of upstream's 10/10/20/20, so its windows meet the screen edges (and each other) instead of exposing the dimmed tag underneath
