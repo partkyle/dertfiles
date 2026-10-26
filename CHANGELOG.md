@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-26.2
+
+- **herdr**: prefix bindings now keep ctrl held after the prefix — `prefix+ctrl+c` new tab, `prefix+ctrl+n`/`prefix+ctrl+p` next/previous, `prefix+ctrl+1..9` jump, `prefix+ctrl+w` workspace picker, `prefix+ctrl+f` goto picker, `prefix+ctrl+v`/`prefix+ctrl+s` split right/down, `prefix+ctrl+h/j/k/l` pane focus, `prefix+ctrl+x` close pane, `prefix+ctrl+z` zoom, `prefix+ctrl+q` detach
+- **herdr**: `prefix+ctrl+s` splits down, so the settings dialog moved to `prefix+ctrl+shift+s`
+- **herdr**: `onboarding = false` (written by Herdr on first launch) is kept so the setup flow never reappears
+
 ## 2026-10-26.1
 
 - **herdr**: added `nix/modules/herdr.nix` (in `sharedModules`) installing `pkgs.herdr` and live-linking `nix/herdr/config.toml` to `~/.config/herdr/config.toml`

@@ -104,8 +104,8 @@ Shared NixOS modules live in `nix/modules/`. When creating or extending modules:
 
 **Rules:**
 
-- **Append-on-top.** The working section is always the first `##` heading below `# Changelog`. Never touch, move, or re-sort anything below it.
-- **One section = one git commit.** While working, iterate on the top section — add, remove, reword bullets freely. The section is finalized when the commit lands.
+- **Append-on-top.** The working section is always the first `##` heading below `# Changelog`. Adding the new working section is the only write above it; never edit, move, or re-sort the committed sections below.
+- **One section = one git commit.** While working, iterate on the top section — add, remove, reword bullets freely. If that section is already committed (it is the first `##` heading but `git log` shows it landed), start a new section above it before editing. The section is finalized when the commit lands.
 - **Same day, new commit:** increment the suffix — `## YYYY-MM-DD.1`, `## YYYY-MM-DD.2`. No suffix on the first entry of a day.
 - **Never modify a committed section** unless specifically asked to do so.
 - **Prefer one fact per bullet.** Split into separate bullets when it helps readability.
