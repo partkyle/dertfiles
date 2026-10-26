@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Tests for nix/hypr/scripts/idle-inhibit.sh, the shared state behind the bar's
+# Tests for nix/idle/scripts/idle-inhibit.sh, the shared state behind the bar's
 # keep-awake lock and `dert idle`. Run with `bash test/idle-inhibit.test.sh`.
 
 set -uo pipefail
 
-script="$(cd "$(dirname "$0")/.." && pwd)/nix/hypr/scripts/idle-inhibit.sh"
+script="$(cd "$(dirname "$0")/.." && pwd)/nix/idle/scripts/idle-inhibit.sh"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 mkdir -p "$tmp/run" "$tmp/config"

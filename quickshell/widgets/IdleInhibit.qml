@@ -5,12 +5,12 @@ import Quickshell.Io
 import qs.Commons
 import qs.Ui
 
-// Toggle for hypridle's lock / display-sleep actions. Left click inhibits idle
+// Toggle for swayidle's lock / display-sleep actions. Left click inhibits idle
 // actions for the configured default duration (see `dert idle default`); right
 // click re-enables them immediately. While inhibited the icon is "unlocked"
-// and the label counts down the remaining time. State is shared with hypridle
-// via hypr/scripts/idle-inhibit.sh, so the daemon honours the same stamp and
-// `dert idle` drives the same lock.
+// and the label counts down the remaining time. State is shared with swayidle
+// via idle/scripts/idle-inhibit.sh, so idle-action.sh honours the same stamp
+// and `dert idle` drives the same lock.
 BarWidget {
   id: root
 
@@ -18,10 +18,10 @@ BarWidget {
   property int remaining: 0 // seconds until idle actions resume
 
   // Mirror of the stamp written by idle-inhibit.sh (and `dert idle`).
-  readonly property string statePath: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/hypridle-inhibit"
+  readonly property string statePath: (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/swayidle-inhibit"
 
   // Expanded by the shell that runs it, so no dependency on the home dir.
-  readonly property string script: "$HOME/.config/hypr/scripts/idle-inhibit.sh"
+  readonly property string script: "$HOME/.config/idle/scripts/idle-inhibit.sh"
 
   function refresh() {
     if (!statusProc.running)

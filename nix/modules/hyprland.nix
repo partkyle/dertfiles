@@ -54,9 +54,7 @@ in
 
       home.packages = with pkgs; [
         grim # screen capture backing hypr/scripts/screenshot.sh
-        hypridle
         libxkbcommon # xkbcli for keybind resolution in keybinds.sh
-        swaylock-effects # shared with mango via hypridle/SUPER+Escape
         lua # keybinds.sh Lua config scanner
         satty # screenshot annotation editor
         slurp # region selection for screenshot.sh
@@ -71,49 +69,18 @@ in
         systemd.enable = false;
       };
 
-      systemd.user.services.hypridle = {
-        Unit = {
-          Description = "Hyprland idle daemon";
-          PartOf = [ "graphical-session.target" ];
-          After = [ "graphical-session.target" ];
-          # Restart when hypridle.conf changes (sd-switch only sees unit files).
-          X-Restart-Triggers = [
-            "${config.home-manager.users.partkyle.xdg.configFile."hypr/hypridle.conf".source}"
-          ];
-          X-SwitchMethod = "restart";
-        };
-        Service = {
-          ExecStart = "${pkgs.hypridle}/bin/hypridle";
-          Restart = "on-failure";
-          RestartSec = 3;
-        };
-        Install = {
-          WantedBy = [ "graphical-session.target" ];
-        };
-      };
-
       xdg.configFile = {
         # Live links: Hyprland watches these and reloads on save, no rebuild.
         "hypr/hyprland.lua".source = live "hyprland.lua";
 
         # Store copies: content is captured in the generation and applied on
-        # rebuild (hypridle restarts via X-Restart-Triggers above).
-        "hypr/hypridle.conf".source = ../hypr/hypridle.conf;
-        "swaylock/config".source = ../hypr/swaylock.conf;
+        # rebuild. The idle/lock/DPMS stack lives in modules/desktop-idle.nix.
         "hypr/scripts/keybinds.sh" = {
           source = ../hypr/scripts/keybinds.sh;
           executable = true;
         };
-        "hypr/scripts/idle-inhibit.sh" = {
-          source = ../hypr/scripts/idle-inhibit.sh;
-          executable = true;
-        };
         "hypr/scripts/screenshot.sh" = {
           source = ../hypr/scripts/screenshot.sh;
-          executable = true;
-        };
-        "hypr/scripts/dpms.sh" = {
-          source = ../hypr/scripts/dpms.sh;
           executable = true;
         };
       }

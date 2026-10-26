@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# idle-inhibit.sh — temporarily suspend hypridle's lock / display-sleep actions.
+# idle-inhibit.sh — temporarily suspend swayidle's lock / display-sleep actions.
 #
 # The runtime state is a single file in $XDG_RUNTIME_DIR holding the epoch at
 # which the inhibit expires. A missing or expired stamp means idle actions are
-# enabled (normal hypridle behaviour). The quickshell bar's lock icon writes the
-# stamp; hypridle's listeners consult it through `check`, so both share this one
-# source. Using hypridle's condition_cmd + condition_retry means the machine
-# still locks once the stamp expires even if it stays idle.
+# enabled (normal swayidle behaviour). The quickshell bar's lock icon writes the
+# stamp; idle-action.sh (the swayidle action helper) consults it through `check`,
+# so both share this one source. While the stamp is active idle-action.sh defers
+# its action and fires it once the stamp expires, so the machine still locks
+# even if it stays idle throughout.
 #
 # The length used when no duration is given (the bar's left click, or a bare
 # `dert idle on`) is configurable. It lives under XDG config so it can be
@@ -18,14 +19,14 @@
 #   default [duration]   print, or set, the default inhibit duration
 #   status               print "on" or "off <remaining-seconds>"
 #   check                exit 0 when idle actions should run, 1 while inhibited
-#                        (used as hypridle's condition_cmd)
+#                        (used by idle-action.sh)
 #
 # Durations are seconds or a suffixed string: 90, 45m, 2h, 1h30m.
 # Mutation commands print the resulting status, so callers can report it.
 
 set -euo pipefail
 
-state_file="${XDG_RUNTIME_DIR:-/tmp}/hypridle-inhibit"
+state_file="${XDG_RUNTIME_DIR:-/tmp}/swayidle-inhibit"
 config_file="${XDG_CONFIG_HOME:-$HOME/.config}/dert/idle-inhibit"
 fallback_duration=3600
 

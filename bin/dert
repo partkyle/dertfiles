@@ -242,11 +242,11 @@ cmd_bright_down() {
 }
 
 # ── keep-awake lock ─────────────────────────────────────────────────────────
-# The bar's lock icon and `dert idle` share nix/hypr/scripts/idle-inhibit.sh.
+# The bar's lock icon and `dert idle` share nix/idle/scripts/idle-inhibit.sh.
 # The script owns the state file and the configurable default; dert only
 # formats the status it prints.
 
-IDLE_SCRIPT="$DERTFILES/nix/hypr/scripts/idle-inhibit.sh"
+IDLE_SCRIPT="$DERTFILES/nix/idle/scripts/idle-inhibit.sh"
 
 idle_script() { bash "$IDLE_SCRIPT" "$@"; }
 

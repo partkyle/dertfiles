@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# dpms.sh — blank/wake every output for hypridle, whichever compositor runs.
+# dpms.sh — blank/wake every output for swayidle, whichever compositor runs.
 #
 # Hyprland has its own dpms dispatcher. mango (and other wlroots compositors)
 # implement wlr-output-power-management, which wlopm drives. Hyprland does not

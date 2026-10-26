@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-26
+
+- **idle**: replaced hypridle with `swayidle` in a new compositor-agnostic `nix/modules/desktop-idle.nix`, imported from `sharedModules` and on by default (`programs.desktopIdle.enable`), so lock, idle and display sleep keep working under mango and any compositor exposing `ext-idle-notify-v1` and `graphical-session.target`
+- **idle**: the stack moved to `nix/idle/` — `swayidle.conf` (lock 120 s, display sleep 300 s, lock before suspend), `swaylock.conf` and `scripts/{idle-action.sh,idle-inhibit.sh,dpms.sh}`; the keep-awake stamp is now `$XDG_RUNTIME_DIR/swayidle-inhibit`
+- **idle**: swayidle has no `condition_cmd`/`condition_retry`, so `idle-action.sh` defers the lock and display-sleep actions while the keep-awake stamp is active, fires them when it expires, and cancels the deferral on activity; `before-sleep` always locks
+- **hyprland**: dropped hypridle and swaylock-effects from the module, along with `hypridle.conf` and the idle-inhibit/dpms config entries; only the Lua/keybind/screenshot assets stay
+- **mango**: `wlopm` is now installed by `desktop-idle.nix` instead of the mango module
+
 ## 2026-10-25
 
 - **lock**: replaced hyprlock with swaylock-effects; `nix/hypr/swaylock.conf` deploys to `~/.config/swaylock/config` and keeps the Mocha colours, blurred background and clock/date

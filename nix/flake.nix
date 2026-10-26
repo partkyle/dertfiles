@@ -29,6 +29,7 @@
       sharedModules = [
         ./modules/bun.nix
         ./modules/claude.nix
+        ./modules/desktop-idle.nix
         ./modules/fish.nix
         ./modules/ghostty.nix
         ./modules/hyprland.nix

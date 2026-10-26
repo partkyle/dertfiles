@@ -10,9 +10,10 @@ This is a Nix flake-based dotfiles repository managing NixOS configs and user ap
 - `configuration.nix` — Shared system-wide NixOS config (imports greetd.nix)
 - `home.nix` — Home Manager config for user packages and services
 - `hosts/<hostname>/default.nix` — Host-specific NixOS configs (dionysus=laptop/Intel, theseus=desktop/NVIDIA)
-- `modules/*.nix` — Shared NixOS modules (hyprland.nix, mango.nix, steam.nix, fish.nix, syncthing.nix, git-server.nix)
+- `modules/*.nix` — Shared NixOS modules (hyprland.nix, mango.nix, desktop-idle.nix, steam.nix, fish.nix, syncthing.nix, git-server.nix)
 - `hypr/` — Hyprland Lua/config assets (Linux/Nix-only; see below)
 - `mango/` — Mango (mangowc) config assets (Linux/Nix-only; see below)
+- `idle/` — Compositor-agnostic idle, lock and display-sleep assets (Linux/Nix-only; see below)
 - `greetd.nix` — Display manager/login config (tuigreet session picker)
 - `webapps.nix` — Desktop entries for web apps
 
@@ -22,11 +23,23 @@ Linux/Nix-only Hyprland config, deployed by `nix/modules/hyprland.nix`:
 
 - `hyprland.lua` — Main config: `package.path`, host require, settings, keybinds, window rules (live-linked; Hyprland reloads on save)
 - `hosts/<hostname>.lua` — Per-host monitor config, required as `host` (live-linked)
-- `hypridle.conf` — Idle daemon config (store copy; restarts on rebuild)
-- `swaylock.conf` — Lock screen (swaylock-effects config, deployed as `~/.config/swaylock/config`)
-- `scripts/` — `keybinds.sh` (keybind overlay), `idle-inhibit.sh` (idle inhibit state) and `screenshot.sh` (grim/slurp/satty screenshots)
+- `scripts/` — `keybinds.sh` (keybind overlay) and `screenshot.sh` (grim/slurp/satty screenshots)
 
-Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, hypridle, keyd-application-mapper) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
+Home Manager no longer generates `hyprland.lua`; the repo owns the entrypoint. The graphical session is managed by **UWSM** (`programs.hyprland.withUWSM`), which starts `graphical-session.target`, imports the environment into systemd/D-Bus, and wraps the compositor. Session services (quickshell, swayidle, keyd-application-mapper) bind to `graphical-session.target`; greetd/tuigreet just launch `uwsm start`.
+
+### Idle / lock (`nix/idle/`)
+
+Linux/Nix-only, deployed by `nix/modules/desktop-idle.nix` and shared by every
+compositor session (Hyprland and mango). The module installs `swayidle`,
+`swaylock-effects` and `wlopm`, runs the `swayidle` user service on
+`graphical-session.target`, and is on by default
+(`programs.desktopIdle.enable = true`):
+
+- `swayidle.conf` — Idle daemon config: lock after 120 s, display sleep after 300 s, lock before suspend (store copy; the unit restarts on rebuild)
+- `swaylock.conf` — Lock screen (swaylock-effects config, deployed as `~/.config/swaylock/config`)
+- `scripts/idle-action.sh` — swayidle's timeout/resume/before-sleep actions; defers lock and display sleep while the keep-awake stamp is active and fires them when it expires
+- `scripts/idle-inhibit.sh` — Keep-awake stamp shared by the bar's lock icon and `dert idle`; `check` gates idle actions
+- `scripts/dpms.sh` — Blank/wake outputs: `hyprctl` under Hyprland, `wlopm` on other wlroots compositors
 
 ### Mango (`nix/mango/`)
 
@@ -36,7 +49,7 @@ mango.
 
 - `config.conf` — Main config: appearance, keybinds, tags, input, window/layer rules (live-linked; reload with Super+r — mango 0.17.2 does not watch the file)
 - `hosts/<hostname>.conf` — Per-host monitor rules, live-linked as `host.conf` and pulled in with `source-optional`
-- `scripts/` — `screenshot.sh` (shared with Hyprland) and `dpms.sh` (hyprctl vs wlopm)
+- `scripts/` — `screenshot.sh` (shared with Hyprland) and `background.sh`
 
 **Option names target the nixpkgs package (0.17.2).** The upstream docs describe
 a newer release with different spellings (`tagrule` vs `tag_rule`, `shadowscolor`,
@@ -132,7 +145,7 @@ programs.<name>.<option> = { ... };
 
 - Main config (keybinds, window rules, animations): `nix/hypr/hyprland.lua`
 - Monitor setup: `nix/hypr/hosts/<hostname>.lua`
-- Idle/lock: `nix/hypr/hypridle.conf`, `nix/hypr/swaylock.conf`
+- Idle/lock: `nix/idle/swayidle.conf`, `nix/idle/swaylock.conf` (deployed by `nix/modules/desktop-idle.nix`, shared with mango)
 - `swaylock.conf` is a store copy deployed as `~/.config/swaylock/config`; its colours follow Catppuccin's official swaylock Mocha port (`catppuccin/swaylock`), with geometry/clock options layered on top
 - swaylock has no password field or dots, so typing feedback is the `key-hl-color`/`bs-hl-color` arcs and those must contrast with `ring-color`
 - `hyprland.lua` and the host file are live-linked into `~/.config/hypr`, so edits reload via Hyprland's watcher — no rebuild needed.

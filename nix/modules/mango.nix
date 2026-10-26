@@ -28,7 +28,7 @@ in
 
     # Mango starts `mango-session.target` itself (after importing the session
     # environment into systemd/D-Bus); that target BindsTo
-    # graphical-session.target, so user services (quickshell, hypridle,
+    # graphical-session.target, so user services (quickshell, swayidle,
     # keyd-application-mapper) come up with the session. Register the
     # package's user units so the target resolves.
     systemd.packages = [ config.programs.mango.package ];
@@ -46,7 +46,6 @@ in
     home-manager.users.partkyle = {
       home.packages = with pkgs; [
         swaybg # draws the session background via background.sh
-        wlopm # DPMS for hypridle's display-sleep listener
       ];
 
       # Random background, picked once per session start. Bound to
