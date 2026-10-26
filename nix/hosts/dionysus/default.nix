@@ -16,4 +16,11 @@
     intel-media-driver
   ];
 
+  # logind ignores lid events for 30s (HoldoffTimeoutSec) after boot and after
+  # every resume so it can see hotplugged docks/displays before deciding that
+  # "docked" means "ignore the lid". This laptop has no dock, so closing the lid
+  # right after resuming silently did nothing: no suspend, no swayidle
+  # before-sleep lock. React immediately instead.
+  services.logind.settings.Login.HoldoffTimeoutSec = "0s";
+
 }

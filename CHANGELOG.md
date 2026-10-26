@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-26.6
+
+- **dionysus**: `HoldoffTimeoutSec = 0s` in logind, so a lid close still suspends and locks within 30 s of boot/resume — logind was silently dropping the lid event while its post-resume holdoff was armed (it exists to settle hotplugged docks, which this laptop has none of)
+
 ## 2026-10-26.5
 
 - **repo**: removed the root `.envrc` (and its `.direnv/` cache) so direnv no longer loads `nix/flake.nix` on `cd` — that flake is the system this repo runs, not the toolchain for maintaining the repo
