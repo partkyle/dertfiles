@@ -32,6 +32,7 @@
         ./modules/desktop-idle.nix
         ./modules/fish.nix
         ./modules/ghostty.nix
+        ./modules/herdr.nix
         ./modules/hyprland.nix
         ./modules/keyd.nix
         ./modules/kitty.nix

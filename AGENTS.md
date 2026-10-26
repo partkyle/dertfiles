@@ -65,6 +65,7 @@ registers the package's user units via `systemd.packages`.
 
 - `quickshell/` — Quickshell desktop shell (replaces waybar); `shell.qml` entry point, `Commons/` theme singletons, `Ui/` base components, `widgets/` bar modules, `scripts/` helper scripts. Deployed via `nix/modules/quickshell.nix`
 - `foot/` — Terminal config
+- `nix/herdr/` — Herdr (agent multiplexer) config, live-linked to `~/.config/herdr/config.toml` by `nix/modules/herdr.nix`; edit, then `herdr server reload-config`
 - `nvim/` — Neovim config (LazyVim-based)
 - `git/` — Git config and global ignore
 - `fish/` — Fish shell config (managed via nix/modules/fish.nix)

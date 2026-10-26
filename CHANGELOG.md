@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-26.1
+
+- **herdr**: added `nix/modules/herdr.nix` (in `sharedModules`) installing `pkgs.herdr` and live-linking `nix/herdr/config.toml` to `~/.config/herdr/config.toml`
+- **herdr**: kept the `ctrl+b` prefix and mapped the tmux bindings actually used — `c` new tab, `n`/`p` next/previous, `1..9` jump, `w` workspace picker, `f` goto picker, `v`/`s` split right/down, `h/j/k/l` pane focus, `x` close pane, `z` zoom, `q` detach
+- **herdr**: `prefix+s` now splits down, so the settings dialog moved to `prefix+shift+s`; new tabs skip the name prompt (`ui.prompt_new_tab_name = false`)
+
 ## 2026-10-26
 
 - **idle**: replaced hypridle with `swayidle` in a new compositor-agnostic `nix/modules/desktop-idle.nix`, imported from `sharedModules` and on by default (`programs.desktopIdle.enable`), so lock, idle and display sleep keep working under mango and any compositor exposing `ext-idle-notify-v1` and `graphical-session.target`

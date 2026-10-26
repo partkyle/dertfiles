@@ -1,0 +1,51 @@
+# Herdr config. Deployed as a live link to the repo by nix/modules/herdr.nix,
+# because Herdr writes this file itself (onboarding, in-app settings, channel)
+# and a read-only store copy would make those writes fail.
+#
+# Only the tmux bindings that are actually used are mapped; everything else
+# stays on Herdr's defaults. Reload after editing:
+#   herdr server reload-config
+#
+# Prefix is ctrl+b, then:
+#   c            new tab            (tmux C-c new-window)
+#   n / p        next / previous tab
+#   1..9         jump to tab
+#   w            workspace picker
+#   f            goto picker        (all panes/agents; replaces find-window)
+#   v / s        split right / down (tmux C-v / C-s)
+#   h j k l      focus pane
+#   x / z        close pane / zoom pane
+#   q            detach
+#   shift+s      settings           (prefix+s is taken by split down)
+
+[ui]
+# prefix+c should create the tab immediately instead of opening a name prompt.
+prompt_new_tab_name = false
+
+[keys]
+prefix = "ctrl+b"
+
+# Create and switch tabs.
+new_tab = "prefix+c"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+switch_tab = "prefix+1..9"
+workspace_picker = "prefix+w"
+goto = "prefix+f"
+
+# Create and manage panes.
+split_vertical = "prefix+v"
+split_horizontal = "prefix+s"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# Herdr defaults kept deliberately: prefix+q detach, prefix+? help,
+# prefix+shift+n new workspace, prefix+shift+x close tab.
+detach = "prefix+q"
+
+# Move the settings dialog off prefix+s, which now splits down.
+settings = "prefix+shift+s"
