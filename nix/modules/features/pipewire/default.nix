@@ -1,0 +1,4 @@
+{ ... }:
+{
+  nixos.sharedModules = [ ./nixos.nix ];
+}

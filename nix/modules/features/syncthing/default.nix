@@ -1,0 +1,4 @@
+{ ... }:
+{
+  home.sharedModules = [ ./home.nix ];
+}

@@ -3,58 +3,25 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    import-tree.url = "github:denful/import-tree";
   };
 
   outputs =
-    {
-      nixpkgs,
-      home-manager,
-      ...
-    }:
-    let
-      sharedModules = [
-        ./modules/bun.nix
-        ./modules/claude.nix
-        ./modules/desktop-idle.nix
-        ./modules/fish.nix
-        ./modules/ghostty.nix
-        ./modules/herdr.nix
-        ./modules/hyprland.nix
-        ./modules/keyd.nix
-        ./modules/kitty.nix
-        ./modules/mango.nix
-        ./modules/pipewire.nix
-        ./modules/quickshell.nix
-        ./modules/reaper.nix
-        ./modules/syncthing.nix
-        ./modules/tmux.nix
-        ./modules/vital.nix
-        ./modules/vst-plugins.nix
-
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.partkyle = import ./home.nix;
-        }
-      ];
-
-      mkHost =
-        hostName:
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/${hostName}/default.nix
-          ]
-          ++ sharedModules;
-        };
-    in
-    {
-      nixosConfigurations.dionysus = mkHost "dionysus";
-      nixosConfigurations.theseus = mkHost "theseus";
-    };
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      inputs.import-tree.filter (
+        path: builtins.baseNameOf path == "default.nix"
+      ) ./modules
+    );
 }

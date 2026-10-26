@@ -6,14 +6,16 @@ Partkyle's NixOS dotfiles and system configuration.
 
 ```
 ├── nix/                    # NixOS flake configuration
-│   ├── flake.nix           # Flake entrypoint (nixpkgs, home-manager)
-│   ├── configuration.nix   # System-wide NixOS config
-│   ├── home.nix            # Home-manager config (packages, services, programs)
-│   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, …)
-│   ├── modules/            # NixOS/home-manager modules
+│   ├── flake.nix           # Flake entrypoint (flake-parts + import-tree)
+│   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, flake-parts, import-tree)
+│   ├── modules/
+│   │   ├── parts/          # Top-level option schema and nixosConfigurations builder
+│   │   ├── base/           # Shared system-wide NixOS config
+│   │   ├── users/          # Home Manager config per user
+│   │   ├── hosts/          # Per-host hardware and overrides (dionysus, theseus)
+│   │   └── features/       # One self-registering directory per feature
 │   ├── hypr/               # Hyprland Lua config, scripts, hypridle/swaylock
 │   ├── mango/              # Mango (mangowc) config and host monitor rules
-│   ├── hosts/              # Per-host configs (dionysus, theseus)
 │   └── packages/           # Custom package derivations
 ├── bin/dert                # Control CLI, live-linked into ~/.local/bin
 ├── nvim/                   # Neovim config (LazyVim-based)
@@ -37,7 +39,7 @@ Partkyle's NixOS dotfiles and system configuration.
    ```bash
    ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -C "partkyle@$(hostname)"
    ```
-2. Append the public key to `programs.ssh.authorizedKeys` in `nix/home.nix`.
+2. Append the public key to `users.users.partkyle.openssh.authorizedKeys.keys` in `nix/modules/base/nixos.nix`.
 3. Rebuild: `sudo nixos-rebuild switch --flake .#<hostname>`
 4. Load the key: `ssh-add ~/.ssh/id_ed25519`
 5. Add the public key to GitHub: `gh ssh-key add ~/.ssh/id_ed25519.pub`

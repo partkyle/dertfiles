@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-26.9
+
+- **nix**: migrated the flake to the dendritic pattern — `flake-parts` and `import-tree` are new locked inputs, and `import-tree` imports every `nix/modules/**/default.nix`, so adding a feature no longer touches `flake.nix` or any host
+- **nix**: `nix/modules/parts/default.nix` defines `nixos.sharedModules`, `nixos.hosts.<name>.{system,modules}`, `home.sharedModules` and `home.users.<name>.modules`, and is the only place `flake.nixosConfigurations` is built
+- **nix**: every feature moved to `nix/modules/features/<name>/` — `default.nix` registers it into the options above, `nixos.nix`/`home.nix` carry the config; `fish`, `keyd` and `tmux` split into independent NixOS and Home Manager halves
+- **nix**: `desktop-idle`, `hyprland`, `mango`, `quickshell`, `reaper`, `vital` and `vst-plugins` stay single `nixos.nix` files with their inline `home-manager.users.partkyle` block, because that half reads NixOS state
+- **nix**: `git-server` registers itself into `nixos.hosts.theseus.modules`, so host files no longer import features
+- **nix**: `configuration.nix` → `modules/base/nixos.nix`, `home.nix` → `modules/users/partkyle/home.nix`, and `hosts/<host>/default.nix` → `modules/hosts/<host>/{nixos,hardware-configuration}.nix` with the `imports` lists removed; relative paths in the moved files gained the extra directory level
+- **docs**: `AGENTS.md` and `README.md` describe the dendritic layout and the self-registering module workflow
+- **mango**: ported `nix/mango/config.conf` to the keyword set of the mango the current nixpkgs pins (0.18.2, which the earlier `nixpkgs` bump brought in) — 51 keywords were being rejected and silently dropped
+- **mango**: renamed keywords — `tagrule`→`tag_rule`, `gappih`/`gappiv`/`gappoh`/`gappov`→`gap_inner_horizontal`/`gap_inner_vertical`/`gap_outer_horizontal`/`gap_outer_vertical` (and the `special_gap_*` counterparts), `borderpx`→`border_px`, `keymode`→`key_mode`, `windowrule`/`layerrule`→`window_rule`/`layer_rule`, `shadowscolor`→`shadows_color`, the `*color` block → `root_color`/`border_color`/`focus_color`/`maximized_screen_color`/…, plus the animation, master-stack, dwindle, overview, idle-inhibit, focus and `numlock` spellings
+- **mango**: renamed rule fields — `appid`→`app_id`, `isfloating`→`is_floating`, `isterm`→`is_term`, `noanim`→`no_animation`
+- **mango**: the rejected `keymode=` had leaked the resize keymode's unprefixed `h/j/k/l` binds into the default keymode, so those four letters were consumed by the compositor and could not be typed anywhere; with `key_mode` accepted they are scoped to the resize mode again
+- **mango**: dropped the `XF86AudioPause` play-pause bind, which resolves to the same keycode as `XF86AudioPlay` and is reported as a key-binding conflict
+- **mango**: `mango -c nix/mango/config.conf -p` now exits 0; `AGENTS.md` documents the 0.18.2 keyword families and that `-p` fails on warnings too
+- **reaper**: REAPER 7.82 died on launch (`segfault at 402d50 … error 7`, exit 139) because nixpkgs' `auto-patchelf` ran patchelf at its default 4 KiB page size while every binary in the tarball is linked with `-z max-page-size=0x200000`, so the rewritten program headers overlapped and `ld.so` mapped the page holding `.dynamic` read-only
+- **reaper**: `nix/modules/features/reaper/nixos.nix` now sets `patchelfFlags = [ "--page-size" "2097152" ]`, which auto-patchelf forwards to each patchelf call; the segments stay disjoint and REAPER starts again
+
 ## 2026-10-26.8
 
 - **pi**: dropped the `pi-nix` flake input and its overlay, `programs.pi-coding-agent` (including the `pi-powerline` package and the bun/python `extraPackages`), and the `pi.cachix.org` substituter/key — the agent is now installed out of band with bun
