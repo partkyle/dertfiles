@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-26.5
+
+- **repo**: removed the root `.envrc` (and its `.direnv/` cache) so direnv no longer loads `nix/flake.nix` on `cd` — that flake is the system this repo runs, not the toolchain for maintaining the repo
+- **repo**: dropped `devShells.x86_64-linux.default` from `nix/flake.nix`, so the flake now only defines `nixosConfigurations`
+- **repo**: dropped the `direnv-src` input (and the `direnv` overlay it existed for) plus the `.direnv/` gitignore entry; `programs.direnv` with nix-direnv stays enabled as a general shell tool
+
 ## 2026-10-26.4
 
 - **quickshell**: renamed the `Commons/Color.qml` singleton to `Colors` and updated all 66 uses, because Qt 6.12 (pulled in by the nixpkgs update) exports a `QtQuick.Color` singleton that shadows a same-named import
