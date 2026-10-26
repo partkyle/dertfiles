@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26.3
+
+- **herdr**: `home-manager-partkyle.service` no longer fails at boot because Herdr had written `~/.config/herdr/config.toml` as a regular file before `nix/modules/herdr.nix` live-linked it; the old file is backed up as `config.toml.pre-hm-2026-10-26` and the link is now in place
+- **herdr**: kept Herdr's first-run toast choice, `ui.toast.delivery = "system"`, so desktop notifications are used instead of in-app toasts
+
 ## 2026-10-26.2
 
 - **herdr**: prefix bindings now keep ctrl held after the prefix — `prefix+ctrl+c` new tab, `prefix+ctrl+n`/`prefix+ctrl+p` next/previous, `prefix+ctrl+1..9` jump, `prefix+ctrl+w` workspace picker, `prefix+ctrl+f` goto picker, `prefix+ctrl+v`/`prefix+ctrl+s` split right/down, `prefix+ctrl+h/j/k/l` pane focus, `prefix+ctrl+x` close pane, `prefix+ctrl+z` zoom, `prefix+ctrl+q` detach

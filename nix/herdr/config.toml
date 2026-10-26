@@ -27,6 +27,11 @@ onboarding = false
 # prompt.
 prompt_new_tab_name = false
 
+# Keep notifications in the desktop notification daemon rather than in-app
+# toasts (Herdr's first-run default is "herdr").
+[ui.toast]
+delivery = "system"
+
 [keys]
 prefix = "ctrl+b"
 
