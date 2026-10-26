@@ -14,7 +14,7 @@ BarWidget {
   property real totalGib: 0
 
   label: " " + usedGib.toFixed(1) + "G/" + totalGib.toFixed(1) + "G"
-  accent: Color.sky
+  accent: Colors.sky
 
   onClicked: run(["ghostty", "-e", "btop"])
 

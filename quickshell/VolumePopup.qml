@@ -8,7 +8,7 @@ SliderPopup {
   open: Volume.panelOpen
   rightMargin: Volume.panelRightMargin
   title: "Volume"
-  accent: Color.blue
+  accent: Colors.blue
   fraction: Volume.fraction
   percent: Volume.percent
   showMute: true

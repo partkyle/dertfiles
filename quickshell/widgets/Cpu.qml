@@ -14,7 +14,7 @@ BarWidget {
   property real usage: 0
 
   label: " " + Math.round(usage) + "%"
-  accent: Color.peach
+  accent: Colors.peach
 
   onClicked: run(["ghostty", "-e", "btop"])
 

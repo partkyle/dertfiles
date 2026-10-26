@@ -10,7 +10,7 @@ Rectangle {
   id: root
 
   property string label: ""
-  property color accent: Color.barText
+  property color accent: Colors.barText
   property color labelColor: accent
   property bool underlineVisible: true
   // Optional cap for long labels (e.g. window titles). When > 0 the text is
@@ -41,7 +41,7 @@ Rectangle {
   height: parent ? parent.height - Style.moduleVMargin * 2 : Style.barHeight
   implicitWidth: hasLabel ? textWidth + Style.moduleHPadding * 2 : 0
   visible: hasLabel
-  color: mouseArea.containsMouse ? Color.surface0 : "transparent"
+  color: mouseArea.containsMouse ? Colors.surface0 : "transparent"
 
   // accent underline (waybar border-bottom: 2px <accent>)
   Rectangle {
@@ -58,7 +58,7 @@ Rectangle {
     anchors.top: parent.top
     width: parent.width
     height: Style.accentBorderWidth
-    color: Color.hoverText
+    color: Colors.hoverText
   }
 
   Text {
@@ -67,7 +67,7 @@ Rectangle {
     text: root.label
     width: root.maximumTextWidth > 0 ? Math.min(implicitWidth, root.maximumTextWidth) : implicitWidth
     elide: root.maximumTextWidth > 0 ? Text.ElideRight : Text.ElideNone
-    color: mouseArea.containsMouse ? Color.hoverText : root.labelColor
+    color: mouseArea.containsMouse ? Colors.hoverText : root.labelColor
     font.family: Style.fontFamily
     font.pixelSize: Style.fontSize
     font.bold: true

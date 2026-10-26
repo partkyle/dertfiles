@@ -14,9 +14,9 @@ Item {
 
   required property var notification
 
-  readonly property color urgencyColor: notification.urgency === NotificationUrgency.Critical ? Color.red
-    : notification.urgency === NotificationUrgency.Low ? Color.overlay0
-    : Color.mauve
+  readonly property color urgencyColor: notification.urgency === NotificationUrgency.Critical ? Colors.red
+    : notification.urgency === NotificationUrgency.Low ? Colors.overlay0
+    : Colors.mauve
 
   // expireTimeout follows the D-Bus Notify argument: milliseconds, where
   // -1 means "server default", 0 means "never expire", and >0 is the delay.
@@ -63,7 +63,7 @@ Item {
     width: parent.width
     height: layout.implicitHeight + 24
     radius: 8
-    color: Color.base
+    color: Colors.base
     border.width: 2
     border.color: root.urgencyColor
 
@@ -110,7 +110,7 @@ Item {
           Text {
             width: parent.width - (appIcon.visible ? appIcon.width + header.spacing : 0)
             text: root.notification.appName
-            color: Color.mauve
+            color: Colors.mauve
             elide: Text.ElideRight
             textFormat: Text.PlainText
             font.family: Style.fontFamily
@@ -124,7 +124,7 @@ Item {
           anchors.right: parent.right
           anchors.verticalCenter: parent.verticalCenter
           text: "󰅖"
-          color: closeMouse.containsMouse ? Color.text : Color.overlay1
+          color: closeMouse.containsMouse ? Colors.text : Colors.overlay1
           font.family: Style.fontFamily
           font.pixelSize: Style.fontSize - 1
 
@@ -152,7 +152,7 @@ Item {
         width: parent.width
         visible: text !== ""
         text: root.notification.summary
-        color: Color.text
+        color: Colors.text
         wrapMode: Text.WordWrap
         textFormat: Text.PlainText
         font.family: Style.fontFamily
@@ -164,7 +164,7 @@ Item {
         width: parent.width
         visible: text !== ""
         text: root.notification.body
-        color: Color.subtext0
+        color: Colors.subtext0
         wrapMode: Text.WordWrap
         textFormat: Text.PlainText
         font.family: Style.fontFamily
@@ -185,15 +185,15 @@ Item {
             implicitWidth: actionLabel.implicitWidth + 20
             height: 26
             radius: 4
-            color: actionMouse.containsMouse ? Color.surface0 : Color.mantle
+            color: actionMouse.containsMouse ? Colors.surface0 : Colors.mantle
             border.width: 1
-            border.color: Color.surface0
+            border.color: Colors.surface0
 
             Text {
               id: actionLabel
               anchors.centerIn: parent
               text: modelData.text
-              color: Color.mauve
+              color: Colors.mauve
               textFormat: Text.PlainText
               font.family: Style.fontFamily
               font.pixelSize: Style.fontSize - 2

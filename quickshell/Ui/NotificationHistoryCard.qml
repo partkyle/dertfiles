@@ -14,9 +14,9 @@ Item {
   required property var model
   required property int index
 
-  readonly property color urgencyColor: model.urgency === NotificationUrgency.Critical ? Color.red
-    : model.urgency === NotificationUrgency.Low ? Color.overlay0
-    : Color.mauve
+  readonly property color urgencyColor: model.urgency === NotificationUrgency.Critical ? Colors.red
+    : model.urgency === NotificationUrgency.Low ? Colors.overlay0
+    : Colors.mauve
 
   readonly property string iconSource: IconSource.resolve(model.appIcon)
 
@@ -28,9 +28,9 @@ Item {
     width: parent.width
     height: layout.implicitHeight + 16
     radius: 6
-    color: mouse.containsMouse ? Color.surface0 : Color.mantle
+    color: mouse.containsMouse ? Colors.surface0 : Colors.mantle
     border.width: 1
-    border.color: Color.surface0
+    border.color: Colors.surface0
 
     // Urgency stripe, matching the popup card border colour.
     Rectangle {
@@ -53,7 +53,7 @@ Item {
       anchors.top: parent.top
       anchors.margins: 8
       text: "󰅖"
-      color: removeMouse.containsMouse ? Color.text : Color.overlay0
+      color: removeMouse.containsMouse ? Colors.text : Colors.overlay0
       font.family: Style.fontFamily
       font.pixelSize: Style.fontSize - 1
 
@@ -98,7 +98,7 @@ Item {
           anchors.verticalCenter: parent.verticalCenter
           width: parent.width - (headerIcon.visible ? headerIcon.width + 8 : 0) - headerTime.width - 8
           text: root.model.appName
-          color: Color.mauve
+          color: Colors.mauve
           elide: Text.ElideRight
           textFormat: Text.PlainText
           font.family: Style.fontFamily
@@ -111,7 +111,7 @@ Item {
           anchors.right: parent.right
           anchors.verticalCenter: parent.verticalCenter
           text: Qt.formatDateTime(new Date(root.model.timestamp), "h:mm AP")
-          color: Color.overlay0
+          color: Colors.overlay0
           font.family: Style.fontFamily
           font.pixelSize: Style.fontSize - 3
         }
@@ -121,7 +121,7 @@ Item {
         width: parent.width
         visible: text !== ""
         text: root.model.summary
-        color: Color.text
+        color: Colors.text
         wrapMode: Text.WordWrap
         maximumLineCount: 2
         elide: Text.ElideRight
@@ -135,7 +135,7 @@ Item {
         width: parent.width
         visible: text !== ""
         text: root.model.body
-        color: Color.subtext0
+        color: Colors.subtext0
         wrapMode: Text.WordWrap
         maximumLineCount: 2
         elide: Text.ElideRight

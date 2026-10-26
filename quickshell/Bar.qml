@@ -26,7 +26,7 @@ PanelWindow {
   Rectangle {
     id: background
     anchors.fill: parent
-    color: Color.barBackground
+    color: Colors.barBackground
   }
 
   // border-bottom: 1px solid overlay1
@@ -34,7 +34,7 @@ PanelWindow {
     anchors.bottom: parent.bottom
     width: parent.width
     height: 1
-    color: Color.barBorder
+    color: Colors.barBorder
   }
 
   Row {

@@ -18,7 +18,7 @@ BarWidget {
   label: kind === "ethernet" ? "󰈀  Connected"
     : kind === "wifi" ? "  " + connection
     : "󰤮 Disconnected"
-  accent: Color.yellow
+  accent: Colors.yellow
 
   onClicked: run(["ghostty", "-e", "iwctl"])
 

@@ -31,10 +31,10 @@ BarWidget {
     return ""
   }
 
-  readonly property color levelColor: !present ? Color.green
-    : onBattery && level <= 15 ? Color.red
-    : onBattery && level <= 30 ? Color.peach
-    : Color.green
+  readonly property color levelColor: !present ? Colors.green
+    : onBattery && level <= 15 ? Colors.red
+    : onBattery && level <= 30 ? Colors.peach
+    : Colors.green
 
   label: !present ? ""
     : charging

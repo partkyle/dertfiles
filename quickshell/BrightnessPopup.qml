@@ -8,7 +8,7 @@ SliderPopup {
   open: Brightness.panelOpen
   rightMargin: Brightness.panelRightMargin
   title: "Brightness"
-  accent: Color.yellow
+  accent: Colors.yellow
   fraction: Brightness.fraction
   percent: Brightness.percent
   onPercentRequested: (value) => Brightness.setPercent(value)

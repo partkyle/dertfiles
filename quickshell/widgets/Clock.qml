@@ -21,7 +21,7 @@ BarWidget {
   label: "  " + (showDate
     ? Qt.formatDateTime(now, "ddd dd MMM yyyy")
     : Qt.formatDateTime(now, "ddd dd h:mm AP"))
-  accent: Color.maroon
+  accent: Colors.maroon
 
   onClicked: run(["brave", "--app=https://calendar.google.com"])
   onRightClicked: showDate = !showDate

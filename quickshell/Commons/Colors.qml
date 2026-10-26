@@ -3,6 +3,8 @@ pragma Singleton
 import QtQuick
 
 // Catppuccin Mocha palette, matching the old waybar mocha.css theme.
+// Deliberately not named `Color`: QtQuick 6.12 exports a `Color` singleton,
+// which shadows a same-named import and made every palette lookup undefined.
 QtObject {
   // surfaces
   readonly property color crust: "#11111b"

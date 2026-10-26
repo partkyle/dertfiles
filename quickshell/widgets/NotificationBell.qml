@@ -12,7 +12,7 @@ BarWidget {
   label: Notifications.unreadCount > 0
     ? "󰂚 " + Notifications.unreadCount
     : "󰂚"
-  accent: Notifications.unreadCount > 0 ? Color.mauve : Color.overlay0
+  accent: Notifications.unreadCount > 0 ? Colors.mauve : Colors.overlay0
 
   onClicked: {
     Notifications.panelOpen = !Notifications.panelOpen

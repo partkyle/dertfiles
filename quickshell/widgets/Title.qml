@@ -15,5 +15,5 @@ BarWidget {
 
   label: toplevel ? toplevel.title : ""
 
-  accent: Color.blue
+  accent: Colors.blue
 }

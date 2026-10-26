@@ -53,7 +53,7 @@ Row {
       anchors.verticalCenter: parent ? parent.verticalCenter : undefined
       height: parent ? parent.height - Style.moduleVMargin * 2 : Style.barHeight
       implicitWidth: wsLabel.implicitWidth + 8
-      color: wsMouse.containsMouse ? Color.surface0 : "transparent"
+      color: wsMouse.containsMouse ? Colors.surface0 : "transparent"
 
       // hover top border, like waybar's button:hover
       Rectangle {
@@ -61,7 +61,7 @@ Row {
         anchors.top: parent.top
         width: parent.width
         height: Style.accentBorderWidth
-        color: Color.hoverText
+        color: Colors.hoverText
       }
 
       Text {
@@ -69,9 +69,9 @@ Row {
         anchors.centerIn: parent
         text: wsButton.modelData.name
         color: wsButton.focused
-          ? Color.mauve
-          : wsButton.urgent ? Color.peach
-          : wsMouse.containsMouse ? Color.hoverText : Color.barText
+          ? Colors.mauve
+          : wsButton.urgent ? Colors.peach
+          : wsMouse.containsMouse ? Colors.hoverText : Colors.barText
         font.family: Style.fontFamily
         font.pixelSize: Style.fontSize
         font.bold: true

@@ -90,7 +90,7 @@ BarWidget {
   }
 
   label: iconFor(layout)
-  accent: Color.blue
+  accent: Colors.blue
 
   onClicked: cycle()
 

@@ -17,7 +17,7 @@ BarWidget {
   label: !hasAudio ? ""
     : Volume.muted ? ""
     : Volume.volumeIcon(Volume.volume) + "  " + Volume.percent + "%"
-  accent: Color.blue
+  accent: Colors.blue
 
   // Distance from the screen's right edge to this module's right edge, so the
   // popup's right edge lines up with it.

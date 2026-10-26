@@ -84,9 +84,9 @@ PanelWindow {
       ? 2 * pad + Math.min(list.contentHeight, list.viewportHeight)
       : emptyText.implicitHeight + 24)
     radius: 8
-    color: Color.base
+    color: Colors.base
     border.width: 2
-    border.color: Color.mauve
+    border.color: Colors.mauve
     clip: true
 
     Item {
@@ -101,7 +101,7 @@ PanelWindow {
         anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: 12
         text: "Notifications"
-        color: Color.text
+        color: Colors.text
         font.family: Style.fontFamily
         font.pixelSize: Style.fontSize
         font.bold: true
@@ -114,7 +114,7 @@ PanelWindow {
         anchors.rightMargin: 12
         visible: Notifications.history.count > 0
         text: "Clear all"
-        color: clearMouse.containsMouse ? Color.hoverText : Color.overlay1
+        color: clearMouse.containsMouse ? Colors.hoverText : Colors.overlay1
         font.family: Style.fontFamily
         font.pixelSize: Style.fontSize - 2
 
@@ -134,7 +134,7 @@ PanelWindow {
         anchors.bottom: parent.bottom
         width: parent.width
         height: 1
-        color: Color.surface0
+        color: Colors.surface0
       }
     }
 
@@ -172,7 +172,7 @@ PanelWindow {
       anchors.margins: 12
       text: "No notifications"
       horizontalAlignment: Text.AlignHCenter
-      color: Color.overlay0
+      color: Colors.overlay0
       font.family: Style.fontFamily
       font.pixelSize: Style.fontSize - 2
     }

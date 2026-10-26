@@ -45,7 +45,7 @@ BarWidget {
   }
 
   label: inhibited ? "󰌿 " + formatRemaining(remaining) : "󰌾"
-  accent: inhibited ? Color.peach : Color.green
+  accent: inhibited ? Colors.peach : Colors.green
 
   onClicked: toggle()
   onRightClicked: enable()

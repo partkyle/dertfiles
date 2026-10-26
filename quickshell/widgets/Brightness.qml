@@ -17,7 +17,7 @@ BarWidget {
   readonly property bool available: Brightness.available
 
   label: !available ? "" : "💡 " + Brightness.percent + "%"
-  accent: Color.yellow
+  accent: Colors.yellow
 
   // Distance from the screen's right edge to this module's right edge, so the
   // popup's right edge lines up with it.

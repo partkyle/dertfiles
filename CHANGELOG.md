@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26.4
+
+- **quickshell**: renamed the `Commons/Color.qml` singleton to `Colors` and updated all 66 uses, because Qt 6.12 (pulled in by the nixpkgs update) exports a `QtQuick.Color` singleton that shadows a same-named import
+- **quickshell**: the shadowed lookups returned `undefined`, so `Rectangle`s fell back to their default white fill and `Text` to black — the light/inverted bar; the bar is back to Catppuccin Mocha with `Colors`
+
 ## 2026-10-26.3
 
 - **herdr**: `home-manager-partkyle.service` no longer fails at boot because Herdr had written `~/.config/herdr/config.toml` as a regular file before `nix/modules/herdr.nix` live-linked it; the old file is backed up as `config.toml.pre-hm-2026-10-26` and the link is now in place

@@ -21,7 +21,7 @@ PanelWindow {
   property real rightMargin: 0
 
   property string title: ""
-  property color accent: Color.blue
+  property color accent: Colors.blue
 
   // Current value, mirrored from the caller.
   property real fraction: 0
@@ -74,7 +74,7 @@ PanelWindow {
     width: 240
     height: content.implicitHeight + 24
     radius: 8
-    color: Color.base
+    color: Colors.base
     border.width: 2
     border.color: root.accent
     focus: true
@@ -103,7 +103,7 @@ PanelWindow {
           anchors.left: parent.left
           anchors.verticalCenter: parent.verticalCenter
           text: root.title
-          color: Color.overlay1
+          color: Colors.overlay1
           font.family: Style.fontFamily
           font.pixelSize: Style.fontSize
           font.bold: true
@@ -116,8 +116,8 @@ PanelWindow {
           anchors.verticalCenter: parent.verticalCenter
           text: root.muteLabel
           color: muteMouse.containsMouse
-            ? Color.hoverText
-            : root.muted ? Color.red : Color.overlay1
+            ? Colors.hoverText
+            : root.muted ? Colors.red : Colors.overlay1
           font.family: Style.fontFamily
           font.pixelSize: Style.fontSize - 2
           font.bold: true
@@ -177,7 +177,7 @@ PanelWindow {
             horizontalAlignment: Text.AlignRight
             verticalAlignment: Text.AlignVCenter
             text: root.percent + "%"
-            color: valueMouse.containsMouse ? Color.hoverText : Color.text
+            color: valueMouse.containsMouse ? Colors.hoverText : Colors.text
             font.family: Style.fontFamily
             font.pixelSize: Style.fontSize
             font.bold: true
@@ -197,9 +197,9 @@ PanelWindow {
             visible: valueField.editing
             horizontalAlignment: Text.AlignRight
             verticalAlignment: Text.AlignVCenter
-            color: Color.text
-            selectionColor: Color.mauve
-            selectedTextColor: Color.base
+            color: Colors.text
+            selectionColor: Colors.mauve
+            selectedTextColor: Colors.base
             font.family: Style.fontFamily
             font.pixelSize: Style.fontSize
             font.bold: true
@@ -225,7 +225,7 @@ PanelWindow {
             width: parent.width
             height: 6
             radius: 3
-            color: Color.surface0
+            color: Colors.surface0
 
             Rectangle {
               width: Math.max(0, parent.width * root.fraction)
@@ -242,9 +242,9 @@ PanelWindow {
             width: 14
             height: 14
             radius: 7
-            color: Color.text
+            color: Colors.text
             border.width: 2
-            border.color: sliderMouse.containsMouse ? Color.hoverText : root.accent
+            border.color: sliderMouse.containsMouse ? Colors.hoverText : root.accent
           }
 
           MouseArea {
