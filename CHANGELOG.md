@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26.7
+
+- **herdr**: the keybinding cheatsheet (`help`) is now `prefix+ctrl+/`, keeping the ctrl-held convention
+- **herdr**: `prefix+ctrl+?` was not used because most terminals and tmux encode ctrl+? as backspace (0x7f), whereas ctrl+/ arrives as 0x1f
+
 ## 2026-10-26.6
 
 - **dionysus**: `HoldoffTimeoutSec = 0s` in logind, so a lid close still suspends and locks within 30 s of boot/resume — logind was silently dropping the lid event while its post-resume holdoff was armed (it exists to settle hotplugged docks, which this laptop has none of)

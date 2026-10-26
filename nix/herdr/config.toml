@@ -20,6 +20,7 @@ onboarding = false
 #   ctrl+h/j/k/l      focus pane
 #   ctrl+x / ctrl+z   close pane / zoom pane
 #   ctrl+q            detach
+#   ctrl+/            show keybinds      (ctrl+? is often encoded as backspace)
 #   ctrl+shift+s      settings           (ctrl+s is taken by split down)
 
 [ui]
@@ -53,8 +54,12 @@ focus_pane_right = "prefix+ctrl+l"
 close_pane = "prefix+ctrl+x"
 zoom = "prefix+ctrl+z"
 
-# Herdr defaults kept deliberately: prefix+? help, prefix+shift+n new
-# workspace, prefix+shift+x close tab.
+# Show the keybinding cheatsheet. ctrl+? is deliberately not used: many
+# terminals/tmux setups encode it as backspace (0x7f), while ctrl+/ is 0x1f.
+help = "prefix+ctrl+/"
+
+# Herdr defaults kept deliberately: prefix+shift+n new workspace,
+# prefix+shift+x close tab.
 detach = "prefix+ctrl+q"
 
 # Move the settings dialog off ctrl+s, which now splits down.
