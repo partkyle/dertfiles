@@ -168,25 +168,6 @@ in
     silent = true;
   };
 
-  programs.pi-coding-agent = {
-    enable = true;
-
-    # Extra tools Pi can use in your terminal (e.g., bun, python)
-    extraPackages = [
-      pkgs.bun
-      pkgs.python3
-    ];
-
-    # Define models, keybindings, or agent context
-    settings = {
-      defaultProvider = "opencode-go";
-      defaultModel = "deepseek-v4.1-flash";
-      packages = [
-        "npm:pi-powerline"
-      ];
-    };
-  };
-
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;

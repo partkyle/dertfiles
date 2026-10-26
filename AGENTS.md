@@ -6,7 +6,7 @@ This is a Nix flake-based dotfiles repository managing NixOS configs and user ap
 
 ### NixOS Configuration (`nix/`)
 
-- `flake.nix` — Entry point with nixpkgs, home-manager, pi-nix inputs
+- `flake.nix` — Entry point with nixpkgs and home-manager inputs
 - `configuration.nix` — Shared system-wide NixOS config (imports greetd.nix)
 - `home.nix` — Home Manager config for user packages and services
 - `hosts/<hostname>/default.nix` — Host-specific NixOS configs (dionysus=laptop/Intel, theseus=desktop/NVIDIA)
@@ -193,7 +193,7 @@ untouched. Confirm with `hyprctl binds` and `hypr/scripts/keybinds.sh --print`.
 dert nix rebuild
 ```
 
-Use `dert nix update <input>` to bump a flake input (e.g. `pi-nix`, `nixpkgs`)
+Use `dert nix update <input>` to bump a flake input (e.g. `nixpkgs`)
 before rebuilding.
 
 ### Testing home-manager changes

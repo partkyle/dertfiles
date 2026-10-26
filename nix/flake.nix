@@ -7,17 +7,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pi-nix = {
-      url = "github:lukasl-dev/pi.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
-      pi-nix,
       ...
     }:
     let
@@ -39,12 +34,6 @@
         ./modules/tmux.nix
         ./modules/vital.nix
         ./modules/vst-plugins.nix
-
-        {
-          nixpkgs.overlays = [
-            pi-nix.overlays.default
-          ];
-        }
 
         home-manager.nixosModules.home-manager
         {

@@ -6,10 +6,10 @@ Partkyle's NixOS dotfiles and system configuration.
 
 ```
 ├── nix/                    # NixOS flake configuration
-│   ├── flake.nix           # Flake entrypoint (nixpkgs, home-manager, pi-nix)
+│   ├── flake.nix           # Flake entrypoint (nixpkgs, home-manager)
 │   ├── configuration.nix   # System-wide NixOS config
 │   ├── home.nix            # Home-manager config (packages, services, programs)
-│   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, pi-nix, …)
+│   ├── flake.lock          # Pinned inputs (nixpkgs, home-manager, …)
 │   ├── modules/            # NixOS/home-manager modules
 │   ├── hypr/               # Hyprland Lua config, scripts, hypridle/swaylock
 │   ├── mango/              # Mango (mangowc) config and host monitor rules
@@ -52,7 +52,7 @@ dert                      # list groups
 dert nix                  # list the nix group's commands
 dert nix rebuild          # nixos-rebuild switch for the current host
 dert nix update           # update every flake input
-dert nix update pi-nix    # update only the named input
+dert nix update nixpkgs  # update only the named input
 dert nix build            # build the toplevel without switching
 dert nix rollback         # switch to the previous generation
 dert nix generations      # list system generations
@@ -81,11 +81,9 @@ bar's left click, or a bare `dert idle on`) is stored in
 ### Upgrade one input
 
 ```bash
-dert nix update pi-nix
+dert nix update nixpkgs
 dert nix rebuild
 ```
-
-Check the new agent version with `pi --version`.
 
 ### Upgrade everything
 

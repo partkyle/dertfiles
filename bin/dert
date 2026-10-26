@@ -82,7 +82,7 @@ declare -A MANGO_LAYOUT_DESC=(
 )
 
 declare -A CMD_USAGE=(
-  [nix.update]="[input ...]    e.g. dert nix update pi-nix"
+  [nix.update]="[input ...]    e.g. dert nix update nixpkgs"
   [hypr.layout]="<dwindle|master|monocle|scrolling>"
   [mango.layout]="<${MANGO_LAYOUT_LIST}>"
   [bright.set]="<0-100[%]|+N|-N>    e.g. dert bright set 40 or dert bright set +10"

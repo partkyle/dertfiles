@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26.8
+
+- **pi**: dropped the `pi-nix` flake input and its overlay, `programs.pi-coding-agent` (including the `pi-powerline` package and the bun/python `extraPackages`), and the `pi.cachix.org` substituter/key — the agent is now installed out of band with bun
+- **pi**: removed the `pi-nix` update examples from `README.md`, `AGENTS.md` and `dert nix update --help`; the flake now only carries `nixpkgs` and `home-manager`
+
 ## 2026-10-26.7
 
 - **herdr**: the keybinding cheatsheet (`help`) is now `prefix+ctrl+/`, keeping the ctrl-held convention
