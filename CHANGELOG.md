@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26.11
+
+- **quickshell**: added a `Disk` bar module showing root filesystem usage from `df -P -B1 /` every 30 seconds, using df's own `Use%` so it matches `df -h /`
+- **quickshell**: the module sits between memory and network and opens btop on left click, like the CPU and memory modules
+
 ## 2026-10-26.10
 
 - **keyd**: CapsLock now activates the `[control]` layer (`main.capslock = layer(control)`), so CapsLock+A/CapsLock+E go through the same Home/End mappings as the physical Control key — the compositor's `ctrl:nocaps` xkb option is applied after keyd, so keyd only ever saw CAPSLOCK and the control layer never activated

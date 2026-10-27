@@ -6,7 +6,7 @@ import qs.Commons
 import qs.widgets
 
 // One bar surface per screen. Layout matches the replaced waybar config:
-// workspaces on the left; tray, cpu, memory, network, audio, battery and
+// workspaces on the left; tray, cpu, memory, disk, network, audio, battery and
 // clock on the right.
 PanelWindow {
   id: root
@@ -64,6 +64,7 @@ PanelWindow {
     Tray {}
     Cpu {}
     Memory {}
+    Disk {}
     Network {}
     Audio {
       screen: root.screen
