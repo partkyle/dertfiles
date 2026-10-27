@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-26.10
+
+- **keyd**: CapsLock now activates the `[control]` layer (`main.capslock = layer(control)`), so CapsLock+A/CapsLock+E go through the same Home/End mappings as the physical Control key — the compositor's `ctrl:nocaps` xkb option is applied after keyd, so keyd only ever saw CAPSLOCK and the control layer never activated
+- **keyd**: the binding also emits Control, so CapsLock still works as a held Control for every other chord
+
 ## 2026-10-26.9
 
 - **nix**: migrated the flake to the dendritic pattern — `flake-parts` and `import-tree` are new locked inputs, and `import-tree` imports every `nix/modules/**/default.nix`, so adding a feature no longer touches `flake.nix` or any host

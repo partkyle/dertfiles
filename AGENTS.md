@@ -183,9 +183,13 @@ when adding or moving a bind:
    longer available as raw compositor chords. `meta+shift` re-asserts specific
    shifted chords that keyd would otherwise swallow (currently only `c`, so
    `Super+Shift+C` still reaches the compositor for center-window).
+   CapsLock is bound as `main.capslock = layer(control)`, so it emits Control
+   *and* activates the control layer; the compositor's `ctrl:nocaps` xkb
+   option runs after keyd and only does the former.
 2. **keyd-application-mapper** (a systemd user service bound to
    `graphical-session.target`) swaps in `~/.config/keyd/app.conf` per focused
-   app (terminals keep native `Ctrl+A`/`Ctrl+E` and get `Ctrl+Shift+C/V`). It
+   app (terminals keep native `Ctrl+A`/`Ctrl+E` and get `Ctrl+Shift+C/V`;
+   every other class, browsers included, gets the global Home/End). It
    watches `zwlr_foreign_toplevel_manager_v1`, which both Hyprland and mango
    implement, so one service covers both sessions.
 3. **Hyprland** (`nix/hypr/hyprland.lua`) and **mango** (`nix/mango/config.conf`)

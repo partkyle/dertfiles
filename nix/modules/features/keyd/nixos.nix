@@ -6,7 +6,16 @@
     keyboards.default = {
       ids = [ "*" ];
       settings = {
-        # Ctrl+A/Ctrl+E are Home/End everywhere. The Shift variants
+        # CapsLock is the user's Control. The compositor's `ctrl:nocaps` xkb
+        # option is applied after keyd, so keyd only ever sees CAPSLOCK and
+        # the control layer — and its Home/End mappings — would never
+        # activate for CapsLock chords. Binding it to the same layer emits
+        # Control and activates those mappings, exactly like the real key.
+        main = {
+          capslock = "layer(control)";
+        };
+        # Ctrl+A/Ctrl+E are Home/End by default; only the classes listed in
+        # app.conf keep their native chords. The Shift variants
         # (select-to-line-start/end) fall out of keyd's modifier stacking.
         control = {
           a = "home";
