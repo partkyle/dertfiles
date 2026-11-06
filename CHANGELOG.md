@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-05.1
+
+- **reaper**: added SoundFont (`.sf2`) playback — REAPER has no native player, so `~/.lv2/Fluida.lv2` now links nixpkgs' `fluida-lv2` (FluidSynth as an LV2 plugin), which REAPER scans as an instrument
+- **reaper**: links the single bundle rather than the whole `~/.lv2` directory, which stays user-managed (`neural_amp_modeler.lv2` lives there)
+
 ## 2026-11-05
 
 - **mango**: renamed the monitor rules from `monitorrule` to `monitor_rule`, the 0.18.x spelling — the old keyword was rejected, so the per-host rules never applied

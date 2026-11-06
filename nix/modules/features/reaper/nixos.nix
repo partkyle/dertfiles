@@ -34,6 +34,13 @@ in
         reaperPkg
         pkgs.pipewire.jack
       ];
+      # REAPER has no native SoundFont support (ReaSamplOmatic5000 only reads
+      # WAVs), so .sf2 playback needs a plugin. Fluida is FluidSynth packaged
+      # as an LV2 plugin and REAPER scans ~/.lv2. That directory stays
+      # user-managed (neural_amp_modeler.lv2 lives there), so link just the
+      # bundle instead of replacing the directory.
+      home.file.".lv2/Fluida.lv2".source =
+        "${pkgs.fluida-lv2}/lib/lv2/Fluida.lv2";
       xdg.desktopEntries.reaper = {
         name = "REAPER (jack)";
         exec = "${pkgs.pipewire.jack}/bin/pw-jack ${reaperPkg}/bin/reaper";
