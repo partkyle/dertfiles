@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-05
+
+- **mango**: renamed the monitor rules from `monitorrule` to `monitor_rule`, the 0.18.x spelling — the old keyword was rejected, so the per-host rules never applied
+- **mango**: DP-1 is back to `scale:1`, matching the Hyprland host file; at `scale:1.5` its logical width is 2560 while DP-2 sits at x=3840, leaving a 1280 px dead zone the pointer cannot cross
+- **mango**: dropped the stale "portrait (270° CCW)" comment from the DP-2 rule — neither compositor sets a transform
+
 ## 2026-10-26.11
 
 - **quickshell**: added a `Disk` bar module showing root filesystem usage from `df -P -B1 /` every 30 seconds, using df's own `Use%` so it matches `df -h /`
